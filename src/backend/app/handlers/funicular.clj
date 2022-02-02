@@ -1,5 +1,5 @@
-(ns pasta-xiana.handlers.funicular
-  (:require [pasta-xiana.funicular :as funicular]))
+(ns app.handlers.funicular
+  (:require [app.funicular :as funicular]))
 
 (defn handler [{:keys [funicular]}]
   {:post (fn [{:keys [body-params]}]

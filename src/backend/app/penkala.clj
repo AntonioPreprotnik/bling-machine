@@ -1,4 +1,4 @@
-(ns pasta-xiana.penkala
+(ns app.penkala
   (:require [com.verybigthings.penkala.next-jdbc :as penkala-next-jdbc :refer [get-env]]
             [com.verybigthings.penkala.env :refer [with-db]]
             [com.verybigthings.funicular.anomalies :as anom]

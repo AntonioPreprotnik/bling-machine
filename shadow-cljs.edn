@@ -23,4 +23,4 @@
  ;;
  ;; >>>>>>>>>>>>>>>>>>>>>>>> YOUR CHANGES WILL BE LOST <<<<<<<<<<<<<<<<<<<<<<<<<
  ;;
- {:nrepl {:port 8777}, :builds {:app {:target :browser, :output-dir "resources/public/assets/js/compiled", :asset-path "assets/js/compiled", :modules {:app {:init-fn pasta-xiana.core/init, :preloads [devtools.preload]}}}}, :lein true}
+ {:nrepl {:port 8777}, :builds {:app {:target :browser, :output-dir "resources/public/assets/js/compiled", :asset-path "assets/js/compiled", :modules {:app {:init-fn app.core/init, :preloads [devtools.preload]}}}}, :lein true}

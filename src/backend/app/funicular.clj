@@ -1,8 +1,8 @@
-(ns pasta-xiana.funicular
+(ns app.funicular
   (:require [clojure.spec.alpha :as s]
             [com.verybigthings.funicular.core :as f]
             [schema :refer [registry]]
-            [pasta-xiana.readers :refer [readers]]
+            [app.readers :refer [readers]]
             [clojure.edn :as edn]))
             ;[duct.logger :refer [log]]))
 
@@ -12,8 +12,6 @@
   (execute [this request] [this request request-context])
   (inspect [this]))
 
-
-
 (defn update-cnf [funicular-cnf config]
   (update-in funicular-cnf [:context]
     #(reduce-kv (fn [m k v] (merge m (if (= (namespace v) "config")
@@ -21,19 +19,18 @@
                                        {k v})))
        {} %)))
 
-
 (defn init [config]
   (let [funicular-cnf (edn/read-string {:readers readers :config config} (slurp "config/dev/funicular.edn"))
         funicular-cnf- (update-cnf funicular-cnf config)
         {:keys [context] :as api} funicular-cnf-
         compiled (f/compile api {:malli/registry registry})]
     (assoc config
-      :app/funicular
-      (reify IFunucilarApi
-        (execute [this request]
-          (execute this request nil))
-        (execute [_ request request-context]
+           :app/funicular
+           (reify IFunucilarApi
+             (execute [this request]
+               (execute this request nil))
+             (execute [_ request request-context]
           ;(log logger :info :funicular/request request)
-          (f/execute compiled (merge context request-context) request))
-        (inspect [_]
-          (f/inspect compiled))))))
+               (f/execute compiled (merge context request-context) request))
+             (inspect [_]
+               (f/inspect compiled))))))

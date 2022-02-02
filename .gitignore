@@ -14,3 +14,4 @@ pom.xml.asc
 .hg/
 .idea/
 /.idea/
+resources/public/assets/

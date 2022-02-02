@@ -1,7 +1,7 @@
-(ns pasta-xiana.boundary.user
+(ns app.boundary.user
   (:require [com.verybigthings.penkala.relation :as r]
-   [pasta-xiana.penkala :refer [insert! select! select-one! update!]]
-   [medley.core :refer [remove-vals]]))
+            [app.penkala :refer [insert! select! select-one! update!]]
+            [medley.core :refer [remove-vals]]))
 
 (defprotocol UserDatabase
   (insert [penkala data])
@@ -10,15 +10,15 @@
   (get-one-by-id [penkala id]))
 
 (extend-protocol UserDatabase
-  pasta_xiana.penkala.Boundary
+  app.penkala.Boundary
 
   (insert [{:keys [env]} data]
     (insert! env :users data))
 
   (update-by-id! [{:keys [env]} data id]
     (let [updateable (-> (:users env)
-                       r/->updatable
-                       (r/where [:= :id [:cast id "uuid"]]))]
+                         r/->updatable
+                         (r/where [:= :id [:cast id "uuid"]]))]
       (-> (update! env updateable data) first)))
 
   (get-all-users [{:keys [env]}]
@@ -26,5 +26,5 @@
 
   (get-one-by-id [{:keys [env]} id]
     (let [users (-> (:users env)
-                  (r/where [:= :id [:cast id "uuid"]]))]
+                    (r/where [:= :id [:cast id "uuid"]]))]
       (select-one! env users))))

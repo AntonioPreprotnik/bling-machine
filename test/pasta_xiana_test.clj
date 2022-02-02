@@ -1,9 +1,9 @@
 (ns pasta-xiana-test
   (:require
-    [clj-http.client :as http]
-    [clojure.test :refer [deftest is use-fixtures]]
-    [pasta-xiana.core]
-    [pasta-xiana-fixture :refer [std-system-fixture]]))
+   [clj-http.client :as http]
+   [clojure.test :refer [deftest is use-fixtures]]
+   [app.core]
+   [pasta-xiana-fixture :refer [std-system-fixture]]))
 
 (def config {})
 

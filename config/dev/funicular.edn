@@ -4,19 +4,19 @@
            [:user
             {:commands {:create             {:input-schema  :app.input.user/create
                                              :output-schema :app/user
-                                             :handler       #resolve pasta-xiana.api.handlers.user/create}
+                                             :handler       #resolve app.api.handlers.user/create-one}
                         :update             {:input-schema  [:map
                                                              [:user-id :uuid]
                                                              [:data :app.input.user/update]]
                                              :output-schema :app/user
-                                             :handler       #resolve pasta-xiana.api.handlers.user/update}}
+                                             :handler       #resolve app.api.handlers.user/update-one}}
              :queries  {:get-all-users             {:input-schema  :any
                                                     :output-schema :app/users
-                                                    :handler       #resolve pasta-xiana.api.handlers.user/list}
+                                                    :handler       #resolve app.api.handlers.user/list-all}
 
                         :get-one             {:input-schema  :app.input.user/one
                                               :output-schema :app/user
-                                              :handler       #resolve pasta-xiana.api.handlers.user/one}}}]]
+                                              :handler       #resolve app.api.handlers.user/get-one}}}]]
  :pipes   {}
  :context {:penkala  :config/penkala}}
  ;:logger  nil}
