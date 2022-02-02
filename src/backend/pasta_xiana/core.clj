@@ -28,21 +28,21 @@
      :as rui]
     [clojure.edn :as edn]))
 
-(defn view
-  [{{db-data :db-data} :response-data :as state}]
-  (xiana.core/ok (assoc state :response {:status 200
-                                         :body (mapv :todos/label db-data)})))
-(defn fetch
-  [state]
-  (trace>> :state state :deps)
-  (xiana.core/ok (assoc state
-                   :view view
-                   :query {:select [:*] :from [:todos]})))
+;(defn view
+;  [{{db-data :db-data} :response-data :as state}]
+;  (xiana.core/ok (assoc state :response {:status 200
+;                                         :body (mapv :todos/label db-data)})))
+;(defn fetch
+;  [state]
+;  (trace>> :state state :deps)
+;  (xiana.core/ok (assoc state
+;                   :view view
+;                   :query {:select [:*] :from [:todos]})))
 
 (def routes
   [["/todos" {:action #'re-frame/handle-index}]
    ["/assets/*" (ring/create-resource-handler {:path "/"})]
-   ["/api" (partial pasta-xiana.handlers.funicular/handler)]])
+   ["/api" {:action #'pasta-xiana.handlers.funicular/handler}]])
 
 (defn ->system
   [app-cfg]
