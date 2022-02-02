@@ -1,7 +1,7 @@
 (ns user
   (:gen-class)
   (:require
-    [todo-app.core :refer [->system app-cfg]]
+    [pasta-xiana.core :refer [->system app-cfg]]
     [clojure.tools.logging :refer [*tx-agent-levels*]]
     [clojure.tools.namespace.repl :refer [refresh-all]]
     [piotr-yuxuan.closeable-map :refer [closeable-map]]

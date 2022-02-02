@@ -1,0 +1,22 @@
+{:api     [:api
+           {:input-schema [:map
+                           [:app/jwt {:optional true}]]}
+           [:user
+            {:commands {:create             {:input-schema  :app.input.user/create
+                                             :output-schema :app/user
+                                             :handler       #resolve pasta-xiana.api.handlers.user/create}
+                        :update             {:input-schema  [:map
+                                                             [:user-id :uuid]
+                                                             [:data :app.input.user/update]]
+                                             :output-schema :app/user
+                                             :handler       #resolve pasta-xiana.api.handlers.user/update}}
+             :queries  {:get-all-users             {:input-schema  :any
+                                                    :output-schema :app/users
+                                                    :handler       #resolve pasta-xiana.api.handlers.user/list}
+
+                        :get-one             {:input-schema  :app.input.user/one
+                                              :output-schema :app/user
+                                              :handler       #resolve pasta-xiana.api.handlers.user/one}}}]]
+ :pipes   {}
+ :context {:penkala  :config/penkala}}
+ ;:logger  nil}

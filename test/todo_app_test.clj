@@ -1,9 +1,9 @@
-(ns todo-app-test
+(ns pasta-xiana-test
   (:require
     [clj-http.client :as http]
     [clojure.test :refer [deftest is use-fixtures]]
-    [todo-app.core]
-    [todo-app-fixture :refer [std-system-fixture]]))
+    [pasta-xiana.core]
+    [pasta-xiana-fixture :refer [std-system-fixture]]))
 
 (def config {})
 

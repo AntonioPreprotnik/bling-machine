@@ -1,4 +1,4 @@
-# todo-app
+# pasta-xiana
 
 FIXME: description
 
@@ -38,7 +38,7 @@ It will start up the shadow watch and the backend. It can be used to restart the
 lein release && lein run
 ```
 
-### Try todo-app
+### Try pasta-xiana
 
 ```shell
 curl http://localhost:3000/

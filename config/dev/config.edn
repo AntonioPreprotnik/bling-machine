@@ -1,5 +1,5 @@
 {:framework.db.storage/postgresql {:port     5433
-                                   :dbname   "todo_app"
+                                   :dbname   "pasta-xiana"
                                    :host     "localhost"
                                    :dbtype   "postgresql"
                                    :user     "postgres"

@@ -1,4 +1,4 @@
-(defproject todo-app "0.1.0-SNAPSHOT"
+(defproject pasta-xiana "0.1.0-SNAPSHOT"
             :description "FIXME: write description"
             :min-lein-version "2.0.0"
             ;:dependencies [[org.clojure/clojure "1.10.3"]
@@ -16,12 +16,12 @@
                       [lein-tools-deps "0.4.5"]]
             :middleware [lein-tools-deps.plugin/resolve-dependencies-with-deps-edn]
 
-            :lein-tools-deps/config {:config-files [:install :user "/Users/enesjakic/VBT/todo-app/deps.edn"]
+            :lein-tools-deps/config {:config-files [:install :user "/Users/enesjakic/VBT/pasta-xiana/deps.edn"]
                                      :clojure-executables ["/opt/homebrew/Cellar/clojure/1.10.3.1058/bin/clojure"]}
 
-            :main ^:skip-aot todo-app.core
-            :uberjar-name "todo-app.jar"
-            ;:source-paths ["src/backend" "src/frontend" "src/shared" "src/utils"]
+            :main ^:skip-aot pasta-xiana.core
+            :uberjar-name "pasta-xiana.jar"
+            :source-paths ["src/backend" "src/frontend" "src/shared" "src/utils"]
             :clean-targets ^{:protect false} ["resources/public/assets/js/compiled" "target"]
             :profiles {:dev   {:resource-paths ["dev" "config/dev"]
                                :dependencies   [[binaryage/devtools "1.0.3"]
@@ -35,7 +35,7 @@
                           :builds {:app {:target     :browser
                                          :output-dir "resources/public/assets/js/compiled"
                                          :asset-path "assets/js/compiled"
-                                         :modules    {:app {:init-fn todo-app.core/init
+                                         :modules    {:app {:init-fn pasta-xiana.core/init
                                                                      :preloads [devtools.preload]}}}}}
             :aliases {"ci"      ["do" "clean," "cloverage," "lint," "uberjar"]
                       "kondo"   ["run" "-m" "clj-kondo.main" "--lint" "src" "test"]
