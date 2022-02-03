@@ -46,6 +46,7 @@
                  ;;[thheller/shadow-cljs "2.11.26"]
                  ]
   :git-down {keechma.next/toolbox {:coordinates keechma/keechma-next-toolbox}
+             keechma/malli-forms  {:coordinates keechma/keechma-malli-forms}
              clj-kondo/config {:coordinates clj-kondo/config}
              com.cognitect/test-runner {:coordinates com.cognitect/test-runner}
              com.verybigthings/funicular {:coordinates VeryBigThings/funicular}
