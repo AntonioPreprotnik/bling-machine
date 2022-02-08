@@ -78,34 +78,6 @@
          (spit (str (name folder) "/" (name rui-name)) with-comment)))
      `(snapshot-rui ~folder ~rui-name))))
 
-;(defn system-rui []
-;  (add-frozen-rui
-;    (-> system
-;      (dissoc :duct.migrator.ragtime/resources)
-;      (dissoc :duct.migrator/ragtime))
-;    system-))
-;
-;(defn funicular-rui []
-;  (add-frozen-rui
-;    (->
-;      (private-field
-;        (-> system
-;          :app/funicular)
-;        "compiled")
-;      (trace> ::funicular))
-;    funicular-))
-
-;(defn default-ruis
-;  "Opens three Reveal windows (RUI):
-;  'Playground' - empty and accepts all further TAPs
-;  'System' - shows project's System VAR, don't accept new TAPs
-;  'Funicular' - shows Funicular object from the System, don't accept new TAPs"
-;  []
-;  (system-rui)
-;  (Thread/sleep 200)
-;  (funicular-rui)
-;  (Thread/sleep 200)
-;  (add-tap-rui))
 
 (comment
   (set-prefs {:font-size 12, :theme :dark})
@@ -116,27 +88,6 @@
   ;  :app/funicular
   ;  (trace> ::funicular))
 
-
-
-
-  ;_________________________________________________________________________________
-  ; reify example
-
-  (defprotocol shape
-    "A geometric shape."
-    (area [this dummy]))
-
-  (defn make-circle
-    [{:keys [radius dummy-1] :as api}]
-    (let [radius- (+ radius 0)]
-      (reify shape
-        (area [_ dummy]
-          (+ (* Math/PI radius- radius-) dummy)))))
-
-  (def circle (make-circle {:radius 8 :dummy-1 0}))
-
-  (tap> circle)
-  (tap> (. circle area 0))
 
   ;_________________________________________________________________________________
   ; set Reveal prefs, send command

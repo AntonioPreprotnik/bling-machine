@@ -16,7 +16,7 @@
                  [metosin/reitit  "0.5.11"]
                  [metosin/sieppari  "0.0.0-alpha13"]
                  [msolli/proletarian "1.0.32-alpha"] ;; this should be equiv to ee4155 commit sha
-                 [nl.mediquest/duct.module.reitit "1.0.1"]
+                 ;[nl.mediquest/duct.module.reitit "1.0.1"]
                  [org.clojure/core.async "0.7.559"]
                  [org.clojure/core.match "1.0.0"]
                  [org.clojure/spec.alpha "0.2.187"]
