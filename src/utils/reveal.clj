@@ -78,6 +78,8 @@
          (spit (str (name folder) "/" (name rui-name)) with-comment)))
      `(snapshot-rui ~folder ~rui-name))))
 
+(defn change-font [size]
+  (set-prefs {:font-size size, :theme :dark}))
 
 (comment
   (set-prefs {:font-size 12, :theme :dark})
