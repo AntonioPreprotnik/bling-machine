@@ -15,12 +15,13 @@
         user-id (:user-id data)]
     (user/update-by-id! penkala user-data user-id)))
 
-(defn list-all [config]
+(defn get-all [config]
   (let [{:keys [penkala]} config
         users (user/get-all-users penkala)]
     (if users users [])))
 
 (defn get-one [config]
   (let [{:keys [penkala data]} config
-        user-id (:user-id data)]
+        user-id (:user-id data)
+        _ (println "-----" user-id)]
     (user/get-one-by-id penkala user-id)))

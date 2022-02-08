@@ -21,16 +21,16 @@
 
 (defn init [config]
   (let [funicular-cnf (edn/read-string {:readers readers :config config} (slurp "config/dev/funicular.edn"))
-        funicular-cnf- (update-cnf funicular-cnf config)
-        {:keys [context] :as api} funicular-cnf-
+        funicular-cnf' (update-cnf funicular-cnf config)
+        {:keys [context] :as api} funicular-cnf'
         compiled (f/compile api {:malli/registry registry})]
-    (assoc config
-           :app/funicular
-           (reify IFunucilarApi
-             (execute [this request]
-               (execute this request nil))
-             (execute [_ request request-context]
-          ;(log logger :info :funicular/request request)
-               (f/execute compiled (merge context request-context) request))
-             (inspect [_]
-               (f/inspect compiled))))))
+    (-> config
+        (assoc :app/funicular
+               (reify IFunucilarApi
+                 (execute [this request]
+                   (execute this request nil))
+                 (execute [_ request request-context]
+                   #_(log logger :info :funicular/request request)
+                   (f/execute compiled (merge context request-context) request))
+                 (inspect [_]
+                   (f/inspect compiled)))))))

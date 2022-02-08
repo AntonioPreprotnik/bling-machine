@@ -1,11 +1,10 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
 
-module.exports = {
-  purge:
-    process.env.NODE_ENV == "production"
-      ? ["./resources/app/public/js/main.js"]
-      : ["./resources/app/public/js/cljs-runtime/**/*.js"],
-
-  mode: "jit",
-  darkMode: "class",
-};
+module.exports = {  
+  content: 
+    process.env.NODE_ENV == "production"  
+    ? ["resources/public/assets/js/compiled/app.js"]
+    : ["resources/public/assets/js/compiled/cljs-runtime/**/*.js"],
+  theme: {
+    extend: {}
+  },  
+  plugins: []}

@@ -39,7 +39,7 @@
                  [org.clojure/tools.namespace "1.1.0"]
                  [com.verybigthings/commons "1feaf1447c7d71472854fad9c1e70ae58c3223e3"]
                  [com.verybigthings/pgerrors "b7a95d13cee17ec9a0bcbab3a5107950f7113ea9"]
-                 [com.verybigthings/funicular "fb4cb3ae49a9246f4489396c047779b73e9c82ba"]
+                 [com.verybigthings/funicular "ec39de9b901f875ad7eb786b4e749b157e0e26b7"]
                  [com.verybigthings/penkala "8f38814dcfe5a23ee2c6fcdd5d2c48ccd6f4f1c7"]
                  ;;[re-frame "1.1.2"]
                  ;;[reagent "0.10.0"]
@@ -53,7 +53,7 @@
              com.verybigthings/commons {:coordinates VeryBigThings/clojure-commons}
              com.verybigthings/pgerrors {:coordinates VeryBigThings/pgerrors}
              com.verybigthings/penkala {:coordinates retro/penkala}}
-  :plugins [[lein-shadow "0.3.1"]
+  :plugins [[lein-shadow "0.4.0"]
             [reifyhealth/lein-git-down "0.4.1"]]
   :repositories [["public-github" {:url "git://github.com"}]
                  ["private-github" {:url "git://github.com" :protocol :ssh}]]
@@ -84,7 +84,7 @@
              :dev   {:resource-paths ["dev" "config/dev"]
                      :dependencies   [;; VBT
                                       [commons-io/commons-io "2.6"]
-                                      ;;[nrepl/nrepl "0.8.3"]
+                                      [nrepl/nrepl "0.8.3"]
                                       ;; FLEX
                                       [vlaaad/reveal "1.3.264"]
                                       [binaryage/devtools "1.0.3"]]}

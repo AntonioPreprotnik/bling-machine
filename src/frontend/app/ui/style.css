@@ -3,7 +3,3 @@
 @import "tailwindcss/components";
 /* purgecss end ignore */
 @import "tailwindcss/utilities";
-
-#foo {
-    background-attachment: fixed;
-}

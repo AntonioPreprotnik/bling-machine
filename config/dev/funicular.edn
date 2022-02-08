@@ -10,9 +10,9 @@
                                                              [:data :app.input.user/update]]
                                              :output-schema :app/user
                                              :handler       #resolve app.api.handlers.user/update-one}}
-             :queries  {:get-all-users             {:input-schema  :any
-                                                    :output-schema :app/users
-                                                    :handler       #resolve app.api.handlers.user/list-all}
+             :queries  {:get-all             {:input-schema  :any
+                                              :output-schema :app/users
+                                              :handler       #resolve app.api.handlers.user/get-all}
 
                         :get-one             {:input-schema  :app.input.user/one
                                               :output-schema :app/user

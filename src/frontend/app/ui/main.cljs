@@ -3,12 +3,17 @@
             [keechma.next.helix.lib :refer [defnc]]
             [helix.core :as hx :refer [$]]
             [helix.dom :as d]
-            [app.ui.pages.home :refer [Home]]))
+            [clojure.core.match :refer-macros [match]]
+            [app.ui.pages.home :refer [Home]]
+            [app.ui.pages.users :refer [Users]]
+            [app.ui.pages.user :refer [User]]))
 
 (defnc MainRenderer [props]
-  (let [{:keys [page]} (use-sub props :router)]
-    (case page
-      "home" ($ Home)
-      (d/div "404"))))
+  (let [router (use-sub props :router)]
+    (match [router]
+      [{:page "home"}] ($ Home)
+      [{:page "users" :id _}] ($ User)
+      [{:page "users"}] ($ Users)
+      :else (d/div "404"))))
 
 (def Main (with-keechma MainRenderer))
