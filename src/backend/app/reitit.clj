@@ -32,7 +32,7 @@
     x))
 
 (defn init [routes]
-  (ring/router (walk/postwalk resolve-symbol routes) {:data (opts)}))
+  (ring/router (walk/postwalk resolve-symbol routes) {:data opts}))
 
 
 
