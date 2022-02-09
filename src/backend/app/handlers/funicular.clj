@@ -9,7 +9,6 @@
         res (api/execute funicular body-params {})]
     (xiana/ok (-> state
                   (assoc-in [:response :status] 200)
-                  (assoc-in [:response :headers "Content-type"] "application/transit+json")
                   (assoc-in [:response :body] res)))))
 
 
