@@ -22,6 +22,5 @@
 
 (defn get-one [config]
   (let [{:keys [penkala data]} config
-        user-id (:user-id data)
-        _ (println "-----" user-id)]
+        user-id (:user-id data)]
     (user/get-one-by-id penkala user-id)))
