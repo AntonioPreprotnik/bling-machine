@@ -19,8 +19,9 @@
      :entitydb #:keechma.controller{:params true
                                     :type :keechma/entitydb
                                     :keechma.entitydb/schema {:user {:entitydb/id :users/id}}}
-     :users #:keechma.controller{:params true
-                                 :deps [:entitydb]}
+     :users #:keechma.controller{:params (fn [{:keys [router]}]
+                                           (= "users" (:page router)))
+                                 :deps [:entitydb :router]}
      :current-user #:keechma.controller{:params (fn [{:keys [router]}]
                                                   (when (= "users" (:page router))
                                                     (:id router)))
