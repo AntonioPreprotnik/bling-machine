@@ -50,7 +50,7 @@
       db/migrate!
       seed/seed!
       ws/start
-      (trace> ::system-)
+      (trace> ::system)
       closeable-map))
 
 
