@@ -28,29 +28,8 @@
    [muuntaja.interceptor]
    [com.verybigthings.funicular.transit :as funicular-transit]
    [reitit.ring.middleware.muuntaja :as muuntaja]
-   [tdebug :refer [trace> trace>>]]
-   ;[reveal
-   ; :refer
-   ; [add-tap-rui open-snapshot]
-   ; :as rui]
-   [clojure.edn :as edn]))
+   [tdebug :refer [trace> trace>>]]))
 
-;(defn view
-;  [{{db-data :db-data} :response-data :as state}]
-;  (xiana.core/ok (assoc state :response {:status 200
-;                                         :body (mapv :todos/label db-data)})))
-;(defn fetch
-;  [state]
-;  (trace>> :state state :deps)
-;  (xiana.core/ok (assoc state
-;                   :view view
-;                   :query {:select [:*] :from [:todos]})))
-
-
-;; (defn add-middleware
-;;   "Update routes."
-;;   [config]
-;;   (update config :routes r/router {:compile coercion/compile-request-coercers}))
 
 
 (def routes
@@ -98,6 +77,4 @@
 (defn -main
   [& _args]
   (->system app-cfg))
-
-(comment)
 
