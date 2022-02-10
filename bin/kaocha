@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+source .envrc
+clojure -M:frontend:test -m kaocha.runner "$@"

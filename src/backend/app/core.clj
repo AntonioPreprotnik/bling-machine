@@ -29,10 +29,10 @@
    [com.verybigthings.funicular.transit :as funicular-transit]
    [reitit.ring.middleware.muuntaja :as muuntaja]
    [tdebug :refer [trace> trace>>]]
-   [reveal
-    :refer
-    [add-tap-rui open-snapshot]
-    :as rui]
+   ;[reveal
+   ; :refer
+   ; [add-tap-rui open-snapshot]
+   ; :as rui]
    [clojure.edn :as edn]))
 
 ;(defn view
@@ -71,7 +71,7 @@
       db/migrate!
       seed/seed!
       ws/start
-      (trace> ::system)
+      (trace> ::system-)
       closeable-map))
 
 
@@ -99,26 +99,5 @@
   [& _args]
   (->system app-cfg))
 
-(comment
-  (-> @st/dev-sys
-      :app/funicular
-      (api/execute {:queries {:user [:api.user/get-all-users {}]}}))
+(comment)
 
-  (-> @st/dev-sys
-      :app/funicular
-      (api/execute {:command [:api.user/create {:email "adgg@vbt.com"
-                                                :first-name "Frka12"
-                                                :last-name "Trle12"
-                                                :zip "10000"}]}))
-
-  (-> @st/dev-sys
-      :app/funicular
-      (api/execute {:command [:api.user/update {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"
-                                                :data    {:email      "ad@vbt.com"
-                                                          :first-name "Frka21"
-                                                          :last-name  "Trle21"
-                                                          :zip        "10000"}}]}))
-
-  (-> @st/dev-sys
-      :app/funicular
-      (api/execute {:queries {:user [:api.user/get-one {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"}]}})))
