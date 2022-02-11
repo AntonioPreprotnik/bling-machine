@@ -33,10 +33,23 @@
   (start-dev-system)
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:command [:api.user/create {:email "ad@vbt.com"
-                                                :first-name "Frka1"
-                                                :last-name "Trle1"
-                                                :zip "10000"}]}))
+      (api/execute {:queries {:user [:api.user/get-all-users {}]}}))
+
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:queries {:user [:api.user/get-one {:user-id #uuid"286696ac-5977-4b3e-8392-5ec4a8e3784e"}]}})))
+      (api/execute {:command [:api.user/create {:email "adgg@vbt.com"
+                                                :first-name "Frka12"
+                                                :last-name "Trle12"
+                                                :zip "10000"}]}))
+
+  (-> @st/dev-sys
+      :app/funicular
+      (api/execute {:command [:api.user/update {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"
+                                                :data    {:email      "ad@vbt.com"
+                                                          :first-name "Frka21"
+                                                          :last-name  "Trle21"
+                                                          :zip        "10000"}}]}))
+
+  (-> @st/dev-sys
+      :app/funicular
+      (api/execute {:queries {:user [:api.user/get-one {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"}]}})))

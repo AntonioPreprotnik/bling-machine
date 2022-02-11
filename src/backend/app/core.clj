@@ -35,24 +35,6 @@
     :as rui]
    [clojure.edn :as edn]))
 
-;(defn view
-;  [{{db-data :db-data} :response-data :as state}]
-;  (xiana.core/ok (assoc state :response {:status 200
-;                                         :body (mapv :todos/label db-data)})))
-;(defn fetch
-;  [state]
-;  (trace>> :state state :deps)
-;  (xiana.core/ok (assoc state
-;                   :view view
-;                   :query {:select [:*] :from [:todos]})))
-
-
-;; (defn add-middleware
-;;   "Update routes."
-;;   [config]
-;;   (update config :routes r/router {:compile coercion/compile-request-coercers}))
-
-
 (def routes
   [["/" {:action #'re-frame/handle-index}]
    ["/assets/*" (ring/create-resource-handler {:path "/"})]
@@ -74,9 +56,7 @@
       (trace> ::system)
       closeable-map))
 
-
 ;; MUUNTAJA INSTANCE ADDED HERE FOR INSTRUCTIONAL PURPOSES
-
 
 (def muuntaja-instance
   (m/create
@@ -98,27 +78,3 @@
 (defn -main
   [& _args]
   (->system app-cfg))
-
-(comment
-  (-> @st/dev-sys
-      :app/funicular
-      (api/execute {:queries {:user [:api.user/get-all-users {}]}}))
-
-  (-> @st/dev-sys
-      :app/funicular
-      (api/execute {:command [:api.user/create {:email "adgg@vbt.com"
-                                                :first-name "Frka12"
-                                                :last-name "Trle12"
-                                                :zip "10000"}]}))
-
-  (-> @st/dev-sys
-      :app/funicular
-      (api/execute {:command [:api.user/update {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"
-                                                :data    {:email      "ad@vbt.com"
-                                                          :first-name "Frka21"
-                                                          :last-name  "Trle21"
-                                                          :zip        "10000"}}]}))
-
-  (-> @st/dev-sys
-      :app/funicular
-      (api/execute {:queries {:user [:api.user/get-one {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"}]}})))
