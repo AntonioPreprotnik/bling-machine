@@ -15,22 +15,27 @@
 (def dev-app-config
   app-cfg)
 
-(defn- stop-dev-system
-  []
-  (when (:webserver @dev-sys)
-    (.close @dev-sys)
-    (refresh)
-    (reset! dev-sys (closeable-map {}))))
-
 (defn start-dev-system
   []
-  (stop-dev-system)
   (shadow.server/start!)
   (shadow.api/watch :app)
   (reset! dev-sys (->system dev-app-config)))
 
+(defn stop-dev-system
+  []
+  (when (:webserver @dev-sys)
+    (.close @dev-sys)
+    (reset! dev-sys (closeable-map {}))))
+
+(defn reset-dev-system
+  []
+  (stop-dev-system)
+  (refresh-all :after `user/start-dev-system))
+
 (comment
   (start-dev-system)
+  (stop-dev-system)
+  (reset-dev-system)
   (-> @st/dev-sys
       :app/funicular
       (api/execute {:queries {:user [:api.user/get-all-users {}]}}))
