@@ -36,12 +36,7 @@
      :users/id [:uuid]
      :users/first-name [:string]
      :users/last-name [:string]
-     :users/username [:string]
-     :users/password [:string]
-     :users/is-superuser [:boolean]
-     :users/is-staff [:boolean]
-     :users/is-active [:boolean]
-     ;:users/zip [:string]
+     :users/zip [:string]
 
      :app/user
      [:map
@@ -49,11 +44,7 @@
       [:users/email ::email]
       :users/first-name
       :users/last-name
-      :users/username
-      :users/is-superuser
-      :users/is-staff
-      :users/is-active]
-      ;:users/zip]
+      :users/zip]
 
      :app/users
      [:vector
@@ -65,14 +56,14 @@
      [:map
       [:email ::email]
       [:first-name :users/first-name]
-      [:last-name :users/last-name]]
-      ;[:zip :users/zip]]
+      [:last-name :users/last-name]
+      [:zip :users/zip]]
 
      :app.input.user/update
      [:map
       [:first-name :users/first-name]
-      [:last-name :users/last-name]]
-      ;[:zip :users/zip]]
+      [:last-name :users/last-name]
+      [:zip :users/zip]]
 
      :app.input.user/one
      [:map

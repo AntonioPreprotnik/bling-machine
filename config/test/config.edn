@@ -1,10 +1,9 @@
-{:framework.db.storage/postgresql {:image-name "postgres:14-alpine"
-                                   :port       5433
-                                   :dbname     "todo_app"
-                                   :host       "localhost"
-                                   :dbtype     "postgresql"
-                                   :user       "postgres"
-                                   :password   "postgres"}
+{:framework.db.storage/postgresql {:port 54321
+                                   :dbname   "postgres"
+                                   :host     "localhost"
+                                   :dbtype   "postgresql"
+                                   :user     "postgres"
+                                   :password "postgres"}
  :framework.db.storage/migration  {:store                :database
                                    :seeds-dir             "test_seeds"
                                    :migration-dir        "migrations"

@@ -4,7 +4,6 @@
             [schema :refer [registry]]
             [app.readers :refer [readers]]
             [clojure.edn :as edn]))
-            ;[duct.logger :refer [log]]))
 
 (s/check-asserts true)
 
@@ -30,7 +29,6 @@
                  (execute [this request]
                    (execute this request nil))
                  (execute [_ request request-context]
-                   #_(log logger :info :funicular/request request)
                    (f/execute compiled (merge context request-context) request))
                  (inspect [_]
                    (f/inspect compiled)))))))

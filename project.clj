@@ -39,12 +39,12 @@
                  [org.clojure/tools.namespace "1.1.0"]
                  [com.verybigthings/commons "1feaf1447c7d71472854fad9c1e70ae58c3223e3"]
                  [com.verybigthings/pgerrors "b7a95d13cee17ec9a0bcbab3a5107950f7113ea9"]
-                 [com.verybigthings/funicular "ec39de9b901f875ad7eb786b4e749b157e0e26b7"]
-                 [com.verybigthings/penkala "8f38814dcfe5a23ee2c6fcdd5d2c48ccd6f4f1c7"]
+                 [com.verybigthings/funicular "fb4cb3ae49a9246f4489396c047779b73e9c82ba"]
+                 [com.verybigthings/penkala "8f38814dcfe5a23ee2c6fcdd5d2c48ccd6f4f1c7"]]
                  ;;[re-frame "1.1.2"]
                  ;;[reagent "0.10.0"]
                  ;;[thheller/shadow-cljs "2.11.26"]
-                 ]
+
   :git-down {keechma.next/toolbox {:coordinates keechma/keechma-next-toolbox}
              keechma/malli-forms  {:coordinates keechma/keechma-malli-forms}
              clj-kondo/config {:coordinates clj-kondo/config}
@@ -81,23 +81,24 @@
                                         [clj-kondo/config    "e2e156c53c6c228fee7242629b41013f3e55051d"]]}
              ;; VBT profile 
              :runner {:dependencies [[com.cognitect/test-runner "f7ef16dc3b8332b0d77bc0274578ad5270fbfedd"]]}
-             :dev   {:resource-paths ["dev" "config/dev"]
+             :kaocha {:dependencies [[lambdaisland/kaocha "1.62.993"]]}
+             :dev   {:source-paths ["dev" "config/dev"]
                      :dependencies   [;; VBT
                                       [commons-io/commons-io "2.6"]
                                       [nrepl/nrepl "0.8.3"]
                                       ;; FLEX
                                       [vlaaad/reveal "1.3.264"]
                                       [binaryage/devtools "1.0.3"]]}
-             :local {:resource-paths ["config/local"]}
-             :prod  {:resource-paths ["config/prod"]}
-             :test  {:resource-paths ["config/test"]
+             :local {:source-paths ["config/local"]}
+             :prod  {:source-paths ["config/prod"]}
+             :test  {:source-paths ["config/test" "src/utils"]
                      :dependencies   [;; VBT
                                       [org.clojure/test.check "0.10.0"]
                                       [nubank/state-flow "5.13.1"]
-                                      [io.zonky.test/embedded-postgres "1.2.10"]
-                                      [io.zonky.test.postgres/embedded-postgres-binaries-darwin-amd64 "13.2.0"]
-                                      [io.zonky.test.postgres/embedded-postgres-binaries-linux-amd64 "13.2.0"]
-                                      [lambdaisland/kaocha "1.0.861"]
+                                      [io.zonky.test/embedded-postgres "1.3.1"]
+                                      [io.zonky.test.postgres/embedded-postgres-binaries-darwin-amd64 "14.1.0"]
+                                      [io.zonky.test.postgres/embedded-postgres-binaries-linux-amd64 "14.1.0"]
+                                      [lambdaisland/kaocha "1.60.977"]
                                       [ring/ring-mock "0.4.0"]
                                       ;; FLEX
                                       [vlaaad/reveal "1.3.264"]
@@ -112,6 +113,7 @@
             "clj-kondo" ["run" "-m" "clj-kondo.main"] ;; VBT
             "runner" ["run" "-m" "cognitect.test-runner"
                       "run" "-d" "test"]
+            "kaocha" ["with-profile" "+kaocha,+test" "run" "-m" "kaocha.runner"]
             "kondo"   ["run" "-m" "clj-kondo.main" "--lint" "src" "test"]
             "lint"    ["do" "kondo," "eastwood," "kibit"]
             "migrate" ["run" "-m" "framework.db.main"]
