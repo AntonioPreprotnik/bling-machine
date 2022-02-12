@@ -1,39 +1,39 @@
 (ns app.core
   (:require
-    [app.controllers.index :as index]
-    [app.controllers.re-frame :as re-frame]
-    [framework.config.core :as config]
-    [framework.db.core :as db]
-    [framework.db.seed :as seed]
-    [framework.interceptor.core :as interceptors]
-    [framework.interceptor.wrap :as wrap]
-    [framework.rbac.core :as rbac]
-    [framework.route.core :as routes]
-    [framework.session.core :as session]
-    [framework.webserver.core :as ws]
-    [piotr-yuxuan.closeable-map :refer [closeable-map]]
-    [reitit.ring :as ring]
-    [com.verybigthings.penkala.next-jdbc :refer [select!]]
-    [app.penkala :as penkala]
-    [app.funicular :as api]
+   [app.controllers.index :as index]
+   [app.controllers.re-frame :as re-frame]
+   [framework.config.core :as config]
+   [framework.db.core :as db]
+   [framework.db.seed :as seed]
+   [framework.interceptor.core :as interceptors]
+   [framework.interceptor.wrap :as wrap]
+   [framework.rbac.core :as rbac]
+   [framework.route.core :as routes]
+   [framework.session.core :as session]
+   [framework.webserver.core :as ws]
+   [piotr-yuxuan.closeable-map :refer [closeable-map]]
+   [reitit.ring :as ring]
+   [com.verybigthings.penkala.next-jdbc :refer [select!]]
+   [app.penkala :as penkala]
+   [app.funicular :as api]
     ;;[app.readers :refer [readers]]
-    [app.handlers.funicular :as funicular]
-    ;;[state :as st]
-    [xiana.commons :refer [rename-key]]
-    [xiana.core]
-    [reitit.core :as r]
-    [muuntaja.core :as m]
-    [reitit.ring.coercion :as rrc]
-    [reitit.coercion :as coercion]
-    [muuntaja.interceptor]
-    [com.verybigthings.funicular.transit :as funicular-transit]
-    [reitit.ring.middleware.muuntaja :as muuntaja]
-    [tdebug :refer [trace> trace>>]]
-    ;[medley.core :as m]
-    [tdebug :refer [trace> trace>>]]))
-
-
-
+   [app.handlers.funicular :as funicular]
+   ;;[state :as st]
+   [xiana.commons :refer [rename-key]]
+   [xiana.core]
+   [reitit.core :as r]
+   [muuntaja.core :as m]
+   [reitit.ring.coercion :as rrc]
+   [reitit.coercion :as coercion]
+   [muuntaja.interceptor]
+   [com.verybigthings.funicular.transit :as funicular-transit]
+   [reitit.ring.middleware.muuntaja :as muuntaja]
+   [tdebug :refer [trace> trace>>]]
+   [reveal
+    :refer
+    [add-tap-rui open-snapshot]
+    :as rui]
+   [clojure.edn :as edn]))
 
 (def routes
   [["/" {:action #'re-frame/handle-index}]
@@ -56,9 +56,7 @@
       (trace> ::system)
       closeable-map))
 
-
 ;; MUUNTAJA INSTANCE ADDED HERE FOR INSTRUCTIONAL PURPOSES
-
 
 (def muuntaja-instance
   (m/create
@@ -80,4 +78,3 @@
 (defn -main
   [& _args]
   (->system app-cfg))
-
