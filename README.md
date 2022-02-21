@@ -13,7 +13,7 @@ docker-compose up -d
 ### Log into psql console
 
 ```shell
-psql -U postgres -p 5433 -h localhost
+docker-compose exec db psql -U postgres
 ```
 
 ### Prepare node-dependencies
