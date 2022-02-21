@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rimraf resources/app/public/js && rm -rf .shadow-cljs",
     "postcss": "NODE_ENV=production postcss src/frontend/app/ui/style.css -o resources/public/assets/css/style.css",
-    "postcss:watch": "NODE_ENV=development TAILWIND_MODE=watch postcss src/frontend/app/ui/style.css -o resources/public/assets/css/style.css -w",
+    "postcss:watch": "NODE_ENV=development TAILWIND_MODE=watch postcss src/frontend/app/ui/style.css -o resources/public/assets/css/style.css -w  --verbose",
     "develop": "npm run postcss:watch",
     "build": "npm run postcss"
   },
@@ -18,10 +18,6 @@
     "cssnano": "^5.0.5",
     "jsdom": "^16.0.1",
     "jsdom-global": "^3.0.2",
-    "postcss-cli": "^8.3.1",
-    "postcss-import": "^12.0.1",
-    "postcss-loader": "^4.1.0",
-    "purgecss": "^2.3.0",
     "react": "~17.0.1",
     "react-dom": "~17.0.2",
     "react-refresh": "0.8.1",
@@ -31,8 +27,16 @@
     "zprint-clj": "~0.8.0"
   },
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/forms": "^0.4.0",
+    "@tailwindcss/line-clamp": "^0.3.1",
+    "@tailwindcss/typography": "^0.5.2",
     "autoprefixer": "^10.4.2",
+    "purgecss": "^4.1.0",
     "postcss": "^8.4.6",
-    "tailwindcss": "^3.0.19"
+    "postcss-cli": "^9.1.0",
+    "postcss-import": "^14.0.2",
+    "postcss-loader": "^6.2.1",
+    "tailwindcss": "^3.0.22"
   }
 }

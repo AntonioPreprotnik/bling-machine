@@ -29,10 +29,6 @@
    [com.verybigthings.funicular.transit :as funicular-transit]
    [reitit.ring.middleware.muuntaja :as muuntaja]
    [tdebug :refer [trace> trace>>]]
-   [reveal
-    :refer
-    [add-tap-rui open-snapshot]
-    :as rui]
    [clojure.edn :as edn]))
 
 (def routes

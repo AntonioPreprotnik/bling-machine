@@ -44,10 +44,11 @@ lein release && lein run
 curl http://localhost:3000/
 ```
 
-### Open re-frame app
 
-open http://localhost:3000/re-frame
 
-### Framework's documentation
 
-[Xiana readme](https://github.com/Flexiana/framework#readme)
+lein with-profile +dev,+frontend repl
+
+lein repl :connect 127.0.0.1:54785
+
+(shadow.cljs.devtools.api/repl :app)
