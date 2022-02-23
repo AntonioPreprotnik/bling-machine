@@ -1,54 +1,60 @@
-# pasta-xiana
+# PastaXiana
 
-FIXME: description
+## Development
 
-## Usage
-
-### Start dockerized PostgreSQL
+### Start external dockerized services
 
 ```shell
-docker-compose up -d
+make start-services
 ```
 
-### Log into psql console
+This command starts PostgreSQL server or any other external service as described in `docker-compose.yml`.
+
+### Start nREPL
 
 ```shell
-docker-compose exec db psql -U postgres
+make start-repl
 ```
 
-### Prepare node-dependencies
+This command compiles the whole app and starts the nREPL server.
+
+
+### GOD command
 
 ```shell
-lein shadow npm-deps
+make develop
 ```
 
-### Start development
+You can combine both of the above mentioned commands. 
 
-Jack in a repl, execute
+### Jack in a nREPL
+
+Use prefered IDE/editor or manually connect to running nREPL server from previous step. If your IDE doesn't automatically detect REPL port, you can find it in `.nrepl-port`.
+
+### System management
+
+#### Start system
+
+Once in REPL you will be located in `user` namespace. You should execute following command:
 
 ```clojure
-(user/start-dev-system)
+(user/start-dev)
 ```
 
-It will start up the shadow watch and the backend. It can be used to restart the whole application too.
+This will start up the backend/frontend watchers and system. Webserver will be accessible on `http://localhost:3000`. Once you start the system with this command, system will take care of restarts on it's own.
 
-### Build frontend and run the backend
+#### Restart system
 
-```shell
-lein release && lein run
+Once system is started you can explicitly reset the system to apply new system configuration or changes to the codebase. In `user` namespace execute following command.
+
+```clojure
+(user/restart-system)
 ```
 
-### Try pasta-xiana
+#### Stopping system
 
-```shell
-curl http://localhost:3000/
+Once system is started you can reset the system to apply new system configuration or changes to the codebase. In `user` namespace execute following command.
+
+```clojure
+(user/stop-system)
 ```
-
-
-
-
-lein with-profile +dev,+frontend repl
-
-lein repl :connect 127.0.0.1:54785
-
-(shadow.cljs.devtools.api/repl :app)
