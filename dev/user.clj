@@ -8,7 +8,11 @@
    [shadow.cljs.devtools.api :as shadow.api]
    [shadow.cljs.devtools.server :as shadow.server]
    [state :as st :refer [dev-sys]]
-   [app.funicular :as api]))
+   [app.funicular :as api]
+   [reveal
+    :refer
+    [add-tap-rui open-snapshot]
+    :as rui]))
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
@@ -40,7 +44,7 @@
   (reset-dev-system)
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:queries {:user [:api.user/get-all-users {}]}}))
+      (api/execute {:queries {:user [:api.user/get-all {}]}}))
 
   (-> @st/dev-sys
       :app/funicular

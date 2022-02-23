@@ -82,7 +82,8 @@
              ;; VBT profile 
              :runner {:dependencies [[com.cognitect/test-runner "f7ef16dc3b8332b0d77bc0274578ad5270fbfedd"]]}
              :kaocha {:dependencies [[lambdaisland/kaocha "1.62.993"]]}
-             :dev   {:source-paths ["dev" "config/dev"]
+             :dev   {:main user
+                     :source-paths ["dev" "config/dev"]
                      :dependencies   [;; VBT
                                       [commons-io/commons-io "2.6"]
                                       [nrepl/nrepl "0.8.3"]
