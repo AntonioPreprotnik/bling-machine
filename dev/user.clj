@@ -3,7 +3,7 @@
   (:require
    [app.core :refer [->system app-cfg]]
    [clojure.tools.logging :refer [*tx-agent-levels*]]
-   [clojure.tools.namespace.repl :refer [refresh-all refresh]]
+   [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
    [piotr-yuxuan.closeable-map :refer [closeable-map]]
    [shadow.cljs.devtools.api :as shadow.api]
    [shadow.cljs.devtools.server :as shadow.server]
@@ -11,6 +11,8 @@
    [app.funicular :as api]))
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
+
+(set-refresh-dirs "dev" "src")
 
 (def dev-app-config
   app-cfg)
@@ -30,7 +32,7 @@
 (defn reset-dev-system
   []
   (stop-dev-system)
-  (refresh-all :after `user/start-dev-system))
+  (refresh :after `user/start-dev-system))
 
 (comment
   (start-dev-system)
