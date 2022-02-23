@@ -1,47 +1,68 @@
 (ns user
   (:gen-class)
-  (:require
-   [app.core :refer [->system app-cfg]]
-   [clojure.tools.logging :refer [*tx-agent-levels*]]
-   [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
-   [piotr-yuxuan.closeable-map :refer [closeable-map]]
-   [shadow.cljs.devtools.api :as shadow.api]
-   [shadow.cljs.devtools.server :as shadow.server]
-   [state :as st :refer [dev-sys]]
-   [app.funicular :as api]
-   [reveal
-    :refer
-    [add-tap-rui open-snapshot]
-    :as rui]))
+  (:require [app.core :refer [app-cfg ->system]]
+            [app.funicular :as api]
+            [clojure.tools.logging :refer [*tx-agent-levels*]]
+            [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
+            [hawk.core :as hawk]
+            [piotr-yuxuan.closeable-map :refer [closeable-map]]
+            [shadow.cljs.devtools.api :as shadow.api]
+            [shadow.cljs.devtools.server :as shadow.server]
+            [state :as st :refer [dev-sys]]
+            [reveal :refer [add-tap-rui open-snapshot] :as rui]))
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
 (set-refresh-dirs "dev" "src")
 
-(def dev-app-config
-  app-cfg)
+(defn start-system []
+  (reset! dev-sys (->system app-cfg)))
 
-(defn start-dev-system
+(defn stop-system []
+  (when (:webserver @dev-sys)
+    (.close @dev-sys))
+  (reset! dev-sys (closeable-map {})))
+
+(defn restart-system
+  "Stops system, refreshes changed namespaces in REPL and starts the system again."
+  []
+  (stop-system)
+  (refresh :after 'user/start-system))
+
+(defn- clojure-or-edn-file? [_ {:keys [file]}]
+  (re-matches #"[^.].*(\.clj|\.edn)$" (.getName file)))
+
+(defn- system-watch-handler [context _event]
+  (binding [*ns* *ns*]
+    (restart-system)
+    context))
+
+(defn watch-backend
+  "Automatically restarts the system if backend related files are changed."
+  []
+  (hawk/watch! [{:paths   ["src/backend/" "src/shared" "src/utils" "config/dev"]
+                 :filter  clojure-or-edn-file?
+                 :handler system-watch-handler}]))
+
+(defn watch-frontend
+  "Automatically re-builds frontend and re-renders browser page if frontend related files are changed."
   []
   (shadow.server/start!)
-  (shadow.api/watch :app)
-  (reset! dev-sys (->system dev-app-config)))
+  (shadow.api/watch :app))
 
-(defn stop-dev-system
-  []
-  (when (:webserver @dev-sys)
-    (.close @dev-sys)
-    (reset! dev-sys (closeable-map {}))))
-
-(defn reset-dev-system
-  []
-  (stop-dev-system)
-  (refresh :after `user/start-dev-system))
+ (defn start-dev
+   "Starts development system and runs watcher for auto-restart."
+   []
+   (watch-backend)
+   (watch-frontend)
+   (start-system))
 
 (comment
-  (start-dev-system)
-  (stop-dev-system)
-  (reset-dev-system)
+  (start-dev)
+  (start-system)
+  (stop-system)
+  (restart-system)
+
   (-> @st/dev-sys
       :app/funicular
       (api/execute {:queries {:user [:api.user/get-all {}]}}))
