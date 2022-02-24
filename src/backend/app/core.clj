@@ -1,4 +1,5 @@
 (ns app.core
+  (:gen-class)
   (:require
    [app.controllers.index :as index]
    [app.controllers.re-frame :as re-frame]
@@ -28,7 +29,6 @@
    [muuntaja.interceptor]
    [com.verybigthings.funicular.transit :as funicular-transit]
    [reitit.ring.middleware.muuntaja :as muuntaja]
-   [tdebug :refer [trace> trace>>]]
    [clojure.edn :as edn]))
 
 (def routes

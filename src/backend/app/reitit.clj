@@ -9,8 +9,7 @@
             [reitit.core :as r]
             [reitit.ring :as ring]
             [reitit.ring.coercion :as ring.coercion]
-            [reitit.ring.middleware.muuntaja :as muuntaja]
-            [tdebug :refer [trace> trace>>]]))
+            [reitit.ring.middleware.muuntaja :as muuntaja]))
 
 (def muuntaja-instance
   (m/create

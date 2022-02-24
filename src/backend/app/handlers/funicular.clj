@@ -1,6 +1,5 @@
 (ns app.handlers.funicular
   (:require [app.funicular :as api]
-            [tdebug :refer [trace> trace>>]]
             [xiana.core :as xiana]))
 
 (defn handler [{:keys [deps request] :as state}]

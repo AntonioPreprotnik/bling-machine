@@ -1,8 +1,7 @@
 (ns app.boundary.user
   (:require [com.verybigthings.penkala.relation :as r]
             [app.penkala :refer [insert! select! select-one! update!]]
-            [medley.core :refer [remove-vals]]
-            [tdebug :refer [trace> trace>>]]))
+            [medley.core :refer [remove-vals]]))
 
 (defprotocol UserDatabase
   (insert [penkala data])

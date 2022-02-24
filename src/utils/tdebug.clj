@@ -1,5 +1,4 @@
-(ns ^:no-doc tdebug)
-
+(ns tdebug)
 
 (defn trace>>
   "Wrapper for `tap>` that can be used in the middle of the `->>` threading macro like this:
