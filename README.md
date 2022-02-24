@@ -10,14 +10,22 @@ make start-services
 
 This command starts PostgreSQL server or any other external service as described in `docker-compose.yml`.
 
-### Start nREPL
+
+### Start app
 
 ```shell
-make start-repl
+make start-app
 ```
 
-This command compiles the whole app and starts the nREPL server.
+This command compiles the whole app, starts the nREPL server and automatically runs `(start-dev)` command inside the REPL which start the app system.
 
+You can also start REPL without starting the system automatically by running:
+
+```shell
+make start-app
+```
+
+And from there on, take care of the system management by yourself. 
 
 ### GOD command
 
@@ -25,7 +33,7 @@ This command compiles the whole app and starts the nREPL server.
 make develop
 ```
 
-You can combine both of the above mentioned commands. 
+You can combine both of the above mentioned commands.
 
 ### Jack in a nREPL
 
@@ -33,15 +41,21 @@ Use prefered IDE/editor or manually connect to running nREPL server from previou
 
 ### System management
 
-#### Start system
+#### Start system with watchers
 
-Once in REPL you will be located in `user` namespace. You should execute following command:
+Once in REPL you will be located in `user` namespace. You can execute following command:
 
 ```clojure
 (user/start-dev)
 ```
 
 This will start up the backend/frontend watchers and system. Webserver will be accessible on `http://localhost:3000`. Once you start the system with this command, system will take care of restarts on it's own.
+
+#### Start system without watchers
+
+```clojure
+(user/start-system)
+```
 
 #### Restart system
 

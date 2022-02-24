@@ -1,9 +1,12 @@
 
-.PHONY: start-repl start-services stop-services psql develop
+.PHONY: start-app start-repl start-services stop-services psql develop
 
 # --------------------------------------------------
 # Development
 # --------------------------------------------------
+
+start-app:
+	(echo "(start-dev)"; cat <&0)  | lein with-profile +dev,+frontend repl
 
 start-repl:
 	lein with-profile +dev,+frontend repl
@@ -17,7 +20,7 @@ stop-services:
 psql:
 	docker-compose exec db psql -U postgres
 
-develop: start-services start-repl
+develop: start-services start-app
 
 # --------------------------------------------------
 # Help menu
