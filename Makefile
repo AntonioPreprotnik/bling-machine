@@ -1,5 +1,14 @@
 
-.PHONY: start-app start-repl start-services stop-services psql develop
+.PHONY: \
+		start-app \
+		start-repl \
+		start-services \
+		stop-services \
+		psql \
+		develop \
+
+
+DEFAULT_GOAL: help
 
 # --------------------------------------------------
 # Development
@@ -22,6 +31,14 @@ psql:
 
 develop: start-services start-app
 
+# --------------------------------------------------
+# Production
+# --------------------------------------------------
+
+release-frontend:
+	lein release-frontend && \
+	npm run clean && \
+	npm run build
 # --------------------------------------------------
 # Help menu
 # --------------------------------------------------

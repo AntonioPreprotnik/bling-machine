@@ -107,8 +107,8 @@
                                       [kerodon "0.9.1"]]}}
   :shadow-cljs {:nrepl  {:port 8777}
                 :builds {:app {:target     :browser
-                               :output-dir "resources/public/assets/js/compiled"
-                               :asset-path "assets/js/compiled"
+                               :output-dir "resources/public/assets/js"
+                               :asset-path "assets/js"
                                :modules    {:app {:init-fn app.core/init
                                                   :preloads [devtools.preload]}}}}}
   :aliases {"ci"      ["do" "clean," "cloverage," "lint," "uberjar"]
@@ -122,5 +122,5 @@
             "seed"    ["run" "-m" "framework.db.seed"]
             "watch"   ["with-profile" "frontend,dev" "do"
                        ["shadow" "watch" "app" "browser-test" "karma-test"]]  ;; added frontend profile to run alongside dev
-            "release" ["with-profile" "prod" "do"
+            "release-frontend" ["with-profile" "frontend,prod" "do"
                        ["shadow" "release" "app"]]})
