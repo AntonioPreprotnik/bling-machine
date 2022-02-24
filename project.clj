@@ -38,6 +38,9 @@
                  [migratus/migratus "1.3.5"]   ;; updated namespace
                  [org.clojure/clojure "1.10.3"]
                  [org.clojure/tools.namespace "1.1.0"]
+
+                 [vlaaad/reveal "1.3.264"] ;; temporary moved here to debug builduing uberjar
+                 
                  [com.verybigthings/commons "1feaf1447c7d71472854fad9c1e70ae58c3223e3"]
                  [com.verybigthings/pgerrors "b7a95d13cee17ec9a0bcbab3a5107950f7113ea9"]
                  [com.verybigthings/funicular "fb4cb3ae49a9246f4489396c047779b73e9c82ba"]
@@ -63,7 +66,9 @@
   :middleware     [lein-git-down.plugin/inject-properties]
   :source-paths ["src/backend" "src/frontend" "src/shared" "src/utils"]
   :clean-targets ^{:protect false} ["resources/public/assets/js/compiled" "target"]
-  :profiles {;; VBT profile
+  :profiles {:uberjar {:aot :all
+                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}
+             ;; VBT profileDEFAULT_GOAL: help
              :frontend {:dependencies [;; VBT
                                        [org.clojure/clojurescript "1.10.866"]
                                        [g7s/module.shadow-cljs "0.1.2"]
@@ -89,7 +94,6 @@
                                       [commons-io/commons-io "2.6"]
                                       [nrepl/nrepl "0.8.3"]
                                       ;; FLEX
-                                      [vlaaad/reveal "1.3.264"]
                                       [binaryage/devtools "1.0.3"]]}
              :local {:source-paths ["config/local"]}
              :prod  {:source-paths ["config/prod"]}

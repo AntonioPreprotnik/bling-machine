@@ -7,6 +7,8 @@
 		psql \
 		develop \
 
+        release-frontend \
+		release-backend
 
 DEFAULT_GOAL: help
 
@@ -39,6 +41,10 @@ release-frontend:
 	lein release-frontend && \
 	npm run clean && \
 	npm run build
+
+release-backend:
+	lein uberjar
+
 # --------------------------------------------------
 # Help menu
 # --------------------------------------------------
