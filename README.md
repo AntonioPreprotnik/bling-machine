@@ -22,7 +22,7 @@ This command compiles the whole app, starts the nREPL server and automatically r
 You can also start REPL without starting the system automatically by running:
 
 ```shell
-make start-app
+make start-repl
 ```
 
 And from there on, take care of the system management by yourself. 
