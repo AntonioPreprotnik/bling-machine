@@ -49,7 +49,6 @@
       db/migrate!
       seed/seed!
       ws/start
-      (trace> ::system)
       closeable-map))
 
 ;; MUUNTAJA INSTANCE ADDED HERE FOR INSTRUCTIONAL PURPOSES

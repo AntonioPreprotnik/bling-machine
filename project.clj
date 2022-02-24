@@ -6,6 +6,7 @@
                  [camel-snake-kebab/camel-snake-kebab "0.4.2"]
                  [com.cognitect/transit-clj "1.0.324"]
                  [digest/digest  "1.4.10"]
+                 [hawk "0.2.11"]
                  [hiccup/hiccup  "1.0.5"]
                  [http-kit/http-kit  "2.5.3"]
                  [lambdaisland/regal  "0.0.89"]
