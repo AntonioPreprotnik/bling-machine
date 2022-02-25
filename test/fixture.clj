@@ -3,7 +3,6 @@
     [app.core :refer [->system app-cfg]]
     [config.core :refer [load-env]]
     [migratus.core :as migratus]
-    [piotr-yuxuan.closeable-map :refer [closeable-map]]
     [next.jdbc :as nj])
   (:import io.zonky.test.db.postgres.embedded.EmbeddedPostgres))
 

@@ -3,7 +3,7 @@
    [xiana.core :as xiana]))
 
 (def sample-app-controller-interceptor
-  {:enter (fn [{request :request {:keys [handler controller match]} :request-data :as state}]
+  {:enter (fn [state]
             (xiana/ok state))
-   :leave (fn [{response :response :as state}]
+   :leave (fn [state]
             (xiana/ok state))})

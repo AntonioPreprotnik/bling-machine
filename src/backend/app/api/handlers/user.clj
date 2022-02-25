@@ -23,5 +23,4 @@
 (defn get-one [config]
   (let [{:keys [penkala data]} config
         user-id (:user-id data)]
-    #_(trace>> ::UserDB [user/UserDatabase penkala])
     (user/get-one-by-id penkala user-id)))
