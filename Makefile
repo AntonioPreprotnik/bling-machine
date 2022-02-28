@@ -17,7 +17,8 @@ DEFAULT_GOAL: help
 # --------------------------------------------------
 
 start-app:
-	(echo "(start-dev)"; cat <&0)  | lein with-profile +dev,+frontend repl
+	lein clean && \
+	(echo "(start-dev)"; cat <&0) | lein with-profile dev,frontend repl
 
 start-repl:
 	lein with-profile +dev,+frontend repl
@@ -43,7 +44,7 @@ release-frontend:
 	npm run build
 
 release-backend:
-	lein uberjar
+	lein release-backend
 
 # --------------------------------------------------
 # Help menu

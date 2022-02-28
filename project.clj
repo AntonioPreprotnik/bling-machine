@@ -120,5 +120,7 @@
             "seed"             ["run" "-m" "framework.db.seed"]
             "watch"            ["with-profile" "frontend,dev" "do"
                                 ["shadow" "watch" "app" "browser-test" "karma-test"]] ;; added frontend profile to run alongside dev
-            "release-frontend" ["with-profile" "frontend,prod" "do"
-                                ["shadow" "release" "app"]]})
+            "release-backend"  ["with-profile" "prod" "do"
+                                "clean," "uberjar"]
+            "release-frontend" ["with-profile" "prod,frontend" "do"
+                                "clean," ["shadow" "release" "app"]]})
