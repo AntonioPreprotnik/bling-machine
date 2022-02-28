@@ -38,6 +38,9 @@ psql:
 test:
 	lein kaocha
 
+lint:
+	lein kondo-lint
+
 develop: start-services start-app
 
 # --------------------------------------------------
