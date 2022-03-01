@@ -75,7 +75,7 @@ Once system is started you can reset the system to apply new system configuratio
 
 ## Production
 
-Production environment differs from development or test environment mostely by configuration of the system.Configuration files can be found in `config/{environment}` directories. Also production artifects and builds are more optimized and minified.
+Production environment differs from development or test environment mostly by configuration of the system. Configuration files can be found in `config/{environment}` directories. Also, production artifacts and builds are more optimized and minified.
 
 ### Backend
 
@@ -91,7 +91,7 @@ which will build release artifact under `/target/app.jar` path. This `.jar` file
 java -jar target/app.jar
 ```
 
-and deployed directly to a running java instance or via docker image. In order to make docker image run:
+and deployed directly to a running JVM instance or via docker image. In order to make docker image run:
 
 ```shell
 make build-docker-image
@@ -107,4 +107,4 @@ In order to build production frontend resources run:
 make release-frontend
 ```
 
-This will build all necessery static files in `resources/public` directory. Those file then can be copied to any static resource host provider.
+This will build all necessary static files in `resources/public` directory. Those file then can be copied to any static resource host provider.
