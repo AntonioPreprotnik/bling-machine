@@ -10,7 +10,7 @@
 
 (def muuntaja-instance
   (m/create
-    (-> m/default-options
+   (-> m/default-options
        (assoc-in [:formats "application/transit+json" :decoder-opts] funicular-transit/read-handlers)
        (assoc-in [:formats "application/transit+json" :encoder-opts] funicular-transit/write-handlers))))
 
@@ -29,8 +29,6 @@
 
 (defn init [routes]
   (ring/router (walk/postwalk resolve-symbol routes) {:data opts}))
-
-
 
 (defn reset
   "Update routes."

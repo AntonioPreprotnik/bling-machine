@@ -41,6 +41,12 @@ test:
 lint:
 	lein lint
 
+format-check :
+	lein cljfmt check
+
+format-fix :
+	lein cljfmt fix
+
 develop: start-services start-app
 
 # --------------------------------------------------

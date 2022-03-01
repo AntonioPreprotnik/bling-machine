@@ -50,11 +50,11 @@
   (shadow.api/watch :app))
 
 (defn start-dev
-   "Starts development system and runs watcher for auto-restart."
-   []
-   (watch-backend)
-   (watch-frontend)
-   (start-system))
+  "Starts development system and runs watcher for auto-restart."
+  []
+  (watch-backend)
+  (watch-frontend)
+  (start-system))
 
 (comment
   (start-dev)

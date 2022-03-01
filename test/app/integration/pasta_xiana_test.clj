@@ -18,22 +18,22 @@
 
 (defn create-user []
   (flow "Create user"
-    (flow/swap-state
-      (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
-        (let [new-user (command! funicular :api.user/create {:email      "atd@vbt.com"
-                                                             :first-name "Frka1"
-                                                             :last-name  "Trle1"
-                                                             :zip        "10000"})]
-          (assoc state :new-user new-user))))
-    (flow/get-state :new-user)))
+        (flow/swap-state
+         (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
+           (let [new-user (command! funicular :api.user/create {:email      "atd@vbt.com"
+                                                                :first-name "Frka1"
+                                                                :last-name  "Trle1"
+                                                                :zip        "10000"})]
+             (assoc state :new-user new-user))))
+        (flow/get-state :new-user)))
 
 (defn get-user []
   (flow "Get all"
-    (flow/swap-state
-      (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
-        (let [all-users (command! funicular :api.user/get-all {})]
-          (assoc state :first-user (first all-users)))))
-    (flow/get-state :first-user)))
+        (flow/swap-state
+         (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
+           (let [all-users (command! funicular :api.user/get-all {})]
+             (assoc state :first-user (first all-users)))))
+        (flow/get-state :first-user)))
 
 (defflow user-create
   {:init init}
@@ -42,8 +42,7 @@
            :users/first-name "Frka1"
            :users/last-name  "Trle1"
            :users/zip        "10000"}
-    (select-keys  user-created [:users/email :users/first-name :users/last-name :users/zip])))
-
+          (select-keys  user-created [:users/email :users/first-name :users/last-name :users/zip])))
 
 (defflow create-and-get
   {:init init}
@@ -54,7 +53,7 @@
            :users/last-name  "Trle1"
            :users/zip        "10000"}
            ;:user/id          uuid?}
-    (select-keys  get-new-user [:users/email :users/first-name :users/last-name :users/zip])))
+          (select-keys get-new-user [:users/email :users/first-name :users/last-name :users/zip])))
                                 ;:user/id])))
 
 

@@ -6,6 +6,5 @@
       (var-get resolved)
       (throw (ex-info (str sym " can't be resolved") {:var sym})))))
 
-
 (def readers
   {'resolve resolve-var})

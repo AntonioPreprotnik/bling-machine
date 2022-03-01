@@ -1,9 +1,9 @@
 (ns fixture
   (:require
-    [app.core :refer [->system app-cfg]]
-    [config.core :refer [load-env]]
-    [migratus.core :as migratus]
-    [next.jdbc :as nj])
+   [app.core :refer [->system app-cfg]]
+   [config.core :refer [load-env]]
+   [migratus.core :as migratus]
+   [next.jdbc :as nj])
   (:import io.zonky.test.db.postgres.embedded.EmbeddedPostgres))
 
 (def state* (atom nil))
@@ -11,7 +11,7 @@
 (def config {})
 
 (defn get-system []
-   (-> state* deref :system))
+  (-> state* deref :system))
 
 (def db-config
   {:port     54321
@@ -24,23 +24,23 @@
 
 (defn apply-mocks [system mock]
   (reduce-kv
-    (fn [system' key mocked-key]
-      (let [key-val (get system' key)]
-        (-> system'
-          (dissoc key)
-          (assoc mocked-key key-val))))
-    system
-    mock))
+   (fn [system' key mocked-key]
+     (let [key-val (get system' key)]
+       (-> system'
+           (dissoc key)
+           (assoc mocked-key key-val))))
+   system
+   mock))
 
 (defn init-system! [_init _mock]
   (->system (merge app-cfg config)))
 
 (defn start-pg! []
   (-> (EmbeddedPostgres/builder)
-    (.setServerConfig "fsync" "off")
-    (.setServerConfig "full_page_writes" "off")
-    (.setPort (:port db-config))
-    (.start)))
+      (.setServerConfig "fsync" "off")
+      (.setServerConfig "full_page_writes" "off")
+      (.setPort (:port db-config))
+      (.start)))
 
 (defn stop-pg! [pg]
   (.close pg))
@@ -70,7 +70,7 @@
            db-config (:framework.db.storage/postgresql env)
            migration-cnf (:framework.db.storage/migration env)
            mig-config (assoc migration-cnf
-                        :db (nj/get-datasource db-config))
+                             :db (nj/get-datasource db-config))
            _migration (migratus/migrate mig-config)]
        (create-db-snapshot!)
        (reset! state* {:pg pg :system (init-system! init mock)})
