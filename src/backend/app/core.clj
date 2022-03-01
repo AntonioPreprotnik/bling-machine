@@ -19,8 +19,7 @@
    [xiana.core]
    [muuntaja.core :as m]
    [muuntaja.interceptor]
-   [com.verybigthings.funicular.transit :as funicular-transit]
-   [reitit.ring.middleware.muuntaja :as muuntaja]))
+   [com.verybigthings.funicular.transit :as funicular-transit]))
 
 (def routes
   [["/" {:action #'re-frame/handle-index}]

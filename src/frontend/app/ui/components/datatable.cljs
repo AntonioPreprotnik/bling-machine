@@ -48,7 +48,7 @@
   ($ TableHeader
     ($ TableHeaderRow
       (map-indexed
-        (fn [idx c]
+        (fn [_idx c]
           (let [header-content (:header/content c)]
             ($ TableHeaderCell {:scope "col"
                                 :key (or (:header/key c) (:key c) (when (string? header-content) header-content))
@@ -60,7 +60,7 @@
 (defnc TBody [{:keys [config data]}]
   ($ TableBody
     (map-indexed
-      (fn [row-idx d]
+      (fn [_idx d]
         ($ TableBodyRow {:key (or (:row/key d)
                                   (:id d)
                                   (:criterion d)

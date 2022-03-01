@@ -1,7 +1,7 @@
 (ns app.ui.pages.home
   (:require [helix.dom :as d]
             [helix.core :as hx :refer [$]]
-            [keechma.next.helix.core :refer [with-keechma use-sub]]
+            [keechma.next.helix.core :refer [with-keechma]]
             [keechma.next.helix.lib :refer [defnc]]
             [keechma.next.controllers.router :as router]
             [keechma.next.helix.classified :refer [defclassified]]))

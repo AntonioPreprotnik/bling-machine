@@ -3,7 +3,7 @@
             [keechma.next.controllers.pipelines :as pipelines]
             [keechma.next.controllers.entitydb :as edb]
             [keechma.pipelines.core :as pp :refer-macros [pipeline!]]
-            [com.verybigthings.funicular.controller :refer [req! query!]]))
+            [com.verybigthings.funicular.controller :refer [query!]]))
 
 (derive :current-user ::pipelines/controller)
 

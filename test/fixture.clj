@@ -32,7 +32,7 @@
     system
     mock))
 
-(defn init-system! [init mock]
+(defn init-system! [_init _mock]
   (->system (merge app-cfg config)))
 
 (defn start-pg! []
@@ -71,7 +71,7 @@
            migration-cnf (:framework.db.storage/migration env)
            mig-config (assoc migration-cnf
                         :db (nj/get-datasource db-config))
-           migration (migratus/migrate mig-config)]
+           _migration (migratus/migrate mig-config)]
        (create-db-snapshot!)
        (reset! state* {:pg pg :system (init-system! init mock)})
        (test-fn))
