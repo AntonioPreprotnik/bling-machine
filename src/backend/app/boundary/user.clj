@@ -1,8 +1,6 @@
 (ns app.boundary.user
   (:require [com.verybigthings.penkala.relation :as r]
-            [app.penkala :refer [insert! select! select-one! update!]]
-            [medley.core :refer [remove-vals]]
-            [tdebug :refer [trace> trace>>]]))
+            [app.penkala :refer [insert! select! select-one! update!]]))
 
 (defprotocol UserDatabase
   (insert [penkala data])
@@ -28,5 +26,4 @@
   (get-one-by-id [{:keys [env]} id]
     (let [users (-> (:users env)
                     (r/where [:= :id [:cast id "uuid"]]))]
-      ;(trace>> ::by-id users)
       (select-one! env users))))

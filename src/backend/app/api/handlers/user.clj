@@ -1,8 +1,7 @@
 (ns app.api.handlers.user
   (:require
-    [app.boundary.user :as user]
-    [medley.core :as m]
-    [tdebug :refer [trace> trace>>]]))
+   [app.boundary.user :as user]
+   [medley.core :as m]))
 
 (defn create-one [config]
   (let [{:keys [penkala data]} config
@@ -24,5 +23,4 @@
 (defn get-one [config]
   (let [{:keys [penkala data]} config
         user-id (:user-id data)]
-    #_(trace>> ::UserDB [user/UserDatabase penkala])
     (user/get-one-by-id penkala user-id)))

@@ -2,11 +2,8 @@
   (:require
     [vlaaad.reveal :as r]
     [vlaaad.reveal.ext :as rx]
-    [vlaaad.reveal.prefs :as rp]
-    [tdebug :refer [trace> trace>>]]))
-    ;[integrant.repl.state :refer [system config preparer]]))
-;[app.readers :refer [readers]]
-;[com.verybigthings.funicular.core]))
+    [vlaaad.reveal.prefs :as rp]))
+
 
 (defn private-field [obj fn-name-string]
   (let [m (.. obj getClass (getDeclaredField fn-name-string))]

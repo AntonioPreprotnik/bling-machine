@@ -2,15 +2,11 @@
 (ns app.reitit
   (:require [clojure.walk :as walk]
             [com.verybigthings.funicular.transit :as funicular-transit]
-            ;[integrant.core :as ig]
             [muuntaja.core :as m]
-            [reitit.coercion :as coercion]
             [reitit.coercion.spec :as coercion.spec]
-            [reitit.core :as r]
             [reitit.ring :as ring]
             [reitit.ring.coercion :as ring.coercion]
-            [reitit.ring.middleware.muuntaja :as muuntaja]
-            [tdebug :refer [trace> trace>>]]))
+            [reitit.ring.middleware.muuntaja :as muuntaja]))
 
 (def muuntaja-instance
   (m/create

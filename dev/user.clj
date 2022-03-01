@@ -13,7 +13,7 @@
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
-(set-refresh-dirs "dev" "src")
+(set-refresh-dirs "dev" "src" "resources")
 
 (defn start-system []
   (reset! dev-sys (->system app-cfg)))
@@ -40,7 +40,7 @@
 (defn watch-backend
   "Automatically restarts the system if backend related files are changed."
   []
-  (hawk/watch! [{:paths   ["src/backend/" "src/shared" "src/utils" "config/dev"]
+  (hawk/watch! [{:paths   ["src/backend/" "src/shared" "config/dev"]
                  :filter  clojure-or-edn-file?
                  :handler system-watch-handler}]))
 
