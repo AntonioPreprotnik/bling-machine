@@ -14,10 +14,10 @@
 
 (defn update-cnf [funicular-cnf config]
   (update-in funicular-cnf [:context]
-    #(reduce-kv (fn [m k v] (merge m (if (= (namespace v) "config")
-                                       {k ((keyword (name v)) config)}
-                                       {k v})))
-       {} %)))
+             #(reduce-kv (fn [m k v] (merge m (if (= (namespace v) "config")
+                                                {k ((keyword (name v)) config)}
+                                                {k v})))
+                         {} %)))
 
 (defn init [config]
   (let [funicular-cnf (edn/read-string {:readers readers :config config} (slurp (io/resource "funicular.edn")))

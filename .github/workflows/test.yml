@@ -25,9 +25,12 @@ jobs:
         with:
           cli: 1.10.1.693 
           lein: 2.9.1
+      
+      - name: Check format
+        run: make format-check
 
-      - name: Lint code
+      - name: Check linter
         run: make lint
 
-      - name: Run tests
+      - name: Check tests
         run: make test

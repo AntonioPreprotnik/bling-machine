@@ -8,8 +8,7 @@
             [piotr-yuxuan.closeable-map :refer [closeable-map]]
             [shadow.cljs.devtools.api :as shadow.api]
             [shadow.cljs.devtools.server :as shadow.server]
-            [state :as st :refer [dev-sys]]
-            [reveal :refer [add-tap-rui open-snapshot] :as rui]))
+            [state :as st :refer [dev-sys]]))
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
@@ -51,11 +50,11 @@
   (shadow.api/watch :app))
 
 (defn start-dev
-   "Starts development system and runs watcher for auto-restart."
-   []
-   (watch-backend)
-   (watch-frontend)
-   (start-system))
+  "Starts development system and runs watcher for auto-restart."
+  []
+  (watch-backend)
+  (watch-frontend)
+  (start-system))
 
 (comment
   (start-dev)
