@@ -16,12 +16,3 @@ CREATE TABLE users (
 --;;
 
 CREATE UNIQUE INDEX users_email_index ON users USING btree (email);
-
---;;
-
-CREATE TABLE public.sessions
-(
-    session_data json not null,
-    session_id uuid primary key,
-    modified_at timestamp DEFAULT CURRENT_TIMESTAMP
-);
