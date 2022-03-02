@@ -1,35 +1,31 @@
 (ns reveal
   (:require
-    [vlaaad.reveal :as r]
-    [vlaaad.reveal.ext :as rx]
-    [vlaaad.reveal.prefs :as rp]))
-
+   [vlaaad.reveal :as r]
+   [vlaaad.reveal.ext :as rx]
+   [vlaaad.reveal.prefs :as rp]))
 
 (defn private-field [obj fn-name-string]
   (let [m (.. obj getClass (getDeclaredField fn-name-string))]
     (. m (setAccessible true))
     (. m (get obj))))
 
-
 (defn set-prefs
   "`(set-prefs {...})` to reset Reveal prefs without restarting your repl"
   [prefs]
   (tap>
-    (do (alter-var-root #'rp/prefs (constantly (delay prefs)))
-        (require '[vlaaad.reveal.style]
-          '[vlaaad.reveal.font] :reload))))
-
-
+   (do (alter-var-root #'rp/prefs (constantly (delay prefs)))
+       (require '[vlaaad.reveal.style]
+                '[vlaaad.reveal.font] :reload))))
 
 (defn add-tap-default-rui
   "Util used to display prompt before new TAP in Reveal window (RUI)"
   [rui]
   (add-tap (comp rui
-             #(rx/stream-as-is
-                (rx/horizontal
-                  (rx/raw-string "=>" {:fill :util})
-                  rx/separator
-                  (rx/stream %))))))
+                 #(rx/stream-as-is
+                   (rx/horizontal
+                    (rx/raw-string "=>" {:fill :util})
+                    rx/separator
+                    (rx/stream %))))))
 
 (defmacro add-tap-rui
   "Without any arguments displays the default Reveal window with prompt and title 'Playground'. Don't accepts `remove-tap`.
@@ -87,12 +83,8 @@
   ;  :app/funicular
   ;  (trace> ::funicular))
 
-
-  ;_________________________________________________________________________________
+;_________________________________________________________________________________
   ; set Reveal prefs, send command
-
-
-
 
   (tap> {:vlaaad.reveal/command '(open-view {:fx/type action-view
                                              :action  :vlaaad.reveal.action/view:table
@@ -100,6 +92,6 @@
          :env                   {'v (ns-publics *ns*)}})
 
   (tap> (r/sticker
-          {:fx/type r/ref-watch-latest-view
-           :ref     #'system}
-          :title "integrant system")))
+         {:fx/type r/ref-watch-latest-view}
+          ;:ref     #'system}
+         :title "integrant system")))

@@ -9,8 +9,8 @@
 
 (def load-users
   (-> (pipeline! [value {:keys [deps-state*] :as ctrl}]
-        (query! ctrl :api.user/get-all {})
-        (edb/insert-collection! ctrl :entitydb :user ::list value))
+                 (query! ctrl :api.user/get-all {})
+                 (edb/insert-collection! ctrl :entitydb :user ::list value))
       pp/use-existing
       pp/restartable))
 
@@ -19,7 +19,7 @@
 
    :keechma.on/stop
    (pipeline! [_ ctrl]
-     (edb/remove-collection! ctrl :entitydb ::list))})
+              (edb/remove-collection! ctrl :entitydb ::list))})
 
 (defmethod ctrl/prep :users [ctrl] (pipelines/register ctrl pipelines))
 
