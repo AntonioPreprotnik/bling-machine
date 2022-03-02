@@ -12,6 +12,9 @@
 
 (use-fixtures :each with-reset-db!)
 
+;; Suppresses clj-kondo unresolved symbol
+(declare user-create user-created create-and-get new-user get-new-user)
+
 (defn init []
   (let [system (get-system)]
     {:system system}))

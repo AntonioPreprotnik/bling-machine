@@ -83,10 +83,8 @@
   ;  :app/funicular
   ;  (trace> ::funicular))
 
-
-  ;_________________________________________________________________________________
+;_________________________________________________________________________________
   ; set Reveal prefs, send command
-
 
   (tap> {:vlaaad.reveal/command '(open-view {:fx/type action-view
                                              :action  :vlaaad.reveal.action/view:table
@@ -94,6 +92,6 @@
          :env                   {'v (ns-publics *ns*)}})
 
   (tap> (r/sticker
-         {:fx/type r/ref-watch-latest-view
-          :ref     #'system}
+         {:fx/type r/ref-watch-latest-view}
+          ;:ref     #'system}
          :title "integrant system")))
