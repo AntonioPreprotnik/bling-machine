@@ -2,30 +2,59 @@
   (:gen-class)
   (:require
    [app.controllers.keechma :as keechma]
-   [framework.config.core :as config]
+   [app.funicular :as api]
+   [app.handlers.funicular :as funicular]
+   [app.penkala :as penkala]
+   [clojure.edn :as edn]
+   [clojure.java.io :as io]
+   [com.verybigthings.funicular.transit :as funicular-transit]
+   [com.walmartlabs.dyn-edn :refer [env-readers]]
    [framework.db.core :as db]
    [framework.db.seed :as seed]
    [framework.interceptor.core :as interceptors]
    [framework.route.core :as routes]
    [framework.webserver.core :as ws]
-   [piotr-yuxuan.closeable-map :refer [closeable-map]]
-   [reitit.ring :as ring]
-   [app.penkala :as penkala]
-   [app.funicular :as api]
-   [app.handlers.funicular :as funicular]
-   [xiana.core]
    [muuntaja.core :as m]
    [muuntaja.interceptor]
-   [com.verybigthings.funicular.transit :as funicular-transit]))
+   [piotr-yuxuan.closeable-map :refer [closeable-map]]
+   [reitit.ring :as ring]
+   [xiana.commons :refer [deep-merge]]
+   [xiana.core]))
 
 (def routes
   [["/" {:action #'keechma/handle-index}]
    ["/assets/*" (ring/create-resource-handler {:path "/"})]
    ["/api" {:action #'app.handlers.funicular/handler}]])
 
-(defn ->system
-  [app-cfg]
-  (-> (config/config app-cfg)
+(def muuntaja-instance
+  (m/create
+   (-> m/default-options
+       (assoc-in [:formats "application/transit+json" :decoder-opts] funicular-transit/read-handlers)
+       (assoc-in [:formats "application/transit+json" :encoder-opts] funicular-transit/write-handlers))))
+
+(def app-config
+  {:routes                  routes
+   :controller-interceptors [(interceptors/muuntaja (muuntaja.interceptor/format-interceptor muuntaja-instance))
+                             interceptors/params]})
+
+(defn- read-config [path]
+  (->> (io/resource path)
+       (slurp)
+       (edn/read-string {:readers (env-readers)})))
+
+(defn- read-default-config []
+  (read-config "default.edn"))
+
+(defn- read-env-config []
+  (read-config "config.edn"))
+
+(defn- load-config []
+  (deep-merge (read-default-config)
+              (read-env-config)
+              app-config))
+
+(defn ->system []
+  (-> (load-config)
       db/connect
       penkala/init
       api/init
@@ -35,20 +64,6 @@
       ws/start
       closeable-map))
 
-;; MUUNTAJA INSTANCE ADDED HERE FOR INSTRUCTIONAL PURPOSES
-
-(def muuntaja-instance
-  (m/create
-   (-> m/default-options
-       (assoc-in [:formats "application/transit+json" :decoder-opts] funicular-transit/read-handlers)
-       (assoc-in [:formats "application/transit+json" :encoder-opts] funicular-transit/write-handlers))))
-
-(def app-cfg
-  {:routes                  routes
-   :router-interceptors     []
-   :controller-interceptors [(interceptors/muuntaja (muuntaja.interceptor/format-interceptor muuntaja-instance))
-                             interceptors/params]})
-
 (defn -main
   [& _args]
-  (->system app-cfg))
+  (->system))
