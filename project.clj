@@ -7,6 +7,7 @@
                    [com.verybigthings/funicular "fb4cb3ae49a9246f4489396c047779b73e9c82ba"]
                    [com.verybigthings/penkala "8f38814dcfe5a23ee2c6fcdd5d2c48ccd6f4f1c7"]
                    [com.verybigthings/pgerrors "b7a95d13cee17ec9a0bcbab3a5107950f7113ea9"]
+                   [com.walmartlabs/dyn-edn "0.2.0"]
                    [lambdaisland/regal "0.0.143"]
                    [medley/medley "1.3.0"]
                    [metosin/jsonista "0.3.5"]
@@ -34,7 +35,7 @@
     :main ^:skip-aot app.core
     :uberjar-name "app.jar"
     :middleware [lein-git-down.plugin/inject-properties]
-    :source-paths ["src/backend" "src/frontend" "src/shared"]
+    :source-paths ["src/backend" "src/frontend" "src/shared" "config"]
     :clean-targets ^{:protect false} ["resources/public/assets/js" "target"]
     :profiles {:cljfmt ~cljfmt
                :uberjar   {:aot      :all
@@ -45,8 +46,8 @@
                                           [keechma.next/toolbox "bdeebce5f1b296fc971035b49f859dfaaa28883b"]
                                           [lambdaisland/fetch "1.0.41"]
                                           [lilactown/helix "0.1.5"]
-                                          [org.clojure/clojurescript "1.11.4"]
-                                          [thheller/shadow-cljs "2.17.5"]]}
+                                          [org.clojure/clojurescript "1.10.866"]
+                                          [thheller/shadow-cljs "2.14.4"]]}
                :clj-kondo {:dependencies [[clj-kondo/clj-kondo "2022.02.09"]
                                           [clj-kondo/config "e2e156c53c6c228fee7242629b41013f3e55051d"]]}
                :dev       {:main         user
@@ -55,7 +56,6 @@
                                           [hawk "0.2.11"]
                                           [nrepl/nrepl "0.8.3"]
                                           [vlaaad/reveal "1.3.270"]]}
-               :local     {:source-paths ["config/local"]}
                :prod      {:source-paths ["config/prod"]}
                :test      {:source-paths ["config/test"]
                            :dependencies [[io.zonky.test.postgres/embedded-postgres-binaries-darwin-amd64 "14.1.0"]
@@ -70,9 +70,12 @@
                                  :asset-path "assets/js"
                                  :modules    {:app {:init-fn  app.core/init
                                                     :preloads [devtools.preload]}}}}}
-    :aliases {"test"             ["with-profile" "test" "run" "-m" "kaocha.runner"]
-              "lint"             ["clj-kondo" "--lint" "src" "test" "dev"]
-              "release-backend"  ["with-profile" "prod" "do"
-                                  "clean," "uberjar"]
-              "release-frontend" ["with-profile" "frontend" "do"
-                                  "clean," ["shadow" "release" "app"]]}))
+    :aliases {"test"             ["with-profile" "+test" "run" "-m" "kaocha.runner"]
+              "lint"             ["clj-kondo"
+                                  "--lint" "src" "test" "dev"]
+              "release-backend"  ["with-profile" "+prod" "do"
+                                  "clean,"
+                                  "uberjar"]
+              "release-frontend" ["with-profile" "+frontend" "do"
+                                  "clean,"
+                                  ["shadow" "release" "app"]]}))
