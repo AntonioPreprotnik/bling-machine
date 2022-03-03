@@ -1,14 +1,12 @@
 (ns fixture
   (:require
-   [app.core :refer [->system app-cfg]]
+   [app.core :refer [->system]]
    [config.core :refer [load-env]]
    [migratus.core :as migratus]
    [next.jdbc :as nj])
   (:import io.zonky.test.db.postgres.embedded.EmbeddedPostgres))
 
 (def state* (atom nil))
-
-(def config {})
 
 (defn get-system []
   (-> state* deref :system))
@@ -33,7 +31,7 @@
    mock))
 
 (defn init-system! [_init _mock]
-  (->system (merge app-cfg config)))
+  (->system))
 
 (defn start-pg! []
   (-> (EmbeddedPostgres/builder)

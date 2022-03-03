@@ -1,6 +1,6 @@
 (ns user
   (:gen-class)
-  (:require [app.core :refer [app-cfg ->system]]
+  (:require [app.core :refer [->system]]
             [app.funicular :as api]
             [clojure.tools.logging :refer [*tx-agent-levels*]]
             [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
@@ -15,7 +15,7 @@
 (set-refresh-dirs "dev" "src" "resources")
 
 (defn start-system []
-  (reset! dev-sys (->system app-cfg)))
+  (reset! dev-sys (->system)))
 
 (defn stop-system []
   (when (:webserver @dev-sys)
@@ -68,18 +68,18 @@
 
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:command [:api.user/create {:email "adgg@vbt.com"
-                                                :first-name "Frka12"
-                                                :last-name "Trle12"
+      (api/execute {:command [:api.user/create {:email "test@vbt.com"
+                                                :first-name "First"
+                                                :last-name "Last"
                                                 :zip "10000"}]}))
 
   (-> @st/dev-sys
       :app/funicular
       (api/execute {:command [:api.user/update {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"
-                                                :data    {:email      "ad@vbt.com"
-                                                          :first-name "Frka21"
-                                                          :last-name  "Trle21"
-                                                          :zip        "10000"}}]}))
+                                                :data    {:email      "test@vbt.com"
+                                                          :first-name "First"
+                                                          :last-name  "Last"
+                                                          :zip        "20000"}}]}))
 
   (-> @st/dev-sys
       :app/funicular
