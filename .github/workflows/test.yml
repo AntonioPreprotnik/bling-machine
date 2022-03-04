@@ -9,6 +9,13 @@ jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
+    env:
+      PG_TEST_DB_NAME: postgres
+      PG_TEST_HOST: localhost
+      PG_TEST_PASSWORD: postgres
+      PG_TEST_PORT: 54321
+      PG_TEST_USER: postgres
+      WS_TEST_PORT: 3000
 
     steps:
       - uses: actions/checkout@v2
