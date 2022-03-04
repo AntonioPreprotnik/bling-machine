@@ -10,6 +10,12 @@ jobs:
     name: Run tests
     runs-on: ubuntu-latest
     env:
+      PG_DB_NAME: postgres
+      PG_HOST: localhost
+      PG_PASSWORD: postgres
+      PG_PORT: 54321
+      PG_USER: postgres
+      WS_PORT: 3000
       PG_TEST_DB_NAME: postgres
       PG_TEST_HOST: localhost
       PG_TEST_PASSWORD: postgres
