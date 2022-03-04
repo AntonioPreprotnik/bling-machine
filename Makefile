@@ -25,10 +25,10 @@ DEFAULT_GOAL: help
 
 start-app:
 	lein clean && \
-	(echo "(start-dev)"; cat <&0) | lein with-profile dev,frontend repl
+	(echo "(start-dev)"; cat <&0) | lein with-profile +dev,+frontend repl
 
 start-repl:
-	lein with-profile dev,frontend repl
+	lein with-profile +dev,+frontend repl
 
 start-services:
 	docker-compose up -d
