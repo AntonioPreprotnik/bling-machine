@@ -70,12 +70,14 @@
                                  :asset-path "assets/js"
                                  :modules    {:app {:init-fn  app.core/init
                                                     :preloads [devtools.preload]}}}}}
-    :aliases {"test"             ["with-profile" "+test" "run" "-m" "kaocha.runner"]
+    :aliases {"test"             ["with-profile" "test" "run"
+                                  "-m" "kaocha.runner"
+                                  "--no-capture-output"]
               "lint"             ["clj-kondo"
                                   "--lint" "src" "test" "dev"]
-              "release-backend"  ["with-profile" "+prod" "do"
+              "release-backend"  ["with-profile" "prod" "do"
                                   "clean,"
                                   "uberjar"]
-              "release-frontend" ["with-profile" "+frontend" "do"
+              "release-frontend" ["with-profile" "frontend" "do"
                                   "clean,"
                                   ["shadow" "release" "app"]]}))

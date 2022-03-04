@@ -48,7 +48,7 @@
 (defn- read-env-config []
   (read-config "config.edn"))
 
-(defn- load-config []
+(defn load-config []
   (deep-merge (read-default-config)
               (read-env-config)
               app-config))
