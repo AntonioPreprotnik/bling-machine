@@ -1,14 +1,11 @@
 (ns fixture
   (:require
-   [app.core :refer [->system app-cfg]]
-   [config.core :refer [load-env]]
+   [app.core :refer [->system load-config]]
    [migratus.core :as migratus]
    [next.jdbc :as nj])
   (:import io.zonky.test.db.postgres.embedded.EmbeddedPostgres))
 
 (def state* (atom nil))
-
-(def config {})
 
 (defn get-system []
   (-> state* deref :system))
@@ -33,7 +30,7 @@
    mock))
 
 (defn init-system! [_init _mock]
-  (->system (merge app-cfg config)))
+  (->system))
 
 (defn start-pg! []
   (-> (EmbeddedPostgres/builder)
@@ -66,9 +63,9 @@
   ([{:keys [init mock]} test-fn]
    (try
      (let [pg (start-pg!)
-           env (load-env)
-           db-config (:framework.db.storage/postgresql env)
-           migration-cnf (:framework.db.storage/migration env)
+           config (load-config)
+           db-config (:framework.db.storage/postgresql config)
+           migration-cnf (:framework.db.storage/migration config)
            mig-config (assoc migration-cnf
                              :db (nj/get-datasource db-config))
            _migration (migratus/migrate mig-config)]

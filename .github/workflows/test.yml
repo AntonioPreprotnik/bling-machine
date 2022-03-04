@@ -9,11 +9,28 @@ jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
+    env:
+      PG_DB_NAME: postgres
+      PG_HOST: localhost
+      PG_PASSWORD: postgres
+      PG_PORT: 54321
+      PG_USER: postgres
+      WS_PORT: 3000
+      PG_TEST_DB_NAME: postgres
+      PG_TEST_HOST: localhost
+      PG_TEST_PASSWORD: postgres
+      PG_TEST_PORT: 54321
+      PG_TEST_USER: postgres
+      WS_TEST_PORT: 3000
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '17.3.0'
 
       - uses: actions/setup-java@v2
         with:
@@ -34,3 +51,9 @@ jobs:
 
       - name: Check tests
         run: make test
+
+      - name: Check backend build
+        run: make release-backend
+      
+      - name: Check frontend build
+        run: make release-frontend

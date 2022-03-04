@@ -6,6 +6,10 @@
 		stop-services \
 		psql \
 		test \
+		lint \
+		format-check \
+		format-fix
+		ci \
 		develop \
 
 		release-frontend \
@@ -41,11 +45,13 @@ test:
 lint:
 	lein lint
 
-format-check :
+format-check:
 	lein cljfmt check
 
-format-fix :
+format-fix:
 	lein cljfmt fix
+
+ci: format-check lint test release-frontend release-backend build-docker-image
 
 develop: start-services start-app
 

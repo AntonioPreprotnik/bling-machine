@@ -1,0 +1,22 @@
+{:framework.db.storage/postgresql {:dbname   #dyn/prop PG_DB_NAME
+                                   :dbtype   "postgresql"
+                                   :host     #dyn/prop PG_HOST
+                                   :password #dyn/prop PG_PASSWORD
+                                   :port     #dyn/long #dyn/prop PG_PORT
+                                   :user     #dyn/prop PG_USER}
+ :framework.app/session-backend   {:storage            :database
+                                   :session-table-name :sessions}
+ :framework.db.storage/migration  {:init-in-transaction? true
+                                   :migration-dir        "migrations"
+                                   :migration-table-name "migrations"
+                                   :seeds-table-name     "seeds"
+                                   :store                :database}
+ :framework.app/web-server        {:join? false
+                                   :port  #dyn/long #dyn/prop WS_PORT}
+ :framework.app/auth              {:bcrypt-settings {:work-factor 11}
+                                   :hash-algorithm  :bcrypt
+                                   :pbkdf2-settings {:type       :sha1
+                                                     :iterations 100000}
+                                   :scrypt-settings {:cpu-cost        32768
+                                                     :memory-cost     8
+                                                     :parallelization 1}}}
