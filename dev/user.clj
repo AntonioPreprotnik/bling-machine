@@ -8,7 +8,11 @@
             [piotr-yuxuan.closeable-map :refer [closeable-map]]
             [shadow.cljs.devtools.api :as shadow.api]
             [shadow.cljs.devtools.server :as shadow.server]
-            [state :as st :refer [dev-sys]]))
+            [state :as st :refer [dev-sys]]
+            [tdebug :refer [trace> trace>>]]
+            [reveal
+             :refer
+             [add-tap-rui snapshot-rui]]))
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
@@ -83,4 +87,11 @@
 
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:queries {:user [:api.user/get-one {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"}]}})))
+      (api/execute {:queries {:user [:api.user/get-one {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"}]}}))
+
+  (add-tap-rui)
+  (snapshot-rui nil nil)
+  (trace> :dummy "dummy")
+  (trace>> :dummy "dummy")
+
+  "")
