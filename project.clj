@@ -43,7 +43,7 @@
                :frontend  {:dependencies [[applied-science/js-interop "0.3.3"]
                                           [com.cognitect/transit-cljs "0.8.269"]
                                           [hodgepodge/hodgepodge "0.1.3"]
-                                          [keechma.next/toolbox "bdeebce5f1b296fc971035b49f859dfaaa28883b"]
+                                          [keechma.next/toolbox "0c605f8e36c51463e433f3130441bd663ae008e6"]
                                           [lambdaisland/fetch "1.0.41"]
                                           [lilactown/helix "0.1.5"]
                                           [org.clojure/clojurescript "1.10.866"]
