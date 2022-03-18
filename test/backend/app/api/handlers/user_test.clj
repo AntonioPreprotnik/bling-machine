@@ -1,4 +1,4 @@
-(ns app.integration.pasta-xiana-test
+(ns app.api.handlers.user-test
   (:require
    [clojure.test :refer [use-fixtures]]
    [fixture :refer [with-system! with-reset-db! get-system]]
