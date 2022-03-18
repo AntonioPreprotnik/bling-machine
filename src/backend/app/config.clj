@@ -1,13 +1,13 @@
-(ns config) (ns app.config
-              (:require [app.web.router :as router]
-                        [clojure.edn :as edn]
-                        [clojure.java.io :as io]
-                        [com.verybigthings.funicular.transit :as funicular-transit]
-                        [com.walmartlabs.dyn-edn :refer [env-readers]]
-                        [framework.interceptor.core :as interceptors]
-                        [muuntaja.core :as muntaja]
-                        [muuntaja.interceptor :as interceptor]
-                        [xiana.commons :refer [deep-merge]]))
+(ns app.config
+  (:require [app.web.router :as router]
+            [clojure.edn :as edn]
+            [clojure.java.io :as io]
+            [com.verybigthings.funicular.transit :as funicular-transit]
+            [com.walmartlabs.dyn-edn :refer [env-readers]]
+            [framework.interceptor.core :as interceptors]
+            [muuntaja.core :as muntaja]
+            [muuntaja.interceptor :as interceptor]
+            [xiana.commons :refer [deep-merge]]))
 
 (def muuntaja-instance
   (muntaja/create
