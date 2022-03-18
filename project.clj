@@ -58,10 +58,7 @@
                                           [vlaaad/reveal "1.3.270"]]}
                :prod      {:source-paths ["config/prod"]}
                :test      {:source-paths ["config/test"]
-                           :dependencies [[io.zonky.test.postgres/embedded-postgres-binaries-darwin-amd64 "14.1.0"]
-                                          [io.zonky.test.postgres/embedded-postgres-binaries-linux-amd64 "14.1.0"]
-                                          [io.zonky.test/embedded-postgres "1.3.1"]
-                                          [lambdaisland/kaocha "1.63.998"]
+                           :dependencies [[lambdaisland/kaocha "1.63.998"]
                                           [nubank/state-flow "5.13.1"]
                                           [org.clojure/test.check "0.10.0"]]}}
     :shadow-cljs {:nrepl  {:port 8777}
