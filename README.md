@@ -124,7 +124,7 @@ Once system is started you can reset the system to apply new system configuratio
 In order to enable [postcss](https://postcss.org/) watcher for tailwind style changes you should run:
 
 ```shell
-npm develop
+yarn develop
 ```
 
 ## Testing
