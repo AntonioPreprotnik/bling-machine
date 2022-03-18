@@ -13,7 +13,7 @@
 		develop \
 
 		release-frontend \
-		release-backend \
+		release-app \
 		build-docker-image \
 		run-docker-image
 
@@ -64,8 +64,8 @@ release-frontend:
 	npm run clean && \
 	npm run build
 
-release-backend:
-	lein release-backend
+release-app:
+	make release-frontend && lein release-app
 
 build-docker-image:
 	docker build -t pasta-xiana:latest .

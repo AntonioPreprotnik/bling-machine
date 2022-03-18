@@ -72,9 +72,10 @@
                                   "--no-capture-output"]
               "lint"             ["clj-kondo"
                                   "--lint" "src" "test" "dev"]
-              "release-backend"  ["with-profile" "prod" "do"
-                                  "clean,"
-                                  "uberjar"]
               "release-frontend" ["with-profile" "frontend" "do"
                                   "clean,"
-                                  ["shadow" "release" "app"]]}))
+                                  ["shadow" "release" "app"]]
+              "release-app"      ["with-profile" "+prod" "do"
+                                  "clean,"
+                                  "release-frontend"
+                                  "uberjar"]}))
