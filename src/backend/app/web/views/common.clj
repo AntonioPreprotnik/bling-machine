@@ -1,4 +1,4 @@
-(ns app.views.common
+(ns app.web.views.common
   (:require
    [xiana.core :as xiana]))
 
