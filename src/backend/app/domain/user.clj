@@ -1,4 +1,4 @@
-(ns app.boundary.user
+(ns app.domain.user
   (:require [com.verybigthings.penkala.relation :as r]
             [app.penkala :refer [insert! select! select-one! update!]]))
 

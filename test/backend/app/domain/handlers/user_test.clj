@@ -1,5 +1,5 @@
-(ns app.api.handlers.user-test
-  (:require [app.web.api.helpers :refer [command!]]
+(ns app.domain.handlers.user-test
+  (:require [app.domain.handlers.helpers :refer [command!]]
             [clojure.test :refer [use-fixtures]]
             [test-core :refer [get-system]]
             [test-fixtures :refer [clean-db]]

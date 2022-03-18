@@ -4,19 +4,18 @@
            [:user
             {:commands {:create             {:input-schema  :app.input.user/create
                                              :output-schema :app/user
-                                             :handler       #resolve app.api.handlers.user/create-one}
+                                             :handler       #resolve app.domain.handlers.user/create-one}
                         :update             {:input-schema  [:map
                                                              [:user-id :uuid]
                                                              [:data :app.input.user/update]]
                                              :output-schema :app/user
-                                             :handler       #resolve app.api.handlers.user/update-one}}
+                                             :handler       #resolve app.domain.handlers.user/update-one}}
              :queries  {:get-all             {:input-schema  :any
                                               :output-schema :app/users
-                                              :handler       #resolve app.api.handlers.user/get-all}
+                                              :handler       #resolve app.domain.handlers.user/get-all}
 
                         :get-one             {:input-schema  :app.input.user/one
                                               :output-schema :app/user
-                                              :handler       #resolve app.api.handlers.user/get-one}}}]]
+                                              :handler       #resolve app.domain.handlers.user/get-one}}}]]
  :pipes   {}
  :context {:penkala  :config/penkala}}
- ;:logger  nil}

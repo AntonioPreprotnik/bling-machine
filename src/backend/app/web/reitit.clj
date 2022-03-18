@@ -1,5 +1,5 @@
 
-(ns app.reitit
+(ns app.web.reitit
   (:require [clojure.walk :as walk]
             [com.verybigthings.funicular.transit :as funicular-transit]
             [muuntaja.core :as m]
