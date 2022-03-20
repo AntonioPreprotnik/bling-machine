@@ -10,6 +10,12 @@
 4. [Docker](https://docs.docker.com/get-docker/)
 5. [Node](https://nodejs.org/en/download/)
 
+### To install initial node packages run in the project directory:
+
+```shell
+ npm instal
+```
+
 ### Environment configuration
 
 In order to start the system, you should expose system variables using [direnv](https://direnv.net/) or any other tool of choice. You can find list of needed variables by checking `config/default.edn` and `config/dev/config.edn`. Configuration files are using [dyn-env](https://github.com/walmartlabs/dyn-edn) readers to load and cast values from system variables.
