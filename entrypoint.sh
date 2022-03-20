@@ -1,4 +1,7 @@
 #!/bin/sh
 
+export CHAMBER_KMS_KEY_ALIAS=aws/ssm
+
 echo "Starting application"
-exec java -verbose -jar app.jar
+exec /usr/bin/chamber exec "og-backend" -- \
+  java -verbose -jar app.jar
