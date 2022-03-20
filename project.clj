@@ -57,7 +57,8 @@
                            :dependencies [[binaryage/devtools "1.0.3"]
                                           [hawk "0.2.11"]
                                           [nrepl/nrepl "0.8.3"]
-                                          [vlaaad/reveal "1.3.270"]]}
+                                          [vlaaad/reveal "1.3.272"]
+                                          [thheller/shadow-cljs "2.14.4"]]}
                :prod      {:source-paths ["config/prod"]}
                :test      {:source-paths ["config/test"]
                            :dependencies [[lambdaisland/kaocha "1.63.998"]
@@ -69,12 +70,20 @@
                                  :asset-path "assets/js"
                                  :modules    {:app {:init-fn  app.core/init
                                                     :preloads [devtools.preload]}}}}}
+
+    :repl-options   {:init-ns          user
+                     ;; required for `cider-jack-in` to work correctly
+                     :nrepl-middleware [shadow.cljs.devtools.server.nrepl/middleware]}
+
     :aliases {"test"             ["with-profile" "test" "run"
-                                  "-m" "kaocha.runner"
-                                  "--no-capture-output"]
+                                  "-m" "kaocha.runner"]
               "lint"             ["clj-kondo"
                                   "--lint" "src" "test" "dev"]
-              "release-frontend" ["with-profile" "frontend" "do"
+              "migrator"         ["with-profile" "dev" "run"
+                                  "-m" "app.db/migrate"]
+              "seeder"           ["with-profile" "dev" "run"
+                                  "-m" "app.db/seed"]
+              "release-frontend" ["with-profile" "+frontend" "do"
                                   "clean,"
                                   ["shadow" "release" "app"]]
               "release-app"      ["with-profile" "+prod" "do"
