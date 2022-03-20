@@ -51,9 +51,20 @@ format-check:
 format-fix:
 	lein cljfmt fix
 
-ci: format-check lint test release-frontend release-backend build-docker-image
+check-migrations:
+	lein migrator reset && lein migrator rollback
 
-develop: start-services start-app
+check-seeds:
+	lein seeder reset
+
+
+
+npm-deps:
+	npm install
+
+ci: format-check lint test check-migrations check-seeds release-app build-docker-image
+
+develop: npm-deps start-services start-app
 
 # --------------------------------------------------
 # Production
