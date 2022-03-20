@@ -28,19 +28,20 @@
 (defn migrate [& args]
   (let [[command name type] args
         [_ & ids]           args
-        config              (prepare-migrate-config)]
-    (if (str/blank? command)
-      (migrate-help)
-      (case (str/lower-case command)
-        "create" (migratus/create config name (keyword type))
-        "destroy" (migratus/destroy config)
-        "down" (apply migratus/down config (map #(Long/parseLong %) ids))
-        "init" (migratus/init config)
-        "migrate" (migratus/migrate config)
-        "reset" (migratus/reset config)
-        "rollback" (migratus/rollback config)
-        "up" (apply migratus/up config (map #(Long/parseLong %) ids))
-        (migrate-help)))))
+        config              (prepare-migrate-config)
+        config- (update-in config [:db :dbname] #(or name %))]
+     (if (str/blank? command)
+       (migrate-help)
+       (case (str/lower-case command)
+         "create" (migratus/create config name (keyword type))
+         "destroy" (migratus/destroy config)
+         "down" (apply migratus/down config (map #(Long/parseLong %) ids))
+         "init" (migratus/init config)
+         "migrate" (migratus/migrate config-)
+         "reset" (migratus/reset  config-)
+         "rollback" (migratus/rollback  config-)
+         "up" (apply migratus/up config (map #(Long/parseLong %) ids))
+         (migrate-help)))))
 
 (defn seed [& args]
   (let [[command name type] args
