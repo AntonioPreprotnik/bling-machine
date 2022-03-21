@@ -29,6 +29,8 @@ jobs:
       PG_USER: postgres
       WS_PORT: 3000
       WS_TEST_PORT: 3000
+      MG_PG_DB_NAME: app_test,
+      USE_MG_DB_NAME: false
 
     steps:
       - uses: actions/checkout@v2
