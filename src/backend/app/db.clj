@@ -29,7 +29,9 @@
   (let [[command name type] args
         [_ & ids]           args
         config              (prepare-migrate-config)
-        config- (update-in config [:db :dbname] #(or name %))]
+        {:keys [:db-name :use-mg-db-name]} config
+        config (update-in config [:db :dbname] #(if use-mg-db-name db-name %))]
+    (println use-mg-db-name db-name (if use-mg-db-name 1 0) config)
     (if (str/blank? command)
       (migrate-help)
       (case (str/lower-case command)
@@ -37,9 +39,9 @@
         "destroy" (migratus/destroy config)
         "down" (apply migratus/down config (map #(Long/parseLong %) ids))
         "init" (migratus/init config)
-        "migrate" (migratus/migrate config-)
-        "reset" (migratus/reset  config-)
-        "rollback" (migratus/rollback  config-)
+        "migrate" (migratus/migrate config)
+        "reset" (migratus/reset  config)
+        "rollback" (migratus/rollback  config)
         "up" (apply migratus/up config (map #(Long/parseLong %) ids))
         (migrate-help)))))
 
@@ -54,3 +56,4 @@
         "migrate" (migratus/migrate config)
         (println "You can 'create' 'reset' 'destroy' or 'migrate' your seed data"))
       (println "No seed configuration found"))))
+
