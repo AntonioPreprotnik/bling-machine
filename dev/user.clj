@@ -9,11 +9,6 @@
             [shadow.cljs.devtools.api :as shadow.api]
             [shadow.cljs.devtools.server :as shadow.server]
             [state :as st :refer [dev-sys]]))
-            ;[tdebug :refer [trace> trace>>]]))
-            ;[reveal
-            ; :refer
-            ; [add-tap-rui snapshot-rui]]))
-
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
