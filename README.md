@@ -213,3 +213,200 @@ make release-frontend
 ```
 
 This will build all necessary static files in `resources/public` directory. Those file then can be copied to any static resource host provider.
+
+
+## List of used libraries
+
+### VBT libraries
+
+### [clojure-commons](https://github.com/VeryBigThings/clojure-commons)
+
+- Small utilities shared across VeryBigThings projects.
+
+
+### [funicular](https://github.com/VeryBigThings/funicular)
+
+- Funicular allows you to send Clojure data structures over the wire with a minimal ceremony with schema-based data validation as it travels from backend to frontend and separation of commands (mutations) and queries.
+
+### [pgerrors](https://github.com/VeryBigThings/pgerrors)
+
+- Small utility library to extract data from PostgreSQL errors.
+
+### [penkala](https://github.com/retro/penkala)
+
+- Penkala is a composable query builder for PostgreSQL written in Clojure.
+
+### Keechma-next libraries
+
+### [keechma-next](https://github.com/keechma/keechma-next)
+
+- Keechma/next is the second iteration of the Keechma framework. In its scope, it's similar to Integrant - a data driven, state management framework for single page apps.
+
+### [keechma-next-toolbox](https://github.com/keechma/keechma-next-toolbox)
+
+- A set of libraries that make working with Keechma easier.
+
+### [keechma-malli-forms](https://github.com/keechma/keechma-malli-forms)
+
+- Base implementation of form record with live validation based on Malli
+
+### Clojure libraries
+
+### [clojure](https://github.com/clojure/clojure)
+
+- The Clojure programming language
+
+### [clojurescript](https://github.com/clojure/clojurescript)
+
+- ClojureScript is a compiler for Clojure that targets JavaScript. It is designed to emit JavaScript code which is compatible with the advanced compilation mode of the Google Closure optimizing compiler.
+
+### [core.async](https://github.com/clojure/core.async)
+
+- Facilities for async programming and communication in Clojure
+
+### [core.match](https://github.com/clojure/core.match)
+
+- An optimized pattern matching library for Clojure. It supports Clojure 1.5.1 and later as well as ClojureScript.
+
+### [spec.alpha](https://github.com/clojure/spec.alpha)
+
+- spec is a Clojure library to describe the structure of data and functions. Specs can be used to validate data, conform (destructure) data, explain invalid data, generate examples that conform to the specs, and automatically use generative testing to test functions
+
+### [tools.namespace](https://github.com/clojure/tools.namespace)
+
+- Tools for managing namespaces in Clojure. Parse ns declarations from source files, extract their dependencies, build a graph of namespace dependencies within a project, update that graph as files change, and reload files in the correct order.
+
+### Flexiana
+
+### [Xiana framework](https://github.com/Flexiana/framework)
+
+- Xiana is a lightweight web-application framework written in Clojure, for Clojure.
+
+### DB  libraries
+
+### [migratus](https://github.com/yogthos/migratus)
+
+- A general migration framework, with implementations for migrations as SQL scripts or general Clojure code.
+
+### [next-jdbc](https://github.com/seancorfield/next-jdbc)
+
+- A modern low-level Clojure wrapper for JDBC-based access to databases
+
+### [hugsql](https://github.com/layerware/hugsql)
+
+A Clojure library for embracing SQL.
+
+### Metosin libraries
+
+### [malli](https://github.com/metosin/malli)
+
+- Data-Driven Schemas for Clojure/Script.
+
+### [jsonista](https://github.com/metosin/jsonista)
+
+- Clojure library for fast JSON encoding and decoding.
+
+### [reitit](https://github.com/metosin/reitit)
+
+- A fast data-driven router for Clojure/Script
+
+### [muuntaja](https://github.com/metosin/muuntaja)
+
+- Clojure library for fast http api format negotiation, encoding and decoding
+
+### Utilities
+
+### [medley](https://github.com/weavejester/medley)
+
+- A lightweight library of useful Clojure functions
+
+### [dyn-edn](https://github.com/walmartlabs/dyn-edn)
+
+- Dynamic properties in EDN content
+
+### [js-interop](https://github.com/applied-science/js-interop)
+
+- A JavaScript-interop library for ClojureScript.
+
+### [hodgepodge](https://github.com/funcool/hodgepodge)
+
+- A idiomatic ClojureScript interface to local and session storage
+
+### [hawk](https://github.com/wkf/hawk)
+
+- A Clojure library designed to watch files and directories.
+
+### [transit-cljs](https://github.com/cognitect/transit-cljs)
+
+- Transit is a data format and a set of libraries for conveying values between applications written in different languages.
+
+### [closeable-map](https://github.com/piotr-yuxuan/closeable-map)
+
+- Application state management made simple: a Clojure map that implements java.io.Closeable.
+
+### Frontend libraries
+
+### [fetch](https://github.com/lambdaisland/fetch)
+
+- ClojureScript wrapper for the JavaScript fetch API
+
+### [helix](https://github.com/lilactown/helix)
+
+- A simple, easy to use library for React development in ClojureScript.
+
+### [shadow-cljs](https://github.com/thheller/shadow-cljs)
+
+- shadow-cljs provides everything you need to compile your ClojureScript code with a focus on simplicity and ease of use.
+
+### Node.js libraries
+
+### [js-joda](https://www.npmjs.com/package/@js-joda/core)
+
+- Immutable date and time library for JavaScript
+
+### [react](https://www.npmjs.com/package/react)
+
+- React is a JavaScript library for creating user interfaces.
+
+### [tailwindcss](https://libraries.io/npm/tailwindcss)
+
+- A utility-first CSS framework for rapidly building custom user interfaces.
+
+### [postcss](https://www.npmjs.com/package/postcss)
+
+- PostCSS is a tool for transforming styles with JS plugins.
+
+### Debugging/dev libraries
+
+### [cljs-devtools](https://github.com/binaryage/cljs-devtools)
+
+- A collection of Chrome DevTools enhancements for ClojureScript developers
+
+### [nrepl](https://github.com/nrepl/nrepl)
+
+- A Clojure network REPL that provides a server and client, along with some common APIs of use to IDEs and other tools that may need to evaluate Clojure code in remote environments.
+
+### [reveal](https://github.com/vlaaad/reveal)
+
+- Read Eval Visualize Loop for Clojure
+
+### Testing libraries
+
+### [kaocha](https://github.com/lambdaisland/kaocha)
+
+- Full featured next gen Clojure test runner
+
+### [state-flow](https://github.com/nubank/state-flow)
+
+- Integration testing framework using a state monad in the backend for building and composing flows
+
+### [test.check](https://github.com/clojure/test.check)
+
+- test.check is a Clojure property-based testing tool inspired by QuickCheck
+
+### [clj-kondo](https://github.com/clj-kondo/clj-kondo)
+
+- Clj-kondo performs static analysis on Clojure, ClojureScript and EDN, without the need of a running REPL. It informs you about potential errors while you are typing.
+
+
+
