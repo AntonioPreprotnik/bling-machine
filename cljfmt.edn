@@ -5,10 +5,10 @@
  :insert-missing-whitespace?            true
  :split-keypairs-over-multiple-lines?   false
  :align-associative?                    false
- :remove-multiple-non-indenting-spaces? true
+ :remove-multiple-non-indenting-spaces? false
  :indents                               {do                 [[:block 0]]
                                          defnc              [[:inner 0]]
-                                         #"d/*"             [[:inner 0]]
+                                         ;#"d/*"             [[:inner 0]]
                                          pipelines/register [[:inner 0]]
                                          pipeline!          [[:inner 0]]
                                          rescue!            [[:inner 0]]

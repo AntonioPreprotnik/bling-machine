@@ -9,8 +9,8 @@
 
 (def pipelines
   {:keechma.on/start (-> (pipeline! [value {:keys [deps-state*] :as ctrl}]
-                                    (query! ctrl :api.user/get-one {:user-id (-> ctrl :keechma.controller/params uuid)})
-                                    (edb/insert-named! ctrl :entitydb :user ::current value))
+                           (query! ctrl :api.user/get-one {:user-id (-> ctrl :keechma.controller/params uuid)})
+                           (edb/insert-named! ctrl :entitydb :user ::current value))
                          (pp/set-queue :loading))
 
    :keechma.on/stop

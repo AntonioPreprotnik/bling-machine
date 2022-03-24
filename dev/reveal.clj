@@ -1,7 +1,7 @@
 (ns reveal
   (:require
    [vlaaad.reveal :as r]
-   [vlaaad.reveal.ext :as rx]
+   [vlaaad.reveal.stream :as stream]
    [vlaaad.reveal.prefs :as rp]))
 
 (defn private-field [obj fn-name-string]
@@ -21,11 +21,11 @@
   "Util used to display prompt before new TAP in Reveal window (RUI)"
   [rui]
   (add-tap (comp rui
-                 #(rx/stream-as-is
-                   (rx/horizontal
-                    (rx/raw-string "=>" {:fill :util})
-                    rx/separator
-                    (rx/stream %))))))
+                 #(stream/as-is
+                   (stream/horizontal
+                    (stream/raw-string "=>" {:fill :util})
+                    stream/separator
+                    (stream/stream %))))))
 
 (defmacro add-tap-rui
   "Without any arguments displays the default Reveal window with prompt and title 'Playground'. Don't accepts `remove-tap`.

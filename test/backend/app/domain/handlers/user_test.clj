@@ -18,22 +18,22 @@
 
 (defn create-user []
   (flow "Create user"
-        (flow/swap-state
-         (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
-           (let [new-user (command! funicular :api.user/create {:email      "atd@vbt.com"
-                                                                :first-name "Frka1"
-                                                                :last-name  "Trle1"
-                                                                :zip        "10000"})]
-             (assoc state :new-user new-user))))
-        (flow/get-state :new-user)))
+    (flow/swap-state
+     (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
+       (let [new-user (command! funicular :api.user/create {:email      "atd@vbt.com"
+                                                            :first-name "Frka1"
+                                                            :last-name  "Trle1"
+                                                            :zip        "10000"})]
+         (assoc state :new-user new-user))))
+    (flow/get-state :new-user)))
 
 (defn get-user []
   (flow "Get all"
-        (flow/swap-state
-         (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
-           (let [all-users (command! funicular :api.user/get-all {})]
-             (assoc state :first-user (first all-users)))))
-        (flow/get-state :first-user)))
+    (flow/swap-state
+     (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
+       (let [all-users (command! funicular :api.user/get-all {})]
+         (assoc state :first-user (first all-users)))))
+    (flow/get-state :first-user)))
 
 (defflow user-create
   {:init init}
@@ -46,7 +46,7 @@
 
 (defflow create-and-get
   {:init init}
-  [new-user (create-user)]
+  [_ (create-user)]
   [get-new-user (get-user)]
   (match? {:users/email      "atd@vbt.com"
            :users/first-name "Frka1"

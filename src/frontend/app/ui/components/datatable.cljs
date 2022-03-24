@@ -46,41 +46,41 @@
 
 (defnc THead [{:keys [config data]}]
   ($ TableHeader
-     ($ TableHeaderRow
-        (map-indexed
-         (fn [_idx c]
-           (let [header-content (:header/content c)]
-             ($ TableHeaderCell {:scope "col"
-                                 :key (or (:header/key c) (:key c) (when (string? header-content) header-content))
-                                 :on-click  (:header/on-click c)
-                                 :class [(process-col-classes (:header/class c))]}
-                (d/div (:header/content c)))))
-         config))))
+    ($ TableHeaderRow
+      (map-indexed
+       (fn [_idx c]
+         (let [header-content (:header/content c)]
+           ($ TableHeaderCell {:scope    "col"
+                               :key      (or (:header/key c) (:key c) (when (string? header-content) header-content))
+                               :on-click (:header/on-click c)
+                               :class    [(process-col-classes (:header/class c))]}
+             (d/div (:header/content c)))))
+       config))))
 
 (defnc TBody [{:keys [config data]}]
   ($ TableBody
-     (map-indexed
-      (fn [_idx d]
-        ($ TableBodyRow {:key (or (:row/key d)
-                                  (:id d)
-                                  (:criterion d)
-                                  (:resourceName d))
-                         :on-click (:row/on-click d)}
-           (map-indexed
-            (fn [idx c]
-              (let [header-content (:header/content c)
-                    cell-key       (or (:cell/key c) (:key c) (when (string? header-content) header-content))
-                    cell-content   (:cell/content c)]
-                ($ TableBodyCell {:key cell-key
-                                  :td/variant (determine-td-variant idx config)
-                                  :class [(process-col-classes (:cell/class c))]}
-                   (cond
-                     (keyword? cell-content) (get d cell-content)
-                     (vector? cell-content) (conj cell-content d)
-                     (fn? cell-content) (cell-content d)
-                     :else cell-content))))
-            config)))
-      data)))
+    (map-indexed
+     (fn [_idx d]
+       ($ TableBodyRow {:key      (or (:row/key d)
+                                      (:id d)
+                                      (:criterion d)
+                                      (:resourceName d))
+                        :on-click (:row/on-click d)}
+         (map-indexed
+          (fn [idx c]
+            (let [header-content (:header/content c)
+                  cell-key (or (:cell/key c) (:key c) (when (string? header-content) header-content))
+                  cell-content (:cell/content c)]
+              ($ TableBodyCell {:key        cell-key
+                                :td/variant (determine-td-variant idx config)
+                                :class      [(process-col-classes (:cell/class c))]}
+                (cond
+                  (keyword? cell-content) (get d cell-content)
+                  (vector? cell-content) (conj cell-content d)
+                  (fn? cell-content) (cell-content d)
+                  :else cell-content))))
+          config)))
+     data)))
 
 (defnc Datatable [{:keys [config data]}]
   (let [config' (filterv (complement nil?) config)]
