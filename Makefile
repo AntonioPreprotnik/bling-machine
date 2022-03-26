@@ -54,7 +54,7 @@ check-migrations:
 	clojure -X:test:migrator :args '["reset"]' && 	clojure -X:test:migrator :args '["rollback"]'
 
 check-seeds:
-	clojure -X:dev:seeder :args '["reset"]'
+	clojure -X:test:seeder :args '["reset"]'
 
 npm-deps:
 	npm install
