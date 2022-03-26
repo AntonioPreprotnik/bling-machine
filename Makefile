@@ -59,7 +59,7 @@ check-seeds:
 npm-deps:
 	npm install
 
-ci: format-check lint test check-migrations check-seeds release-app build-docker-image
+ci: format-check lint test check-migrations release-app build-docker-image
 
 develop: npm-deps start-services start-app
 
