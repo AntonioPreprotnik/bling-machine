@@ -6,6 +6,11 @@
                                    :user     #dyn/prop PG_USER}
  :framework.app/session-backend   {:storage            :database
                                    :session-table-name :sessions}
+ :framework.db.storage/migration  {:init-in-transaction? true
+                                   :migration-dir        "migrations"
+                                   :migration-table-name "migrations"
+                                   :seeds-table-name     "seeds"
+                                   :store                :database}
  :framework.app/web-server        {:join? false
                                    :port  #dyn/long #dyn/prop WS_PORT}
  :framework.app/auth              {:bcrypt-settings {:work-factor 11}
