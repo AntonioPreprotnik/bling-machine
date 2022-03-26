@@ -48,7 +48,6 @@ jobs:
         uses: DeLaGuardo/setup-clojure@3.7
         with:
           cli: 1.10.3.1087
-          lein: 2.9.8
       
       - name: Check format
         run: make format-check
