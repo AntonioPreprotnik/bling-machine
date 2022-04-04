@@ -1,24 +1,13 @@
 (ns app.config
-  (:require [app.web.router :as router]
+  (:require [app.web :refer [routes controller-interceptors]]
             [clojure.edn :as edn]
             [clojure.java.io :as io]
-            [com.verybigthings.funicular.transit :as funicular-transit]
             [com.walmartlabs.dyn-edn :refer [env-readers]]
-            [framework.interceptor.core :as interceptors]
-            [muuntaja.core :as muntaja]
-            [muuntaja.interceptor :as interceptor]
             [xiana.commons :refer [deep-merge]]))
 
-(def muuntaja-instance
-  (muntaja/create
-   (-> muntaja/default-options
-       (assoc-in [:formats "application/transit+json" :decoder-opts] funicular-transit/read-handlers)
-       (assoc-in [:formats "application/transit+json" :encoder-opts] funicular-transit/write-handlers))))
-
 (def app-config
-  {:routes                  router/routes
-   :controller-interceptors [(interceptors/muuntaja (interceptor/format-interceptor muuntaja-instance))
-                             interceptors/params]})
+  {:routes                  routes
+   :controller-interceptors controller-interceptors})
 
 (defn- read-common-config []
   (->> (io/resource "default.edn")

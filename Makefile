@@ -41,6 +41,9 @@ psql:
 test:
 	clojure -X:test
 
+test-repl:
+	clojure -A:test
+
 lint:
 	clojure -M:lint
 

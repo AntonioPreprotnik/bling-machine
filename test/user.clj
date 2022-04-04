@@ -1,4 +1,4 @@
-(ns repl
+(ns user
   (:require
    [kaocha.repl :as k]))
 
