@@ -7,7 +7,7 @@
   [test]
   (test)
   (-> (get-system)
-      (get-in [:framework.db.storage/postgresql :datasource])
+      (get-in [:xiana/postgresql :datasource])
       (njdbc/execute! ["DO $$ BEGIN
                          EXECUTE 'TRUNCATE TABLE '
                          || (SELECT string_agg(table_name::text, ',')

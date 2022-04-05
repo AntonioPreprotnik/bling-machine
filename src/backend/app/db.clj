@@ -17,8 +17,8 @@
 
 (defn- prepare-migrate-config []
   (let [config (config/load-config)
-        db-config (:framework.db.storage/postgresql config)]
-    (assoc (:framework.db.storage/migration config) :db db-config)))
+        db-config (:xiana/postgresql config)]
+    (assoc (:xiana/migration config) :db db-config)))
 
 (defn- prepare-seed-config []
   (-> (prepare-migrate-config)
