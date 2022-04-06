@@ -1,7 +1,7 @@
 (ns app.web
   (:require [app.web.controllers.funicular :as funicular]
-            [app.web.controllers.keechma :as keechma]
             [app.web.controllers.health :as health]
+            [app.web.controllers.keechma :as keechma]
             [com.verybigthings.funicular.transit :as funicular-transit]
             [framework.interceptor.core :as interceptors]
             [muuntaja.core :as muntaja]
