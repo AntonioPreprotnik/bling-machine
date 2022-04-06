@@ -41,12 +41,20 @@ Default values from `config/default.edn` will be overiden by values in `config/d
       |- domain/ (Contains logic related to DB relations and funicular handlers)
       |- web/ (Everything related to WEB/API layer)
       |- core.clj (System entrypoint)
+      |- config.clj (with load-config as main function)
+      |- db.clj (migration ans seed functionality)
+      |- funicular.clj (funicular initization)
+      |- penkala.clj (penkala initization)
+      |- readers.clj (custom readers)
+      |- web.clj (routes and interceptors init)
   |- frontend/
     |- app/
       |- controllers/ (Frontend routers)
       |- ui/ (UI components)
-      |- core.clj
-  |- shared/ (Contains files which are used by both backend and frontend)
+      |- core.cljs
+      |- app.cljs
+      
+  |- shared/ (Contains cljc files which are used by both backend and frontend)
 |- test
   |- backend/ (Contains tests for backend which mostely corelate to backend files and file paths)
   |- frontend/ (Contains frontend integration browser driver testing using webdriver)
@@ -69,7 +77,7 @@ This command starts PostgreSQL server or any other external service as described
 make start-app
 ```
 
-This command compiles the whole app, starts the nREPL server and automatically runs `(start-dev)` command inside the REPL which start the app system.
+This command compiles the whole app and runs `(start-dev)` from `dev/user` namespace.
 
 You can also start REPL without starting the system automatically by running:
 
@@ -98,7 +106,7 @@ Use prefered IDE/editor or manually connect to running nREPL server from previou
 Once in REPL you will be located in `user` namespace. You can execute following command:
 
 ```clojure
-(user/start-dev)
+(start-dev)
 ```
 
 This will start up the backend/frontend watchers and system. Webserver will be accessible on `http://localhost:3000`. Once you start the system with this command, system will take care of restarts on it's own.
@@ -106,7 +114,7 @@ This will start up the backend/frontend watchers and system. Webserver will be a
 #### Start system without watchers
 
 ```clojure
-(user/start-system)
+(start-system)
 ```
 
 #### Restart system
@@ -114,7 +122,7 @@ This will start up the backend/frontend watchers and system. Webserver will be a
 Once system is started you can explicitly reset the system to apply new system configuration or changes to the codebase. In `user` namespace execute following command.
 
 ```clojure
-(user/restart-system)
+(restart-system)
 ```
 
 #### Stopping system
@@ -122,7 +130,7 @@ Once system is started you can explicitly reset the system to apply new system c
 Once system is started you can reset the system to apply new system configuration or changes to the codebase. In `user` namespace execute following command.
 
 ```clojure
-(user/stop-system)
+(stop-system)
 ```
 
 #### Interactive [Tailwind](https://tailwindcss.com/) development
@@ -140,6 +148,13 @@ Application is using [kaocha test runner](https://github.com/lambdaisland/kaocha
 You can run test suites with:
 ```shell
 make test
+```
+
+In the situation when you want to run tests form just one namespace or folder, or individual tests you can do it using `caocha REPL`.
+
+You can start the REPL in `test/user` namespace that has `caocha REPL` as required dependency with:
+```shell
+make test-repl
 ```
 
 **It's mandatory to have all backend code tested, which means at least all calls to endpoints should be tested.**
@@ -178,10 +193,12 @@ Application is built and shipped as monolith artifact which means both frontend 
 make release-app
 ```
 
-which will build release artifact under `/target/app.jar` path. This `.jar` file can be run with:
+which will build release artifact under `/target/{jar-name}.jar` path. `{jar-name}` is configured in `build_uberjar.clj` name space.
+
+This `.jar` file can be run with:
 
 ```shell
-java -jar target/app.jar
+java -jar target/{jar-name}.jar
 ```
 
 and deployed directly to a running JVM instance or via docker image. In order to make docker image run:

@@ -1,1 +1,1 @@
-{:framework.db.storage/migration {:seeds-dir "seeds/prod"}}
+{:xiana/migration {:seeds-dir "seeds/prod"}}

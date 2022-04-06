@@ -24,11 +24,10 @@ DEFAULT_GOAL: help
 # --------------------------------------------------
 
 start-app:
-	lein clean && \
-	(echo "(start-dev)"; cat <&0) | lein with-profile +dev,+frontend repl
+	clojure -X:dev:frontend:start-app
 
 start-repl:
-	lein with-profile +dev,+frontend repl
+	clojure -A:dev:frontend
 
 start-services:
 	docker-compose up -d
@@ -40,23 +39,25 @@ psql:
 	docker-compose exec db psql -U postgres
 
 test:
-	lein test
+	clojure -X:test
+
+test-repl:
+	clojure -A:test
 
 lint:
-	lein lint
+	clojure -M:lint
 
 format-check:
-	lein cljfmt check
+	clojure -X:dev:cljfmt :cmd :check
 
 format-fix:
-	lein cljfmt fix
+	clojure -X:dev:cljfmt :cmd :fix
 
 check-migrations:
-	lein migrator reset && lein migrator rollback
+	clojure -X:test:migrator :args '["reset"]' && 	clojure -X:test:migrator :args '["rollback"]'
 
 check-seeds:
-	lein seeder reset
-
+	clojure -X:test:seeder :args '["reset"]'
 
 npm-deps:
 	npm install
@@ -68,14 +69,13 @@ develop: npm-deps start-services start-app
 # --------------------------------------------------
 # Production
 # --------------------------------------------------
+release-backend:
+	clojure -T:build-uberjar uber
 
 release-frontend:
-	lein release-frontend && \
-	npm run clean && \
-	npm run build
+	clojure -X:dev:frontend:release-frontend
 
-release-app:
-	make release-frontend && lein release-app
+release-app: release-frontend release-backend
 
 build-docker-image:
 	docker build -t pasta-xiana:latest .

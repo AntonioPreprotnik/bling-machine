@@ -1,11 +1,11 @@
 (ns app.core
-  (:require [keechma.next.helix.core :refer [KeechmaRoot]]
-            [helix.core :as hx :refer [$]]
-            ["react" :as react]
-            ["react-dom" :as rdom]
-            [app.app :refer [app]]
+  (:require [app.app :refer [app]]
             [app.ui.main :refer [Main]]
-            [keechma.next.core :as keechma]))
+            [helix.core :as hx :refer [$]]
+            [keechma.next.core :as keechma]
+            [keechma.next.helix.core :refer [KeechmaRoot]]
+            [react :as react]
+            [react-dom :as rdom]))
 
 (defonce app-instance* (atom nil))
 
@@ -15,7 +15,7 @@
   (let [app-instance (keechma/start! app)]
     (reset! app-instance* app-instance)
     (rdom/render ($ react/StrictMode
-                    ($ KeechmaRoot {:keechma/app app-instance} ($ Main)))
+                   ($ KeechmaRoot {:keechma/app app-instance} ($ Main)))
                  (js/document.getElementById "app"))))
 
 (defn ^:dev/after-load reload

@@ -29,8 +29,6 @@ jobs:
       PG_USER: postgres
       WS_PORT: 3000
       WS_TEST_PORT: 3000
-      MG_PG_DB_NAME: app_test,
-      USE_MG_DB_NAME: false
 
     steps:
       - uses: actions/checkout@v2
@@ -50,7 +48,6 @@ jobs:
         uses: DeLaGuardo/setup-clojure@3.7
         with:
           cli: 1.10.3.1087
-          lein: 2.9.8
       
       - name: Check format
         run: make format-check

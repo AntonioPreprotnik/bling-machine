@@ -8,6 +8,7 @@
             [piotr-yuxuan.closeable-map :refer [closeable-map]]
             [shadow.cljs.devtools.api :as shadow.api]
             [shadow.cljs.devtools.server :as shadow.server]
+            [cljfmt.main :as cljmft.main]
             [state :as st :refer [dev-sys]]))
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
@@ -49,9 +50,21 @@
   (shadow.server/start!)
   (shadow.api/watch :app))
 
+(defn release-frontend [{:keys [build]}]
+  (shadow.api/release build))
+
+(defn cljfmt [{:keys [cmd paths]}]
+  (let [options (-> "cljfmt.edn" slurp read-string)
+        paths (or paths (:paths options))
+        options (-> options (dissoc :paths))
+        options (cljmft.main/merge-default-options options)]
+    (case cmd
+      :check (cljmft.main/check paths options)
+      :fix (cljmft.main/fix paths options))))
+
 (defn start-dev
   "Starts development system and runs watcher for auto-restart."
-  []
+  [& _]
   (watch-backend)
   (watch-frontend)
   (start-system))
@@ -68,10 +81,10 @@
 
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:command [:api.user/create {:email "test@vbt.com"
+      (api/execute {:command [:api.user/create {:email      "test@vbt.com"
                                                 :first-name "First"
-                                                :last-name "Last"
-                                                :zip "10000"}]}))
+                                                :last-name  "Last"
+                                                :zip        "10000"}]}))
 
   (-> @st/dev-sys
       :app/funicular

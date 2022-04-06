@@ -1,5 +1,6 @@
 (ns test-core
   (:require [app.config :as config]
+            [app.core :refer [app-config]]
             [app.funicular :as funicular]
             [app.penkala :as penkala]
             [framework.db.core :as db]
@@ -9,7 +10,7 @@
 (def state* (atom nil))
 
 (defn ->test-system []
-  (-> (config/load-config)
+  (-> (config/load-config app-config)
       db/connect
       db/migrate!
       penkala/init
