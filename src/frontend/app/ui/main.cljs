@@ -1,12 +1,12 @@
 (ns app.ui.main
-  (:require [keechma.next.helix.core :refer [with-keechma use-sub]]
-            [keechma.next.helix.lib :refer [defnc]]
+  (:require [app.ui.pages.home :refer [Home]]
+            [app.ui.pages.user :refer [User]]
+            [app.ui.pages.users :refer [Users]]
+            [clojure.core.match :refer-macros [match]]
             [helix.core :as hx :refer [$]]
             [helix.dom :as d]
-            [clojure.core.match :refer-macros [match]]
-            [app.ui.pages.home :refer [Home]]
-            [app.ui.pages.users :refer [Users]]
-            [app.ui.pages.user :refer [User]]))
+            [keechma.next.helix.core :refer [use-sub with-keechma]]
+            [keechma.next.helix.lib :refer [defnc]]))
 
 (defnc MainRenderer [props]
   (let [router (use-sub props :router)]

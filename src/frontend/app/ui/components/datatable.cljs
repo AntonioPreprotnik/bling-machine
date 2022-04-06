@@ -1,8 +1,8 @@
 (ns app.ui.components.datatable
-  (:require [helix.dom :as d]
-            [keechma.next.helix.classified :refer [defclassified]]
+  (:require [clojure.string :as str]
             [helix.core :as hx :refer [$]]
-            [clojure.string :as str]
+            [helix.dom :as d]
+            [keechma.next.helix.classified :refer [defclassified]]
             [keechma.next.helix.lib :refer [defnc]]))
 
 (defn process-col-classes [classes]

@@ -1,5 +1,6 @@
 (ns app.db
   (:require [app.config :as config]
+            [app.core :refer [app-config]]
             [clojure.string :as str]
             [migratus.core :as migratus]
             [xiana.commons :refer [rename-key]]))
@@ -16,7 +17,7 @@
        "up"))
 
 (defn- prepare-migrate-config []
-  (let [config (config/load-config)
+  (let [config (config/load-config app-config)
         db-config (:xiana/postgresql config)]
     (assoc (:xiana/migration config) :db db-config)))
 

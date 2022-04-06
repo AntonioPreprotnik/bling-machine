@@ -1,7 +1,11 @@
 (ns app.penkala
-  (:require [com.verybigthings.penkala.next-jdbc :as penkala-next-jdbc :refer [get-env]]
+  (:require [com.verybigthings.funicular.anomalies :as anom]
             [com.verybigthings.penkala.env :refer [with-db]]
-            [com.verybigthings.funicular.anomalies :as anom]
+            [com.verybigthings.penkala.next-jdbc
+             :as
+             penkala-next-jdbc
+             :refer
+             [get-env]]
             [com.verybigthings.pgerrors.core :as pgerrors])
   (:import (org.postgresql.util PSQLException)))
 

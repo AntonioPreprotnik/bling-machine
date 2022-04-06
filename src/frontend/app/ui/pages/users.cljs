@@ -1,11 +1,11 @@
 (ns app.ui.pages.users
-  (:require [helix.dom :as d]
+  (:require [app.ui.components.datatable :refer [Datatable]]
             [helix.core :as hx :refer [$]]
+            [helix.dom :as d]
             [keechma.next.controllers.router :as router]
-            [keechma.next.helix.core :refer [with-keechma use-sub]]
-            [keechma.next.helix.lib :refer [defnc]]
             [keechma.next.helix.classified :refer [defclassified]]
-            [app.ui.components.datatable :refer [Datatable]]))
+            [keechma.next.helix.core :refer [use-sub with-keechma]]
+            [keechma.next.helix.lib :refer [defnc]]))
 
 (defclassified HomepageWrapper :div "h-screen w-screen flex bg-gray-200")
 

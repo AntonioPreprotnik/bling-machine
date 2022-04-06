@@ -1,7 +1,7 @@
 (ns app.web.router
   (:require [app.web.controllers.funicular :as funicular]
-            [app.web.controllers.keechma :as keechma]
             [app.web.controllers.health :as health]
+            [app.web.controllers.keechma :as keechma]
             [reitit.ring :as ring]))
 
 (def routes
