@@ -9,39 +9,48 @@ jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+        - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     env:
-      PG_DB_NAME: postgres
       PG_HOST: localhost
       PG_PASSWORD: postgres
-      PG_PORT: 54321
+      PG_PORT: 5432
+      PG_DB_NAME: postgres
+      PG_TEST_DB_NAME: postgres
       PG_USER: postgres
       WS_PORT: 3000
-      PG_TEST_DB_NAME: postgres
-      PG_TEST_HOST: localhost
-      PG_TEST_PASSWORD: postgres
-      PG_TEST_PORT: 54321
-      PG_TEST_USER: postgres
       WS_TEST_PORT: 3000
+      MG_PG_DB_NAME: app_test,
+      USE_MG_DB_NAME: false
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
-      - uses: actions/setup-node@v2
+      - name: Install Node
+        uses: actions/setup-node@v2
         with:
           node-version: '17.3.0'
 
-      - uses: actions/setup-java@v2
+      - name: Install Java
+        uses: actions/setup-java@v2
         with:
-          distribution: "adopt"
-          java-version: "8.0.292"
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Install clojure tools
-        uses: DeLaGuardo/setup-clojure@3.4
+        uses: DeLaGuardo/setup-clojure@3.7
         with:
-          cli: 1.10.1.693 
-          lein: 2.9.1
+          cli: 1.10.3.1087
+          lein: 2.9.8
       
       - name: Check format
         run: make format-check
@@ -52,8 +61,5 @@ jobs:
       - name: Check tests
         run: make test
 
-      - name: Check backend build
-        run: make release-backend
-      
-      - name: Check frontend build
-        run: make release-frontend
+      - name: Check app build
+        run: make release-app

@@ -1,16 +1,13 @@
-(ns app.integration.pasta-xiana-test
-  (:require
-   [clojure.test :refer [use-fixtures]]
-   [fixture :refer [with-system! with-reset-db! get-system]]
-   [com.verybigthings.test.helpers :refer [command!]]
-   [state-flow.assertions.matcher-combinators :refer [match?]]
-   [state-flow.api :as flow :refer [flow]]
-   [state-flow.cljtest :refer [defflow]]))
+(ns app.domain.handlers.user-test
+  (:require [app.domain.handlers.helpers :refer [command!]]
+            [clojure.test :refer [use-fixtures]]
+            [test-core :refer [get-system]]
+            [test-fixtures :refer [clean-db]]
+            [state-flow.assertions.matcher-combinators :refer [match?]]
+            [state-flow.api :as flow :refer [flow]]
+            [state-flow.cljtest :refer [defflow]]))
 
-(use-fixtures :once (partial with-system! {:init [:app/funicular]
-                                           :mock nil}))
-
-(use-fixtures :each with-reset-db!)
+(use-fixtures :each clean-db)
 
 ;; Suppresses clj-kondo unresolved symbol
 (declare user-create user-created create-and-get new-user get-new-user)

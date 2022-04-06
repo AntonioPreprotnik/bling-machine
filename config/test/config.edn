@@ -1,7 +1,7 @@
 {:framework.db.storage/postgresql {:dbname   #dyn/prop PG_TEST_DB_NAME
-                                   :host     #dyn/prop PG_TEST_HOST
-                                   :password #dyn/prop PG_TEST_PASSWORD
-                                   :port     #dyn/long #dyn/prop PG_TEST_PORT
-                                   :user     #dyn/prop PG_TEST_USER}
+                                   :host     #dyn/prop PG_HOST
+                                   :password #dyn/prop PG_PASSWORD
+                                   :port     #dyn/long #dyn/prop PG_PORT
+                                   :user     #dyn/prop PG_USER}
  :framework.db.storage/migration  {:seeds-dir "seeds/test"}
  :framework.app/web-server        {:port  #dyn/long #dyn/prop WS_TEST_PORT}}

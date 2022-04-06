@@ -1,4 +1,4 @@
-(ns app.handlers.funicular
+(ns app.web.controllers.funicular
   (:require [app.funicular :as api]
             [xiana.core :as xiana]))
 

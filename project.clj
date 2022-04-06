@@ -21,6 +21,7 @@
                    [org.clojure/spec.alpha "0.2.187"]
                    [org.clojure/tools.namespace "1.1.0"]]
     :git-down {keechma.next/toolbox        {:coordinates keechma/keechma-next-toolbox}
+               keechma/malli-forms    {:coordinates keechma/keechma-malli-forms}
                clj-kondo/config            {:coordinates clj-kondo/config}
                com.verybigthings/funicular {:coordinates VeryBigThings/funicular}
                com.verybigthings/commons   {:coordinates VeryBigThings/clojure-commons}
@@ -43,7 +44,8 @@
                :frontend  {:dependencies [[applied-science/js-interop "0.3.3"]
                                           [com.cognitect/transit-cljs "0.8.269"]
                                           [hodgepodge/hodgepodge "0.1.3"]
-                                          [keechma.next/toolbox "0c605f8e36c51463e433f3130441bd663ae008e6"]
+                                          [keechma.next/toolbox "bdeebce5f1b296fc971035b49f859dfaaa28883b" :exclusions [keechma/malli-forms]]
+                                          [keechma/malli-forms "87f8718741a9d33c00f35dbb403dbab25153acb8"]
                                           [lambdaisland/fetch "1.0.41"]
                                           [lilactown/helix "0.1.5"]
                                           [org.clojure/clojurescript "1.10.866"]
@@ -55,13 +57,11 @@
                            :dependencies [[binaryage/devtools "1.0.3"]
                                           [hawk "0.2.11"]
                                           [nrepl/nrepl "0.8.3"]
-                                          [vlaaad/reveal "1.3.270"]]}
+                                          [vlaaad/reveal "1.3.272"]
+                                          [thheller/shadow-cljs "2.14.4"]]}
                :prod      {:source-paths ["config/prod"]}
                :test      {:source-paths ["config/test"]
-                           :dependencies [[io.zonky.test.postgres/embedded-postgres-binaries-darwin-amd64 "14.1.0"]
-                                          [io.zonky.test.postgres/embedded-postgres-binaries-linux-amd64 "14.1.0"]
-                                          [io.zonky.test/embedded-postgres "1.3.1"]
-                                          [lambdaisland/kaocha "1.63.998"]
+                           :dependencies [[lambdaisland/kaocha "1.63.998"]
                                           [nubank/state-flow "5.13.1"]
                                           [org.clojure/test.check "0.10.0"]]}}
     :shadow-cljs {:nrepl  {:port 8777}
@@ -70,14 +70,23 @@
                                  :asset-path "assets/js"
                                  :modules    {:app {:init-fn  app.core/init
                                                     :preloads [devtools.preload]}}}}}
+
+    :repl-options   {:init-ns          user
+                     ;; required for `cider-jack-in` to work correctly
+                     :nrepl-middleware [shadow.cljs.devtools.server.nrepl/middleware]}
+
     :aliases {"test"             ["with-profile" "test" "run"
-                                  "-m" "kaocha.runner"
-                                  "--no-capture-output"]
+                                  "-m" "kaocha.runner"]
               "lint"             ["clj-kondo"
                                   "--lint" "src" "test" "dev"]
-              "release-backend"  ["with-profile" "prod" "do"
+              "migrator"         ["with-profile" "dev" "run"
+                                  "-m" "app.db/migrate"]
+              "seeder"           ["with-profile" "dev" "run"
+                                  "-m" "app.db/seed"]
+              "release-frontend" ["with-profile" "+frontend" "do"
                                   "clean,"
-                                  "uberjar"]
-              "release-frontend" ["with-profile" "frontend" "do"
+                                  ["shadow" "release" "app"]]
+              "release-app"      ["with-profile" "+prod" "do"
                                   "clean,"
-                                  ["shadow" "release" "app"]]}))
+                                  "release-frontend"
+                                  "uberjar"]}))

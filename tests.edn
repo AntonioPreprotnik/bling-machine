@@ -1,6 +1,12 @@
 #kaocha/v1
- {:tests [{:id          :integration
-           :test-paths  ["test/app/integration"]
-           :ns-patterns [".*"]}]}
-          ;; :reporter kaocha.report.progress/report
-          ;; :plugins [:kaocha.plugin/profiling :kaocha.plugin/notifier]
+ {:plugins         [:kaocha.plugin/capture-output
+                    :kaocha.plugin/hooks]
+  :tests           [{:id                    :backend
+                     :kaocha.hooks/pre-test  [test-core/start-test-system]
+                     :kaocha.hooks/post-test [test-core/stop-test-system]
+                     :test-paths             ["test/backend"]
+                     :ns-patterns            [".*"]}
+                    {:id                    :frontend
+                     :test-paths             ["test/frontend"]
+                     :ns-patterns            [".*"]}]
+  :kaocha/reporter [kaocha.report.progress/report]}

@@ -1,4 +1,4 @@
-(ns com.verybigthings.test.helpers
+(ns app.domain.handlers.helpers
   (:require [app.funicular :as f]))
 
 (defn get-command [{[_ command-payload] :command}]

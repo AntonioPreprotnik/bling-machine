@@ -10,7 +10,9 @@
                                    :migration-dir        "migrations"
                                    :migration-table-name "migrations"
                                    :seeds-table-name     "seeds"
-                                   :store                :database}
+                                   :store                :database
+                                   :db-name #dyn/prop "MG_PG_DB_NAME"
+                                   :use-db-name #dyn/boolean #dyn/prop "USE_MG_DB_NAME"}
  :framework.app/web-server        {:join? false
                                    :port  #dyn/long #dyn/prop WS_PORT}
  :framework.app/auth              {:bcrypt-settings {:work-factor 11}

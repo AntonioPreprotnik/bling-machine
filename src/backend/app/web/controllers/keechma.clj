@@ -1,4 +1,4 @@
-(ns app.controllers.keechma
+(ns app.web.controllers.keechma
   (:require [xiana.core :as xiana]
             [ring.util.response :as ring]))
 
