@@ -1,4 +1,4 @@
-(ns app.domain.handlers.user
+(ns app.web.api.handlers.user
   (:require [app.domain.user :as user]
             [medley.core :as m]))
 

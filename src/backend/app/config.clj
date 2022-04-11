@@ -4,10 +4,10 @@
             [com.walmartlabs.dyn-edn :refer [env-readers]]
             [xiana.commons :refer [deep-merge]]))
 
-(defn- read-common-config []
+(defn- read-default-config []
   (->> (io/resource "default.edn")
        (slurp)
-       (edn/read-string {:readers (env-readers)})))
+       (edn/read-string)))
 
 (defn- read-env-config []
   (->> (io/resource "config.edn")
@@ -15,6 +15,6 @@
        (edn/read-string {:readers (env-readers)})))
 
 (defn load-config [app-config]
-  (deep-merge (read-common-config)
+  (deep-merge (read-default-config)
               (read-env-config)
               app-config))
