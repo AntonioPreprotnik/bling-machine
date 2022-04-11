@@ -46,9 +46,11 @@
 
 (defn watch-frontend
   "Automatically re-builds frontend and re-renders browser page if frontend related files are changed."
-  []
-  (shadow.server/start!)
-  (shadow.api/watch :app))
+  ([]
+   (watch-frontend :app))
+  ([build-id]
+   (shadow.server/start!)
+   (shadow.api/watch build-id)))
 
 (defn release-frontend [{:keys [build]}]
   (shadow.api/release build))
@@ -61,6 +63,13 @@
     (case cmd
       :check (cljmft.main/check paths options)
       :fix (cljmft.main/fix paths options))))
+
+(defn cljs-repl
+  ([]
+   (cljs-repl :app))
+  ([build-id]
+   (watch-frontend build-id)
+   (shadow.api/nrepl-select build-id)))
 
 (defn start-dev
   "Starts development system and runs watcher for auto-restart."

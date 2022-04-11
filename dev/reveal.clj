@@ -76,15 +76,6 @@
 
 (comment
   (set-prefs {:font-size 12, :theme :dark})
-  ;(trace>> ::system (-> system
-  ;                    (dissoc :duct.migrator.ragtime/resources)
-  ;                    (dissoc :duct.migrator/ragtime)))
-  ;(-> system
-  ;  :app/funicular
-  ;  (trace> ::funicular))
-
-;_________________________________________________________________________________
-  ; set Reveal prefs, send command
 
   (tap> {:vlaaad.reveal/command '(open-view {:fx/type action-view
                                              :action  :vlaaad.reveal.action/view:table
@@ -93,5 +84,4 @@
 
   (tap> (r/sticker
          {:fx/type r/ref-watch-latest-view}
-          ;:ref     #'system}
          :title "integrant system")))
