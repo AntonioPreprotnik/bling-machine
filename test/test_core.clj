@@ -4,8 +4,7 @@
             [app.funicular :as funicular]
             [app.penkala :as penkala]
             [framework.db.core :as db]
-            [piotr-yuxuan.closeable-map :refer [closeable-map]]
-            [xiana.core]))
+            [piotr-yuxuan.closeable-map :refer [closeable-map]]))
 
 (def state* (atom nil))
 

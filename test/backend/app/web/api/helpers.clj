@@ -1,4 +1,4 @@
-(ns app.domain.handlers.helpers
+(ns backend.app.web.api.helpers
   (:require [app.funicular :as f]))
 
 (defn get-command [{[_ command-payload] :command}]
