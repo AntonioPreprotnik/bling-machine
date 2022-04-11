@@ -6,14 +6,13 @@
 
 1. [Java](https://www.java.com/en/download/manual.jsp)
 2. [Clojure](https://clojure.org/releases/downloads)
-3. [Lein](https://leiningen.org/)
-4. [Docker](https://docs.docker.com/get-docker/)
-5. [Node](https://nodejs.org/en/download/)
+3. [Docker](https://docs.docker.com/get-docker/)
+4. [Node](https://nodejs.org/en/download/)
 
 ### To install initial node packages run in the project directory:
 
 ```shell
- npm instal
+ npm install
 ```
 
 ### Environment configuration
@@ -38,13 +37,14 @@ Default values from `config/default.edn` will be overiden by values in `config/d
 |- src/
   |- backend/
     |- app/
-      |- domain/ (Contains logic related to DB relations and funicular handlers)
+      |- domain/ (Domain logic independent of any layers from the web folder)
       |- web/ (Everything related to WEB/API layer)
       |- core.clj (System entrypoint)
       |- config.clj (with load-config as main function)
       |- db.clj (migration ans seed functionality)
-      |- funicular.clj (funicular initization)
-      |- penkala.clj (penkala initization)
+      |- logging.clj (timbre initization)
+      |- funicular.clj (funicular init)
+      |- penkala.clj (penkala init)
       |- readers.clj (custom readers)
       |- web.clj (routes and interceptors init)
   |- frontend/
@@ -119,7 +119,7 @@ This will start up the backend/frontend watchers and system. Webserver will be a
 
 #### Restart system
 
-Once system is started you can explicitly reset the system to apply new system configuration or changes to the codebase. In `user` namespace execute following command.
+Once system is started you can explicitly reset the system to apply new system configuration or changes to the codebase. In `user` namespace execute following command:
 
 ```clojure
 (restart-system)
@@ -127,7 +127,7 @@ Once system is started you can explicitly reset the system to apply new system c
 
 #### Stopping system
 
-Once system is started you can reset the system to apply new system configuration or changes to the codebase. In `user` namespace execute following command.
+Once system is started you can reset the system to apply new system configuration or changes to the codebase. In `user` namespace execute following command:
 
 ```clojure
 (stop-system)
@@ -140,19 +140,38 @@ In order to enable [postcss](https://postcss.org/) watcher for tailwind style ch
 ```shell
 yarn develop
 ```
+or
+```shell
+npm run develop
+```
+
+## Migration and seeds
+
+You can run migratus commands for the system from the terminal via `migrator` and `seeder` aliases. For example:
+
+```
+clojure -X:test:migrator :args '["rollback"]'
+clojure -X:test:migrator :args '["migrate"]'
+```
+
+```
+clojure -X:test:seeder :args '["reset"]'
+```
 
 ## Testing
 
 Application is using [kaocha test runner](https://github.com/lambdaisland/kaocha) for test management. Kaocha configuration for tests is found `/tests.edn` file while kaocha hooks and test fixtures are found in `test/test_core.clj` and `test/test_fixtures.clj` respectivly.
 
 You can run test suites with:
+
 ```shell
 make test
 ```
 
-In the situation when you want to run tests form just one namespace or folder, or individual tests you can do it using `caocha REPL`.
+In the situation when you want to run tests form just one namespace or folder, or individual tests you can do it using `kaocha REPL`.
 
-You can start the REPL in `test/user` namespace that has `caocha REPL` as required dependency with:
+You can start the REPL in `test/user` namespace that has `kaocha REPL` as required dependency with:
+
 ```shell
 make test-repl
 ```
@@ -177,6 +196,7 @@ There are couple of standards used to ensure code quality between releases:
 All of those are enforced via Github Actions and merges into `develop` or `main` branch won't be available until all workflow checks are passed.
 
 You can do the same checks locally before commiting or making a PR by running:
+
 ```shell
 make ci
 ```
@@ -331,6 +351,10 @@ A Clojure library for embracing SQL.
 
 - Clojure library for fast http api format negotiation, encoding and decoding
 
+### [timbre](https://github.com/ptaoussanis/timbre)
+
+- Clojure logging library.
+
 ### Utilities
 
 ### [medley](https://github.com/weavejester/medley)
@@ -424,6 +448,3 @@ A Clojure library for embracing SQL.
 ### [clj-kondo](https://github.com/clj-kondo/clj-kondo)
 
 - Clj-kondo performs static analysis on Clojure, ClojureScript and EDN, without the need of a running REPL. It informs you about potential errors while you are typing.
-
-
-

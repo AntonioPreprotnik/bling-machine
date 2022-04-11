@@ -54,7 +54,7 @@ format-fix:
 	clojure -X:dev:cljfmt :cmd :fix
 
 check-migrations:
-	clojure -X:test:migrator :args '["reset"]' && 	clojure -X:test:migrator :args '["rollback"]'
+	clojure -X:test:migrator :args '["reset"]' && clojure -X:test:migrator :args '["rollback"]'
 
 check-seeds:
 	clojure -X:test:seeder :args '["reset"]'
@@ -69,11 +69,14 @@ develop: npm-deps start-services start-app
 # --------------------------------------------------
 # Production
 # --------------------------------------------------
+
 release-backend:
 	clojure -T:build-uberjar uber
 
 release-frontend:
-	clojure -X:dev:frontend:release-frontend
+	npm install && \
+	clojure -X:dev:frontend:release-frontend && \
+	npm run build
 
 release-app: release-frontend release-backend
 
