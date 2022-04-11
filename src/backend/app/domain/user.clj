@@ -1,6 +1,7 @@
 (ns app.domain.user
-  (:require [app.penkala :refer [insert! select! select-one! update!]]
-            [com.verybigthings.penkala.relation :as r]))
+  (:require [com.verybigthings.penkala.relation :as r]
+            [app.penkala :refer [insert! select! select-one! update!]]
+            [app.boundary.penkala-helpers :refer [cast-as]]))
 
 (defprotocol UserDatabase
   (insert [penkala data])
@@ -17,7 +18,7 @@
   (update-by-id! [{:keys [env]} data id]
     (let [updateable (-> (:users env)
                          r/->updatable
-                         (r/where [:= :id [:cast id "uuid"]]))]
+                         (r/where [:= :id (cast-as id "uuid")]))]
       (-> (update! env updateable data) first)))
 
   (get-all-users [{:keys [env]}]
