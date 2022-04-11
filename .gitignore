@@ -1,5 +1,8 @@
 .calva
-/.clj-kondo/.cache
+.clj-kondo/*
+!.clj-kondo/config.edn
+.cpcache
+.dir-locals.el
 .envrc
 .hg/
 .hgignore
