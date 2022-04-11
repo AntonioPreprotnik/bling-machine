@@ -1,1 +1,9 @@
-{:xiana/migration {:seeds-dir "seeds/dev"}}
+{:xiana/postgresql {:dbname   #dyn/prop PG_DB_NAME
+                    :host     #dyn/prop PG_HOST
+                    :password #dyn/prop PG_PASSWORD
+                    :port     #dyn/long #dyn/prop PG_PORT
+                    :user     #dyn/prop PG_USER}
+ :xiana/migration  {:seeds-dir "seeds/dev"}
+ :xiana/web-server {:port #dyn/long #dyn/prop WS_PORT}
+ :logging/timbre   {:min-level :info
+                    :ns-filter {:allow #{"*"}}}}

@@ -4,4 +4,4 @@
                     :port     #dyn/long #dyn/prop PG_PORT
                     :user     #dyn/prop PG_USER}
  :xiana/migration  {:seeds-dir "seeds/test"}
- :xiana/web-server        {:port  #dyn/long #dyn/prop WS_TEST_PORT}}
+ :xiana/web-server {:port #dyn/long #dyn/prop WS_TEST_PORT}}
