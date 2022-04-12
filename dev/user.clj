@@ -1,7 +1,7 @@
 (ns user
   (:gen-class)
   (:require [app.core :refer [->system]]
-            [app.funicular :as api]
+            [app.funicular :as funicular]
             [cljfmt.main :as cljmft.main]
             [clojure.tools.logging :refer [*tx-agent-levels*]]
             [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
@@ -86,24 +86,24 @@
 
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:queries {:user [:api.user/get-all {}]}}))
+      (funicular/execute {:queries {:user [:api.user/get-all {}]}}))
 
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:command [:api.user/create {:email      "test@vbt.com"
-                                                :first-name "First"
-                                                :last-name  "Last"
-                                                :zip        "10000"}]}))
+      (funicular/execute {:command [:api.user/create {:email "test@vbt.com"
+                                                      :first-name  "First"
+                                                      :last-name   "Last"
+                                                      :zip         "10000"}]}))
 
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:command [:api.user/update {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"
-                                                :data    {:email      "test@vbt.com"
-                                                          :first-name "First"
-                                                          :last-name  "Last"
-                                                          :zip        "20000"}}]}))
+      (funicular/execute {:command [:api.user/update {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"
+                                                      :data          {:email      "test@vbt.com"
+                                                                      :first-name "First"
+                                                                      :last-name  "Last"
+                                                                      :zip        "20000"}}]}))
 
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:queries {:user [:api.user/get-one {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"}]}})))
+      (funicular/execute {:queries {:user [:api.user/get-one {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"}]}})))
 

@@ -3,7 +3,7 @@
             [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.spec.alpha :as s]
-            [com.verybigthings.funicular.core :as f]
+            [com.verybigthings.funicular.core :as funicular]
             [schema :refer [registry]]))
 
 (s/check-asserts true)
@@ -23,13 +23,13 @@
   (let [funicular-cnf (edn/read-string {:readers readers :config config} (slurp (io/resource "funicular.edn")))
         funicular-cnf' (update-cnf funicular-cnf config)
         {:keys [context] :as api} funicular-cnf'
-        compiled (f/compile api {:malli/registry registry})]
+        compiled (funicular/compile api {:malli/registry registry})]
     (-> config
         (assoc :app/funicular
                (reify IFunucilarApi
                  (execute [this request]
                    (execute this request nil))
                  (execute [_ request request-context]
-                   (f/execute compiled (merge context request-context) request))
+                   (funicular/execute compiled (merge context request-context) request))
                  (inspect [_]
-                   (f/inspect compiled)))))))
+                   (funicular/inspect compiled)))))))

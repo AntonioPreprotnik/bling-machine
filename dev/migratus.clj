@@ -2,8 +2,8 @@
   (:require [app.config :as config]
             [app.core :as core]
             [framework.db.core :as db]
-            [migratus.core :as m]
-            [next.jdbc :as jdbc]))
+            [migratus.core :as migratus]
+            [next.jdbc :as next-jdbc]))
 
 (def cfg
   (let [c (config/load-config core/app-config)]
@@ -14,7 +14,7 @@
 (defn create-migration
   "Creates a pair (down&up) of new migration files."
   [name]
-  (m/create cfg name))
+  (migratus/create cfg name))
 
 (defn purge-db [cfg]
   (let [dbname (-> cfg :xiana/postgresql :dbname)]
@@ -22,25 +22,25 @@
                         (assoc-in [:xiana/postgresql :dbname] "postgres")
                         db/connect
                         (get-in [:xiana/postgresql :datasource])
-                        jdbc/get-connection)]
+                        next-jdbc/get-connection)]
       (doseq [q [(str "DROP DATABASE IF EXISTS " dbname ";")
                  (str "CREATE DATABASE " dbname ";")]]
-        (jdbc/execute! con [q])))))
+        (next-jdbc/execute! con [q])))))
 
 (comment
 
-  (m/migrate cfg) ; applies all new migrations
+  (migratus/migrate cfg) ; applies all new migrations
 
-  (m/reset cfg) ; applies all "down" migrations, then applies all "up"s
+  (migratus/reset cfg) ; applies all "down" migrations, then applies all "up"s
 
-  (m/completed-list cfg)
+  (migratus/completed-list cfg)
 
-  (m/rollback cfg)
+  (migratus/rollback cfg)
 
-  (m/up cfg
-        #_" ^^^ int ids here (no vector needed)")
-  (m/down cfg
-          #_" ^^^ int ids here (no vector needed)")
+  (migratus/up cfg
+               #_" ^^^ int ids here (no vector needed)")
+  (migratus/down cfg
+                 #_" ^^^ int ids here (no vector needed)")
 
   ;; (do (purge-db) (m/migrate cfg))
 

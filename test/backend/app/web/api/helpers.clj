@@ -1,5 +1,5 @@
 (ns backend.app.web.api.helpers
-  (:require [app.funicular :as f]))
+  (:require [app.funicular :as funicular]))
 
 (defn get-command [{[_ command-payload] :command}]
   command-payload)
@@ -9,9 +9,9 @@
     query-payload))
 
 (defn command! [funicular command payload]
-  (-> (f/execute funicular {:command [command payload]})
+  (-> (funicular/execute funicular {:command [command payload]})
       get-command))
 
 (defn query! [funicular query query-alias payload]
-  (let [res (f/execute funicular {:queries {query-alias [query payload]}})]
+  (let [res (funicular/execute funicular {:queries {query-alias [query payload]}})]
     (get-query res query-alias)))

@@ -1,7 +1,7 @@
 (ns backend.app.web.api.handlers.user-test
   (:require [backend.app.web.api.helpers :refer [command!]]
             [clojure.test :refer [use-fixtures]]
-            [next.jdbc :as njdbc]
+            [next.jdbc :as next-jdbc]
             [test-core :refer [get-system]]
             [state-flow.assertions.matcher-combinators :refer [match?]]
             [state-flow.api :as flow :refer [flow]]
@@ -12,7 +12,7 @@
   [test]
   (test)
   (let [ds (-> (get-system) :xiana/postgresql :datasource)]
-    (njdbc/execute! ds ["DELETE FROM users;"])))
+    (next-jdbc/execute! ds ["DELETE FROM users;"])))
 
 (use-fixtures :each clean-db)
 

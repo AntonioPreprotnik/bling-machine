@@ -1,8 +1,8 @@
-FROM openjdk:17-jdk-alpine
+FROM azul/zulu-openjdk-alpine:17
 
 WORKDIR /
 
-COPY target/app.jar app.jar
+COPY target/xiana-1.2.150-standalone.jar app.jar
 COPY entrypoint.sh ./
 
 RUN chmod +x ./entrypoint.sh
