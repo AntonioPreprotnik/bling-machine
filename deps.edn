@@ -1,38 +1,38 @@
 {:deps
- {com.verybigthings/funicular   {:git/url    "https://github.com/VeryBigThings/funicular"
-                                 :sha        "fb4cb3ae49a9246f4489396c047779b73e9c82ba"
-                                 :exclusions [io.aviso/pretty, com.taoensso/encore, cljc.java-time/cljc.java-time]},
-  io.aviso/pretty               {:mvn/version "1.1.1"}
-  cljc.java-time/cljc.java-time {:mvn/version "0.1.18"}
-  com.taoensso/encore           {:mvn/version "3.21.0"}
-  org.clojure/clojure           {:mvn/version "1.11.1"},
-  org.clojure/tools.deps.alpha  {:mvn/version "0.12.1162"}
-  metosin/muuntaja              {:mvn/version "0.6.8"},
-  org.clojure/spec.alpha        {:mvn/version "0.3.218"},
-  lambdaisland/regal            {:mvn/version "0.0.143"},
-  com.flexiana/framework        {:git/url       "https://github.com/Flexiana/framework"
-                                 :sha           "b2d003c5447f6b6dd94e0629f03f2228089a9363"
-                                 :deps/manifest :deps
-                                 :exclusions    [funcool/cuerdas, yogthos/config]}
-  org.clojure/tools.namespace   {:mvn/version "1.2.0"},
-  migratus/migratus             {:mvn/version "1.3.6"},
-  com.verybigthings/penkala     {:git/url "https://github.com/retro/penkala"
-                                 :sha     "8f38814dcfe5a23ee2c6fcdd5d2c48ccd6f4f1c7"},
-  metosin/malli                 {:mvn/version "0.8.4"},
-  org.clojure/core.match        {:mvn/version "1.0.0"},
-  metosin/jsonista              {:mvn/version "0.3.5"},
-  metosin/reitit                {:mvn/version "0.5.17"},
-  medley/medley                 {:mvn/version "1.4.0"},
-  org.clojure/core.async        {:mvn/version "1.5.648"},
-  com.verybigthings/commons     {:git/url "https://github.com/VeryBigThings/clojure-commons"
+ {cljc.java-time/cljc.java-time #:mvn{:version "0.1.18"},
+  cljfmt/cljfmt                 #:mvn{:version "0.8.0"},
+  com.flexiana/framework        {:git/url       "https://github.com/Flexiana/framework",
+                                 :sha           "b2d003c5447f6b6dd94e0629f03f2228089a9363",
+                                 :deps/manifest :deps,
+                                 :exclusions    [funcool/cuerdas yogthos/config]},
+  com.fzakaria/slf4j-timbre     #:mvn{:version "0.3.21"},
+  com.taoensso/encore           #:mvn{:version "3.21.0"},
+  com.taoensso/timbre           #:mvn{:version "5.2.1"},
+  com.verybigthings/commons     {:git/url "https://github.com/VeryBigThings/clojure-commons",
                                  :sha     "92adaec7f29f35178f050276e51873676de668f2"},
-  com.verybigthings/pgerrors    {:git/url "https://github.com/VeryBigThings/pgerrors"
+  com.verybigthings/funicular   {:git/url    "https://github.com/VeryBigThings/funicular",
+                                 :sha        "fb4cb3ae49a9246f4489396c047779b73e9c82ba",
+                                 :exclusions [io.aviso/pretty com.taoensso/encore cljc.java-time/cljc.java-time]},
+  com.verybigthings/penkala     {:git/url "https://github.com/retro/penkala",
+                                 :sha     "8f38814dcfe5a23ee2c6fcdd5d2c48ccd6f4f1c7"},
+  com.verybigthings/pgerrors    {:git/url "https://github.com/VeryBigThings/pgerrors",
                                  :sha     "b7a95d13cee17ec9a0bcbab3a5107950f7113ea9"},
-  cljfmt/cljfmt                 {:mvn/version "0.8.0"}
-  com.walmartlabs/dyn-edn       {:mvn/version "0.2.0"}
-  com.taoensso/timbre           {:mvn/version "5.2.1"}
-  com.fzakaria/slf4j-timbre     {:mvn/version "0.3.21"}
-  org.slf4j/slf4j-api           {:mvn/version "1.7.36"}}
+  com.walmartlabs/dyn-edn       #:mvn{:version "0.2.0"},
+  io.aviso/pretty               #:mvn{:version "1.1.1"},
+  lambdaisland/regal            #:mvn{:version "0.0.143"},
+  medley/medley                 #:mvn{:version "1.4.0"},
+  metosin/jsonista              #:mvn{:version "0.3.5"},
+  metosin/malli                 #:mvn{:version "0.8.4"},
+  metosin/muuntaja              #:mvn{:version "0.6.8"},
+  metosin/reitit                #:mvn{:version "0.5.17"},
+  migratus/migratus             #:mvn{:version "1.3.6"},
+  org.clojure/clojure           #:mvn{:version "1.11.1"},
+  org.clojure/core.async        #:mvn{:version "1.5.648"},
+  org.clojure/core.match        #:mvn{:version "1.0.0"},
+  org.clojure/spec.alpha        #:mvn{:version "0.3.218"},
+  org.clojure/tools.deps.alpha  #:mvn{:version "0.14.1173"},
+  org.clojure/tools.namespace   #:mvn{:version "1.2.0"},
+  org.slf4j/slf4j-api           #:mvn{:version "1.7.36"}}
 
  :aliases
  {:cljfmt           {:commands   "clj -X:dev:cljfmt :cmd :check;
@@ -42,23 +42,23 @@
                      :exec-fn    [user/cljfmt]}
 
   :frontend         {:extra-deps
-                     {keechma.next/toolbox       {:git/url    "https://github.com/keechma/keechma-next-toolbox.git"
-                                                  :sha        "bdeebce5f1b296fc971035b49f859dfaaa28883b",}
-                      lilactown/helix            {:mvn/version "0.1.5"},
-                      com.cognitect/transit-cljs {:mvn/version "0.8.269"},
-                      hodgepodge/hodgepodge      {:mvn/version "0.1.3"},
-                      applied-science/js-interop {:mvn/version "0.3.3"},
-                      lambdaisland/fetch         {:mvn/version "1.0.41"}}}
+                     {applied-science/js-interop #:mvn{:version "0.3.3"},
+                      com.cognitect/transit-cljs #:mvn{:version "0.8.269"},
+                      hodgepodge/hodgepodge      #:mvn{:version "0.1.3"},
+                      keechma.next/toolbox       {:git/url "https://github.com/keechma/keechma-next-toolbox.git",
+                                                  :sha     "bdeebce5f1b296fc971035b49f859dfaaa28883b"},
+                      lambdaisland/fetch         #:mvn{:version "1.0.41"},
+                      lilactown/helix            #:mvn{:version "0.1.5"}}}
 
   :dev              {:command     "clj -A:dev:frontend"
                      :extra-paths ["dev" "config/dev"]
-                     :extra-deps  {binaryage/devtools        {:mvn/version "1.0.3"},
-                                   cljfmt/cljfmt             {:mvn/version "0.8.0"},
-                                   hawk/hawk                 {:mvn/version "0.2.11"},
-                                   nrepl/nrepl               {:mvn/version "0.9.0"},
-                                   vlaaad/reveal             {:mvn/version "1.3.273"},
-                                   org.clojure/clojurescript {:mvn/version "1.10.879"}
-                                   thheller/shadow-cljs      {:mvn/version "2.15.12"}}}
+                     :extra-deps  {binaryage/devtools        #:mvn{:version "1.0.3"},
+                                   cljfmt/cljfmt             #:mvn{:version "0.8.0"},
+                                   hawk/hawk                 #:mvn{:version "0.2.11"},
+                                   nrepl/nrepl               #:mvn{:version "0.9.0"},
+                                   org.clojure/clojurescript #:mvn{:version "1.10.879"},
+                                   thheller/shadow-cljs      #:mvn{:version "2.15.12"},
+                                   vlaaad/reveal             #:mvn{:version "1.3.273"}}}
 
   :start-app        {:command "clj -X:dev:frontend:start-app"
                      :exec-fn [user/start-dev]}
@@ -89,10 +89,10 @@
 
   :test             {:command     "clj -X:test"
                      :extra-paths ["config/test" "test"]
-                     :extra-deps  {lambdaisland/kaocha        {:mvn/version "1.63.998"},
-                                   nubank/state-flow          {:mvn/version "5.14.1" :exclusions [nubank/matcher-combinators]}
-                                   nubank/matcher-combinators {:mvn/version "3.4.0"},
-                                   org.clojure/test.check     {:mvn/version "1.1.1"}}
+                     :extra-deps  {lambdaisland/kaocha        #:mvn{:version "1.63.998"},
+                                   nubank/matcher-combinators #:mvn{:version "3.4.0"},
+                                   nubank/state-flow          {:mvn/version "5.14.1", :exclusions [nubank/matcher-combinators]},
+                                   org.clojure/test.check     #:mvn{:version "1.1.1"}}
                      :exec-fn     kaocha.runner/exec-fn
                      :exec-args   {:config-file ["tests.edn"]}}
 
@@ -107,4 +107,3 @@
                      :ns-default build-uberjar}}
 
  :paths ["src/backend" "src/frontend" "src/shared" "config" "resources"]}
-

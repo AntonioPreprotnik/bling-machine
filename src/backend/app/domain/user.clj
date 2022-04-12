@@ -1,7 +1,7 @@
 (ns app.domain.user
-  (:require [com.verybigthings.penkala.relation :as r]
+  (:require [app.boundary.penkala-helpers :refer [cast-as]]
             [app.penkala :refer [insert! select! select-one! update!]]
-            [app.boundary.penkala-helpers :refer [cast-as]]))
+            [com.verybigthings.penkala.relation :as r]))
 
 (defprotocol UserDatabase
   (insert [penkala data])

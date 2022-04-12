@@ -1,8 +1,7 @@
 (ns reveal
-  (:require
-   [vlaaad.reveal :as r]
-   [vlaaad.reveal.stream :as stream]
-   [vlaaad.reveal.prefs :as rp]))
+  (:require [vlaaad.reveal :as r]
+            [vlaaad.reveal.prefs :as rp]
+            [vlaaad.reveal.stream :as stream]))
 
 (defn private-field [obj fn-name-string]
   (let [m (.. obj getClass (getDeclaredField fn-name-string))]

@@ -1,8 +1,8 @@
 (ns app.core
   (:gen-class)
   (:require [app.config :as config]
-            [app.logging :as logging]
             [app.funicular :as funicular]
+            [app.logging :as logging]
             [app.penkala :as penkala]
             [app.web :refer [controller-interceptors routes]]
             [framework.db.core :as db]

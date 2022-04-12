@@ -1,7 +1,7 @@
 (ns schema.user
   (:require
-   [schema.common :as sc]
-   [malli.util :as mu]))
+   [malli.util :as mu]
+   [schema.common :as sc]))
 
 (def User
   [:map
