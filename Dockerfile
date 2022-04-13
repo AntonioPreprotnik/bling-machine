@@ -1,5 +1,6 @@
-FROM azul/zulu-openjdk-alpine:17
+#FROM azul/zulu-openjdk-alpine:17 - for apple M1 processor
 
+FROM openjdk:17-jdk-alpine
 WORKDIR /
 
 COPY target/xiana-1.2.150-standalone.jar app.jar
