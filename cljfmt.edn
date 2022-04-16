@@ -12,7 +12,9 @@
                                          pipeline!          [[:inner 0]]
                                          rescue!            [[:inner 0]]
                                          form/wrap          [[:inner 0]]
-                                         flow               [[:inner 0]]
+                                         flow                [[:inner 0]]
                                          try-as->           [[:inner 0]]
+                                         try-let            [[:inner 0]]
+                                         try+               [[:inner 0]]
                                          $                  [[:inner 0]]
                                          <>                 [[:inner 0]]}}

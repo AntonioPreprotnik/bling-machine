@@ -8,6 +8,7 @@
            keechma.pipelines.core/rescue!              cljs.core/fn
            promesa.core/let                            cljs.core/let
            com.verybigthings.commons.try/try-as->      clojure.core/as->
+           com.verybigthings.commons.try/try-let       clojure.core/let
            app.penkala/with-transaction                clojure.core/let
            applied-science.js-interop/fn               cljs.core/fn
            applied-science.js-interop/let              cljs.core/let
