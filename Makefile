@@ -53,6 +53,9 @@ format-check:
 format-fix:
 	clojure -X:dev:cljfmt :cmd :fix
 
+namespace-checker:
+	clojure -X:namespace-checker
+
 check-migrations:
 	clojure -X:test:migrator :args '["reset"]' && clojure -X:test:migrator :args '["rollback"]'
 
