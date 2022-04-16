@@ -1,7 +1,6 @@
 (ns schema.common
-  (:require
-   [cljc.java-time.extn.predicates :refer [local-date?]]
-   [malli.util]))
+  (:require [cljc.java-time.extn.predicates :refer [local-date?]]
+            malli.util))
 
 (defn remove-keys-namespaces
   "Turns `[:map [:a/x :int]]` into `[:map [:x :int]]`.

@@ -1,6 +1,6 @@
 (ns test-fixtures
-  (:require [test-core :refer [get-system]]
-            [next.jdbc :as njdbc]))
+  (:require [next.jdbc :as next-jdbc]
+            [test-core :refer [get-system]]))
 
 (defn clean-db
   "Fixture for truncating PG database between tests"

@@ -7,9 +7,8 @@
              :refer
              [get-env]]
             [com.verybigthings.pgerrors.core :as pgerrors]
-            next.jdbc.date-time
             [next.jdbc.result-set :as rs])
-  (:import (org.postgresql.util PSQLException)))
+  (:import org.postgresql.util.PSQLException))
 
 (defrecord Boundary [env])
 
