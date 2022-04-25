@@ -8,17 +8,17 @@
   (re-find (re-matcher #"postgres://(\w+):(\w+)@([\w\-\.]+):(\d+)/(\w+)" db-url)))
 
 (defn- db-url-to-args [config]
-  (let [db-url (get-in config [:framework.db.storage/postgresql :dburl])
+  (let [db-url (get-in config [:xiana/postgresql :dburl])
         [_ user password host port dbname] (parse-db-url db-url)]
-    (assoc config :framework.db.storage/postgresql (merge (:framework.db.storage/postgresql config)
-                                                          {:user     user
-                                                           :password password
-                                                           :host     host
-                                                           :port     (Integer/parseInt port)
-                                                           :dbname   dbname}))))
+    (assoc config :xiana/postgresql (merge (:xiana/postgresql config)
+                                           {:user     user
+                                            :password password
+                                            :host     host
+                                            :port     (Integer/parseInt port)
+                                            :dbname   dbname}))))
 
 (defn transform-db-config [config]
-  (if (get-in config [:framework.db.storage/postgresql :dburl])
+  (if (get-in config [:xiana/postgresql :dburl])
     (db-url-to-args config)
     config))
 
