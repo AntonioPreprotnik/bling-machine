@@ -81,9 +81,12 @@ jobs:
           key: shadow-cljs-${{ github.sha }}
           restore-keys: |
             shadow-cljs-
-      
+
       - name: Check format
         run: make format-check
+
+      - name: Check namespaces
+        run: make check-namespaces
 
       - name: Check linter
         run: make lint

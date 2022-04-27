@@ -2,10 +2,10 @@
   (:require [backend.app.web.api.helpers :refer [command!]]
             [clojure.test :refer [use-fixtures]]
             [next.jdbc :as next-jdbc]
-            [test-core :refer [get-system]]
-            [state-flow.assertions.matcher-combinators :refer [match?]]
             [state-flow.api :as flow :refer [flow]]
-            [state-flow.cljtest :refer [defflow]]))
+            [state-flow.assertions.matcher-combinators :refer [match?]]
+            [state-flow.cljtest :refer [defflow]]
+            [test-core :refer [get-system]]))
 
 (defn clean-db
   "Fixture for truncating PG database between tests"

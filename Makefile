@@ -53,8 +53,11 @@ format-check:
 format-fix:
 	clojure -X:dev:cljfmt :cmd :fix
 
-namespace-checker:
-	clojure -X:namespace-checker
+check-namespaces:
+	clojure  -Mnamespace-checker src dev test
+
+fix-namespaces:
+	clojure  -Mnamespace-checker --replace src dev test
 
 check-migrations:
 	clojure -X:test:migrator :args '["reset"]' && clojure -X:test:migrator :args '["rollback"]'
@@ -65,7 +68,7 @@ check-seeds:
 npm-deps:
 	npm install
 
-ci: format-check lint test check-migrations check-seeds release-app build-docker-image
+ci: format-check check-namespaces lint test check-migrations check-seeds release-app build-docker-image
 
 develop: npm-deps start-services start-app
 

@@ -40,12 +40,10 @@
                      :extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
                      :exec-fn    [user/cljfmt]}
 
-  :namespace-checker {:command "clojure -X:namespace-checker"
-                      :extra-deps {lein-check-namespace-decls/lein-check-namespace-decls {:mvn/version "1.0.4"}}
-                      :exec-fn    check-namespace-decls.core/check-namespace-decls
-                      :exec-args  {:debug false
-                                   :prefix-rewriting false
-                                   :source-paths     ["src" "dev" "test"]}}
+  :namespace-checker {:command "clj  -Mnamespace-checker src dev test
+                                clj  -Mnamespace-checker --replace src dev test"
+                      :extra-deps {nsorg-cli/nsorg-cli {:mvn/version "0.3.1"}}
+                      :main-opts  ["-m" "nsorg.cli"]}
 
   :lint             {:command    "clj -M:lint"
                      :extra-deps {clj-kondo/clj-kondo {:mvn/version "2022.02.09"},
