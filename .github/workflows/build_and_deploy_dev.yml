@@ -1,0 +1,207 @@
+---
+name: "Build & Deploy to DEV"
+
+on:
+  push:
+    branches:
+      - develop
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+        - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    env:
+      PG_HOST: localhost
+      PG_PASSWORD: postgres
+      PG_PORT: 5432
+      PG_DB_NAME: postgres
+      PG_TEST_DB_NAME: postgres
+      PG_USER: postgres
+      WS_PORT: 3000
+      WS_TEST_PORT: 3000
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17.3.0'
+
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install clojure tools
+        uses: DeLaGuardo/setup-clojure@3.7
+        with:
+          cli: 1.11.1.1105
+
+      - name: Restore Maven cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            maven-
+
+      - name: Restore Gitlibs cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gitlibs/libs
+          key: gitlibs-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            maven-
+
+      - name: Restore NPM cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-
+
+      - name: Restore shadow-cljs cache
+        uses: actions/cache@v2
+        with:
+          path: .shadow-cljs
+          key: shadow-cljs-${{ github.sha }}
+          restore-keys: |
+            shadow-cljs-
+      
+      - name: Check format
+        run: make format-check
+
+      - name: Check linter
+        run: make lint
+
+      - name: Check tests
+        run: make test
+
+      - name: Check migration reversibility
+        run: make check-migrations
+
+      - name: Check seeds
+        run: make check-seeds
+
+      - name: Check app build
+        run: make release-app
+
+  deploy_dev:
+    needs: test
+    name: "Deploy app to DEV"
+    runs-on: "ubuntu-latest"
+    env:
+      AWS_REGION: us-east-1
+      ECR_REGISTRY: 683604672445.dkr.ecr.us-east-1.amazonaws.com
+      ECR_REPOSITORY: onlygems-backend
+      ECS_CLUSTER: main_cluster_dev
+      ECS_CONTAINER_NAME: onlygems-backend
+      ECS_SERVICE: onlygems-backend
+      ECS_TASK_NAME: onlygems-backend
+      ECS_TASK_DEF: task-definition-onlygems-backend.json
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - name: Install clojure tools
+        uses: DeLaGuardo/setup-clojure@3.7
+        with:
+          cli: 1.11.1.1105
+
+      - name: Restore Maven cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            maven-
+
+      - name: Restore Gitlibs cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gitlibs
+          key: gitlibs-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            maven-
+
+      - name: Restore NPM cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-
+
+      - name: Restore shadow-cljs cache
+        uses: actions/cache@v2
+        with:
+          path: .shadow-cljs
+          key: shadow-cljs-${{ github.sha }}
+          restore-keys: |
+            shadow-cljs-
+
+      - name: Configure AWS access to DEV
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: ${{ secrets.VBT_OG_AWS_ADMIN_ROLE_DEV }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Test AWS credentials
+        shell: bash
+        run: aws sts get-caller-identity
+        
+      - name: Download backend task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition ${{ env.ECS_TASK_NAME }} \
+            --query taskDefinition > ${{ env.ECS_TASK_DEF }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push the image to Amazon ECR
+        run: |
+          make release-app
+          docker build -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }} .
+          echo "Pushing image to ECR..."
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          echo "::set-output name=image::${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}"
+
+      - name: Fill in the new image ID in the backend task definition
+        id: task-def-onlygems-backend
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEF }}
+          container-name: ${{ env.ECS_CONTAINER_NAME }}
+          image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+
+      - name: Deploy backend task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-onlygems-backend.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true

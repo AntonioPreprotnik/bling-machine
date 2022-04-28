@@ -34,6 +34,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Setup Babashka
+        uses: turtlequeue/setup-babashka@v1.3.0
+        with:
+          babashka-version: 0.8.1
+
+      - name: Check bb runs
+        run: bb --version
+
       - name: Install Node
         uses: actions/setup-node@v2
         with:
@@ -87,6 +95,9 @@ jobs:
 
       - name: Check namespaces
         run: make check-namespaces
+
+      - name: Check aliases
+        run: make check-aliases
 
       - name: Check linter
         run: make lint

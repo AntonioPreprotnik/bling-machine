@@ -59,6 +59,10 @@ check-namespaces:
 fix-namespaces:
 	clojure  -Mnamespace-checker --replace src dev test
 
+# requires babashka/babashka to be installed locally
+check-aliases:
+	bb inconsistent_aliases.clj "."
+
 check-migrations:
 	clojure -X:test:migrator :args '["reset"]' && clojure -X:test:migrator :args '["rollback"]'
 
@@ -68,7 +72,7 @@ check-seeds:
 npm-deps:
 	npm install
 
-ci: format-check check-namespaces lint test check-migrations check-seeds release-app build-docker-image
+ci: format-check check-namespaces check-aliases lint test check-migrations check-seeds release-app build-docker-image
 
 develop: npm-deps start-services start-app
 
