@@ -8,13 +8,10 @@
    [:users/id :uuid]
    [:users/email sc/Email]
    [:users/first-name :string]
-   [:users/last-name :string]
-   [:users/birthdate {:optional true} [:maybe sc/Date]]
-   [:users/phone {:optional true} [:maybe sc/Phone]]
-   [:users/avatar {:optional true} [:maybe :string]]])
+   [:users/last-name :string]])
 
 (def InputCreate
-  (-> User schema.common/remove-keys-namespaces (mu/dissoc :id)))
+  (-> User sc/remove-keys-namespaces (mu/dissoc :id)))
 
 (def InputUpdate
   [:map

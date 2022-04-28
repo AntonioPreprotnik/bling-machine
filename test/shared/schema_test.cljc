@@ -15,16 +15,4 @@
       "j/wtf@ya"
       "j.k")))
 
-(deftest phone-test
-  (testing "valid phone numbers"
-    (are [phone] (m/validate sut/Phone phone)
-      "79150554950"
-      "123456789012345"))
-  (testing "invalid phone numbers"
-    (are [phone] (not (m/validate sut/Phone phone))
-      "+155533231234"
-      "(555)-3323"
-      "79150554950_"
-      "1234567890123456")))
-
 

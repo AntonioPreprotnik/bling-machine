@@ -1,18 +1,11 @@
 (ns backend.app.web.api.handlers.user-test
   (:require [backend.app.web.api.helpers :refer [command!]]
             [clojure.test :refer [use-fixtures]]
-            [next.jdbc :as next-jdbc]
             [state-flow.api :as flow :refer [flow]]
             [state-flow.assertions.matcher-combinators :refer [match?]]
             [state-flow.cljtest :refer [defflow]]
-            [test-core :refer [get-system]]))
-
-(defn clean-db
-  "Fixture for truncating PG database between tests"
-  [test]
-  (test)
-  (let [ds (-> (get-system) :xiana/postgresql :datasource)]
-    (next-jdbc/execute! ds ["DELETE FROM users;"])))
+            [test-core :refer [get-system]]
+            [test-fixtures :refer [clean-db]]))
 
 (use-fixtures :each clean-db)
 

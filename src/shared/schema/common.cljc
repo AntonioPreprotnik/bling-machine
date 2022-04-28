@@ -1,6 +1,5 @@
 (ns schema.common
-  (:require [cljc.java-time.extn.predicates :refer [local-date?]]
-            malli.util))
+  (:require malli.util))
 
 (defn remove-keys-namespaces
   "Turns `[:map [:a/x :int]]` into `[:map [:x :int]]`.
@@ -21,18 +20,7 @@
   [:and {:error/message "Please enter a valid email"}
    :string [:re #"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"]])
 
-(def Phone
-  [:and :string [:re #"^\d{10,15}$"]])
-
-(def Date
-  [:fn {:error/message "Wrong date value."}
-   local-date?])
-
 (def registry
   {:app/email Email
-   :app/phone Phone
-   :app/date  Date
-
    :app/jwt :string
-
    :app/timestamp :any})

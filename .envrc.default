@@ -11,4 +11,4 @@ export WS_PORT=3000
 export WS_TEST_PORT=3000
 
 # Log level
-# export TAOENSSO_TIMBRE_MIN_LEVEL_EDN=:debug
+export TAOENSSO_TIMBRE_MIN_LEVEL_EDN=:debug
