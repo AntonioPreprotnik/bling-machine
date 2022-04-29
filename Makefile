@@ -47,6 +47,9 @@ test-repl:
 lint:
 	clojure -M:lint
 
+bb-lint:
+	bb clj-kondo.clj
+
 format-check:
 	clojure -X:dev:cljfmt :cmd :check
 
