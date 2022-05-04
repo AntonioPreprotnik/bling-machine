@@ -1,0 +1,2 @@
+{:cljfmt-config-path "cljfmt.edn"
+ :auto-add-ns-to-new-files? false}
