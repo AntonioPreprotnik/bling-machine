@@ -1,15 +1,16 @@
 (ns app.core
   (:gen-class)
-  (:require [app.config :as config]
-            [app.funicular :as funicular]
-            [app.logging :as logging]
-            [app.penkala :as penkala]
-            [app.web :refer [controller-interceptors routes]]
-            [framework.db.core :as db]
-            [framework.db.seed :as seed]
-            [framework.route.core :as routes]
-            [framework.webserver.core :as ws]
-            [piotr-yuxuan.closeable-map :refer [closeable-map]]))
+  (:require
+   [app.config :as config]
+   [app.funicular :as funicular]
+   [app.logging :as logging]
+   [app.penkala :as penkala]
+   [app.web :refer [controller-interceptors routes]]
+   [framework.db.core :as db]
+   [framework.db.seed :as seed]
+   [framework.route.core :as routes]
+   [framework.webserver.core :as ws]
+   [piotr-yuxuan.closeable-map :refer [closeable-map]]))
 
 (def app-config
   {:routes                  routes

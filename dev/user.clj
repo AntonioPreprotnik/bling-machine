@@ -1,15 +1,16 @@
 (ns user
   (:gen-class)
-  (:require [app.core :refer [->system]]
-            [app.funicular :as funicular]
-            [cljfmt.main :as cljmft.main]
-            [clojure.tools.logging :refer [*tx-agent-levels*]]
-            [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
-            [hawk.core :as hawk]
-            [piotr-yuxuan.closeable-map :refer [closeable-map]]
-            [shadow.cljs.devtools.api :as shadow.api]
-            [shadow.cljs.devtools.server :as shadow.server]
-            [state :as st :refer [dev-sys]]))
+  (:require
+   [app.core :refer [->system]]
+   [app.funicular :as funicular]
+   [cljfmt.main :as cljmft.main]
+   [clojure.tools.logging :refer [*tx-agent-levels*]]
+   [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
+   [hawk.core :as hawk]
+   [piotr-yuxuan.closeable-map :refer [closeable-map]]
+   [shadow.cljs.devtools.api :as shadow.api]
+   [shadow.cljs.devtools.server :as shadow.server]
+   [state :as st :refer [dev-sys]]))
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
