@@ -1,8 +1,9 @@
 (ns app.config
-  (:require [clojure.edn :as edn]
-            [clojure.java.io :as io]
-            [com.walmartlabs.dyn-edn :refer [env-readers]]
-            [xiana.commons :refer [deep-merge]]))
+  (:require
+   [clojure.edn :as edn]
+   [clojure.java.io :as io]
+   [com.walmartlabs.dyn-edn :refer [env-readers]]
+   [xiana.commons :refer [deep-merge]]))
 
 (defn- parse-db-url [db-url]
   (re-find (re-matcher #"postgres://(\w+):(\w+)@([\w\-\.]+):(\d+)/(\w+)" db-url)))

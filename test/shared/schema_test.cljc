@@ -1,7 +1,8 @@
 (ns shared.schema-test
-  (:require [clojure.test :refer [are deftest testing]]
-            [malli.core :as m]
-            [schema.common :as sut]))
+  (:require
+   [clojure.test :refer [are deftest testing]]
+   [malli.core :as m]
+   [schema.common :as sut]))
 
 (deftest email-test
   (testing "valid emails"

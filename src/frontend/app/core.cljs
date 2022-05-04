@@ -1,11 +1,12 @@
 (ns app.core
-  (:require [app.app :refer [app]]
-            [app.ui.main :refer [Main]]
-            [helix.core :as hx :refer [$]]
-            [keechma.next.core :as keechma]
-            [keechma.next.helix.core :refer [KeechmaRoot]]
-            [react :as react]
-            [react-dom :as rdom]))
+  (:require
+   [app.app :refer [app]]
+   [app.ui.main :refer [Main]]
+   [helix.core :as hx :refer [$]]
+   [keechma.next.core :as keechma]
+   [keechma.next.helix.core :refer [KeechmaRoot]]
+   [react :as react]
+   [react-dom :as rdom]))
 
 (defonce app-instance* (atom nil))
 

@@ -1,9 +1,10 @@
 (ns app.controllers.users
-  (:require [com.verybigthings.funicular.controller :refer [query!]]
-            [keechma.next.controller :as ctrl]
-            [keechma.next.controllers.entitydb :as edb]
-            [keechma.next.controllers.pipelines :as pipelines]
-            [keechma.pipelines.core :as pp :refer-macros [pipeline!]]))
+  (:require
+   [com.verybigthings.funicular.controller :refer [query!]]
+   [keechma.next.controller :as ctrl]
+   [keechma.next.controllers.entitydb :as edb]
+   [keechma.next.controllers.pipelines :as pipelines]
+   [keechma.pipelines.core :as pp :refer-macros [pipeline!]]))
 
 (derive :users ::pipelines/controller)
 

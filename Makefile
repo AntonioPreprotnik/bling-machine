@@ -45,26 +45,23 @@ test-repl:
 	clojure -A:test
 
 lint:
-	clojure -M:lint
-
-bb-lint:
-	bb clj-kondo.clj
+	bb script/clj-kondo.clj
 
 format-check:
-	clojure -X:dev:cljfmt :cmd :check
+	bb script/lsp-format.clj dry
 
 format-fix:
-	clojure -X:dev:cljfmt :cmd :fix
+	bb script/lsp-format.clj
 
 check-namespaces:
-	clojure  -Mnamespace-checker src dev test
+	bb script/lsp-clean-ns.clj dry
 
 fix-namespaces:
-	clojure  -Mnamespace-checker --replace src dev test
+	bb script/lsp-clean-ns.clj
 
 # requires babashka/babashka to be installed locally
 check-aliases:
-	bb inconsistent_aliases.clj "."
+	bb script/inconsistent_aliases.clj "."
 
 check-migrations:
 	clojure -X:test:migrator :args '["reset"]' && clojure -X:test:migrator :args '["rollback"]'

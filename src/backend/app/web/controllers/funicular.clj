@@ -1,5 +1,6 @@
 (ns app.web.controllers.funicular
-  (:require [app.funicular :as funicular]))
+  (:require
+   [app.funicular :as funicular]))
 
 (defn handler [{:keys [deps request] :as state}]
   (let [{:app/keys [funicular]} deps

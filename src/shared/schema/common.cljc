@@ -1,5 +1,6 @@
 (ns schema.common
-  (:require malli.util))
+  (:require
+   malli.util))
 
 (defn remove-keys-namespaces
   "Turns `[:map [:a/x :int]]` into `[:map [:x :int]]`.

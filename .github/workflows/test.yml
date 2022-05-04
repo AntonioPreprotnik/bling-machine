@@ -100,7 +100,7 @@ jobs:
         run: make check-aliases
 
       - name: Check linter
-        run: make bb-lint
+        run: make lint
 
       - name: Check tests
         run: make test

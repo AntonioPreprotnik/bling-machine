@@ -1,10 +1,11 @@
 (ns app.ui.pages.home
-  (:require [helix.core :as hx :refer [$]]
-            [helix.dom :as d]
-            [keechma.next.controllers.router :as router]
-            [keechma.next.helix.classified :refer [defclassified]]
-            [keechma.next.helix.core :refer [with-keechma]]
-            [keechma.next.helix.lib :refer [defnc]]))
+  (:require
+   [helix.core :as hx :refer [$]]
+   [helix.dom :as d]
+   [keechma.next.controllers.router :as router]
+   [keechma.next.helix.classified :refer [defclassified]]
+   [keechma.next.helix.core :refer [with-keechma]]
+   [keechma.next.helix.lib :refer [defnc]]))
 
 (defclassified HomepageWrapper :div "h-screen w-screen flex bg-gray-200")
 

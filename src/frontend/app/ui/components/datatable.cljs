@@ -1,9 +1,10 @@
 (ns app.ui.components.datatable
-  (:require [clojure.string :as str]
-            [helix.core :as hx :refer [$]]
-            [helix.dom :as d]
-            [keechma.next.helix.classified :refer [defclassified]]
-            [keechma.next.helix.lib :refer [defnc]]))
+  (:require
+   [clojure.string :as str]
+   [helix.core :as hx :refer [$]]
+   [helix.dom :as d]
+   [keechma.next.helix.classified :refer [defclassified]]
+   [keechma.next.helix.lib :refer [defnc]]))
 
 (defn process-col-classes [classes]
   (if (string? classes)

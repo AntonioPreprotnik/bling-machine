@@ -1,6 +1,7 @@
 (ns app.logging
-  (:require [taoensso.timbre :as log]
-            taoensso.timbre.tools.logging))
+  (:require
+   [taoensso.timbre :as log]
+   taoensso.timbre.tools.logging))
 
 (defn init! [{log :logging/timbre :as config}]
   (log/merge-config! log)

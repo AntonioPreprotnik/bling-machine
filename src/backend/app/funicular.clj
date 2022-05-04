@@ -1,10 +1,11 @@
 (ns app.funicular
-  (:require [app.readers :refer [readers]]
-            [clojure.edn :as edn]
-            [clojure.java.io :as io]
-            [clojure.spec.alpha :as s]
-            [com.verybigthings.funicular.core :as funicular]
-            [schema :refer [registry]]))
+  (:require
+   [app.readers :refer [readers]]
+   [clojure.edn :as edn]
+   [clojure.java.io :as io]
+   [clojure.spec.alpha :as s]
+   [com.verybigthings.funicular.core :as funicular]
+   [schema :refer [registry]]))
 
 (s/check-asserts true)
 

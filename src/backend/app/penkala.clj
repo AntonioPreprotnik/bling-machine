@@ -1,14 +1,16 @@
 (ns app.penkala
-  (:require [com.verybigthings.funicular.anomalies :as anom]
-            [com.verybigthings.penkala.env :refer [with-db]]
-            [com.verybigthings.penkala.next-jdbc
-             :as
-             penkala-next-jdbc
-             :refer
-             [get-env]]
-            [com.verybigthings.pgerrors.core :as pgerrors]
-            [next.jdbc.result-set :as rs])
-  (:import org.postgresql.util.PSQLException))
+  (:require
+   [com.verybigthings.funicular.anomalies :as anom]
+   [com.verybigthings.penkala.env :refer [with-db]]
+   [com.verybigthings.penkala.next-jdbc
+    :as
+    penkala-next-jdbc
+    :refer
+    [get-env]]
+   [com.verybigthings.pgerrors.core :as pgerrors]
+   [next.jdbc.result-set :as rs])
+  (:import
+   org.postgresql.util.PSQLException))
 
 (defrecord Boundary [env])
 

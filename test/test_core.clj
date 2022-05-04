@@ -1,10 +1,11 @@
 (ns test-core
-  (:require [app.config :as config]
-            [app.core :refer [app-config]]
-            [app.funicular :as funicular]
-            [app.penkala :as penkala]
-            [framework.db.core :as db]
-            [piotr-yuxuan.closeable-map :refer [closeable-map]]))
+  (:require
+   [app.config :as config]
+   [app.core :refer [app-config]]
+   [app.funicular :as funicular]
+   [app.penkala :as penkala]
+   [framework.db.core :as db]
+   [piotr-yuxuan.closeable-map :refer [closeable-map]]))
 
 (def state* (atom nil))
 

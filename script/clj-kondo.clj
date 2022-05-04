@@ -8,8 +8,7 @@
                            :parallel true})]
   (clj-kondo/print! res)
 
-  (if (empty? (:findings res))
-      (System/exit 0)
+  (if-not (empty? (:findings res))
       (System/exit 2)))
 
 

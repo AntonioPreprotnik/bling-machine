@@ -1,9 +1,10 @@
 (ns migratus
-  (:require [app.config :as config]
-            [app.core :as core]
-            [framework.db.core :as db]
-            [migratus.core :as migratus]
-            [next.jdbc :as next-jdbc]))
+  (:require
+   [app.config :as config]
+   [app.core :as core]
+   [framework.db.core :as db]
+   [migratus.core :as migratus]
+   [next.jdbc :as next-jdbc]))
 
 (def cfg
   (let [c (config/load-config core/app-config)]

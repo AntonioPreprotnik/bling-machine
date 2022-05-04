@@ -1,9 +1,10 @@
 (ns app.db
-  (:require [app.config :as config]
-            [app.core :refer [app-config]]
-            [clojure.string :as str]
-            [migratus.core :as migratus]
-            [xiana.commons :refer [rename-key]]))
+  (:require
+   [app.config :as config]
+   [app.core :refer [app-config]]
+   [clojure.string :as str]
+   [migratus.core :as migratus]
+   [xiana.commons :refer [rename-key]]))
 
 (defn migrate-help []
   (println "Available migratus commands:")
