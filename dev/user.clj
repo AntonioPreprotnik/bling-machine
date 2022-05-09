@@ -72,12 +72,17 @@
    (watch-frontend build-id)
    (shadow.api/nrepl-select build-id)))
 
+(defn postcss-watch []
+  (.exec (Runtime/getRuntime) "npm run postcss:watch"))
+
 (defn start-dev
   "Starts development system and runs watcher for auto-restart."
   [& _]
   (watch-backend)
   (watch-frontend)
+  (postcss-watch)
   (start-system))
+
 
 (comment
   (start-dev)
