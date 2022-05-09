@@ -64,7 +64,7 @@ check-aliases:
 	bb script/inconsistent_aliases.clj "."
 
 check-migrations:
-	clojure -X:test:migrator :args '["reset"]' && clojure -X:test:migrator :args '["rollback"]'
+	clojure -X:test:migrator :args '["check"]'
 
 check-seeds:
 	clojure -X:test:seeder :args '["reset"]'
