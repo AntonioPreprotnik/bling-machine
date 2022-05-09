@@ -72,7 +72,9 @@ check-seeds:
 npm-deps:
 	npm install
 
-ci: format-check check-namespaces check-aliases lint test check-migrations check-seeds release-app build-docker-image
+fast-ci: format-check check-namespaces check-aliases lint test check-migrations
+
+ci: format-check check-namespaces check-aliases lint test check-migrations release-app build-docker-image
 
 develop: npm-deps start-services start-app
 
