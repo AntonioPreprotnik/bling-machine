@@ -1,6 +1,7 @@
-(ns app.domain.handlers.user
-  (:require [app.domain.user :as user]
-            [medley.core :as m]))
+(ns app.web.api.handlers.user
+  (:require
+   [app.domain.user :as user]
+   [medley.core :as m]))
 
 (defn create-one [config]
   (let [{:keys [penkala data]} config

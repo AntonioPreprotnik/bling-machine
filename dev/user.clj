@@ -1,15 +1,16 @@
 (ns user
   (:gen-class)
-  (:require [app.core :refer [->system]]
-            [app.funicular :as api]
-            [clojure.tools.logging :refer [*tx-agent-levels*]]
-            [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
-            [hawk.core :as hawk]
-            [piotr-yuxuan.closeable-map :refer [closeable-map]]
-            [shadow.cljs.devtools.api :as shadow.api]
-            [shadow.cljs.devtools.server :as shadow.server]
-            [cljfmt.main :as cljmft.main]
-            [state :as st :refer [dev-sys]]))
+  (:require
+   [app.core :refer [->system]]
+   [app.funicular :as funicular]
+   [cljfmt.main :as cljmft.main]
+   [clojure.tools.logging :refer [*tx-agent-levels*]]
+   [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
+   [hawk.core :as hawk]
+   [piotr-yuxuan.closeable-map :refer [closeable-map]]
+   [shadow.cljs.devtools.api :as shadow.api]
+   [shadow.cljs.devtools.server :as shadow.server]
+   [state :as st :refer [dev-sys]]))
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
@@ -46,9 +47,11 @@
 
 (defn watch-frontend
   "Automatically re-builds frontend and re-renders browser page if frontend related files are changed."
-  []
-  (shadow.server/start!)
-  (shadow.api/watch :app))
+  ([]
+   (watch-frontend :app))
+  ([build-id]
+   (shadow.server/start!)
+   (shadow.api/watch build-id)))
 
 (defn release-frontend [{:keys [build]}]
   (shadow.api/release build))
@@ -62,11 +65,22 @@
       :check (cljmft.main/check paths options)
       :fix (cljmft.main/fix paths options))))
 
+(defn cljs-repl
+  ([]
+   (cljs-repl :app))
+  ([build-id]
+   (watch-frontend build-id)
+   (shadow.api/nrepl-select build-id)))
+
+(defn postcss-watch []
+  (.exec (Runtime/getRuntime) "npm run postcss:watch"))
+
 (defn start-dev
   "Starts development system and runs watcher for auto-restart."
   [& _]
   (watch-backend)
   (watch-frontend)
+  (postcss-watch)
   (start-system))
 
 (comment
@@ -77,24 +91,24 @@
 
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:queries {:user [:api.user/get-all {}]}}))
+      (funicular/execute {:queries {:user [:api.user/get-all {}]}}))
 
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:command [:api.user/create {:email      "test@vbt.com"
-                                                :first-name "First"
-                                                :last-name  "Last"
-                                                :zip        "10000"}]}))
+      (funicular/execute {:command [:api.user/create {:email "test@vbt.com"
+                                                      :first-name  "First"
+                                                      :last-name   "Last"
+                                                      :zip         "10000"}]}))
 
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:command [:api.user/update {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"
-                                                :data    {:email      "test@vbt.com"
-                                                          :first-name "First"
-                                                          :last-name  "Last"
-                                                          :zip        "20000"}}]}))
+      (funicular/execute {:command [:api.user/update {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"
+                                                      :data          {:email      "test@vbt.com"
+                                                                      :first-name "First"
+                                                                      :last-name  "Last"
+                                                                      :zip        "20000"}}]}))
 
   (-> @st/dev-sys
       :app/funicular
-      (api/execute {:queries {:user [:api.user/get-one {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"}]}})))
+      (funicular/execute {:queries {:user [:api.user/get-one {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"}]}})))
 

@@ -1,12 +1,13 @@
 (ns app.web
-  (:require [app.web.controllers.funicular :as funicular]
-            [app.web.controllers.health :as health]
-            [app.web.controllers.keechma :as keechma]
-            [com.verybigthings.funicular.transit :as funicular-transit]
-            [framework.interceptor.core :as interceptors]
-            [muuntaja.core :as muntaja]
-            [muuntaja.interceptor :as interceptor]
-            [reitit.ring :as ring]))
+  (:require
+   [app.web.controllers.funicular :as funicular]
+   [app.web.controllers.health :as health]
+   [app.web.controllers.keechma :as keechma]
+   [com.verybigthings.funicular.transit :as funicular-transit]
+   [framework.interceptor.core :as interceptors]
+   [muuntaja.core :as muntaja]
+   [muuntaja.interceptor :as interceptor]
+   [reitit.ring :as ring]))
 
 (def muuntaja-instance
   (muntaja/create

@@ -1,7 +1,8 @@
 (ns schema
-  (:require [lambdaisland.regal :as regal]
-            [malli.core :as m]
-            [malli.util :as u]))
+  (:require
+   [lambdaisland.regal :as regal]
+   [malli.core :as m]
+   [malli.util :as u]))
 
 #?(:cljs
    (defn parse-price [val]

@@ -1,12 +1,13 @@
 (ns app.app
-  (:require app.controllers.current-user
-            app.controllers.users
-            [com.verybigthings.funicular.controller :as f]
-            keechma.next.controllers.dataloader
-            keechma.next.controllers.entitydb
-            keechma.next.controllers.router
-            keechma.next.controllers.subscription
-            [react-dom :as rdom]))
+  (:require
+   app.controllers.current-user
+   app.controllers.users
+   [com.verybigthings.funicular.controller :as f]
+   keechma.next.controllers.dataloader
+   keechma.next.controllers.entitydb
+   keechma.next.controllers.router
+   keechma.next.controllers.subscription
+   [react-dom :as rdom]))
 (def app
   (->
    {:keechma.subscriptions/batcher rdom/unstable_batchedUpdates

@@ -4,5 +4,7 @@
 
 (comment
   (k/run-all)
-  (k/run 'backend)
-  (k/run 'app.domain.handlers.user-test))
+  (k/run :shared)
+  (k/run :backend)
+  (k/run 'backend.app.web.api.handlers.user-test)
+  (k/run 'backend.app.web.api.handlers.user-test/create-and-get))

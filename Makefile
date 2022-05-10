@@ -45,16 +45,26 @@ test-repl:
 	clojure -A:test
 
 lint:
-	clojure -M:lint
+	bb script/clj-kondo.clj
 
 format-check:
-	clojure -X:dev:cljfmt :cmd :check
+	bb script/lsp-format.clj dry
 
 format-fix:
-	clojure -X:dev:cljfmt :cmd :fix
+	bb script/lsp-format.clj
+
+check-namespaces:
+	bb script/lsp-clean-ns.clj dry
+
+fix-namespaces:
+	bb script/lsp-clean-ns.clj
+
+# requires babashka/babashka to be installed locally
+check-aliases:
+	bb script/inconsistent_aliases.clj "."
 
 check-migrations:
-	clojure -X:test:migrator :args '["reset"]' && 	clojure -X:test:migrator :args '["rollback"]'
+	clojure -X:test:migrator :args '["check"]'
 
 check-seeds:
 	clojure -X:test:seeder :args '["reset"]'
@@ -62,18 +72,23 @@ check-seeds:
 npm-deps:
 	npm install
 
-ci: format-check lint test check-migrations check-seeds release-app build-docker-image
+fast-ci: format-check check-namespaces check-aliases lint test
+
+ci: format-check check-namespaces check-aliases lint test check-migrations release-app build-docker-image
 
 develop: npm-deps start-services start-app
 
 # --------------------------------------------------
 # Production
 # --------------------------------------------------
+
 release-backend:
 	clojure -T:build-uberjar uber
 
 release-frontend:
-	clojure -X:dev:frontend:release-frontend
+	npm install && \
+	clojure -X:dev:frontend:release-frontend && \
+	npm run build
 
 release-app: release-frontend release-backend
 

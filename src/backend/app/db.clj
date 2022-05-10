@@ -1,9 +1,10 @@
 (ns app.db
-  (:require [app.config :as config]
-            [app.core :refer [app-config]]
-            [clojure.string :as str]
-            [migratus.core :as migratus]
-            [xiana.commons :refer [rename-key]]))
+  (:require
+   [app.config :as config]
+   [app.core :refer [app-config]]
+   [clojure.string :as str]
+   [migratus.core :as migratus]
+   [xiana.commons :refer [rename-key]]))
 
 (defn migrate-help []
   (println "Available migratus commands:")
@@ -26,6 +27,18 @@
       (rename-key :seeds-dir :migration-dir)
       (rename-key :seeds-table-name :migration-table-name)))
 
+(defn seed [& args]
+  (let [[command name type] args
+        config (prepare-seed-config)]
+    (if (and (:migration-dir config) (:migration-table-name config))
+      (case command
+        "create" (migratus/create config name (keyword type))
+        "reset" (migratus/reset config)
+        "destroy" (migratus/destroy config)
+        "migrate" (migratus/migrate config)
+        (println "You can 'create' 'reset' 'destroy' or 'migrate' your seed data"))
+      (println "No seed configuration found"))))
+
 (defn migrate [& args]
   (let [[command name type] args
         [_ & ids] args
@@ -33,6 +46,13 @@
     (if (str/blank? command)
       (migrate-help)
       (case (str/lower-case command)
+        "check" (do
+                  (println "Reset:")
+                  (migratus/reset config)
+                  (println "Rollback:")
+                  (migratus/rollback config)
+                  (println "Seed:")
+                  (seed "reset"))
         "create" (migratus/create config name (keyword type))
         "destroy" (migratus/destroy config)
         "down" (apply migratus/down config (map #(Long/parseLong %) ids))
@@ -46,17 +66,6 @@
 (defn migrator [{:keys [:args]}]
   (apply migrate args))
 
-(defn seed [& args]
-  (let [[command name type] args
-        config (prepare-seed-config)]
-    (if (and (:migration-dir config) (:migration-table-name config))
-      (case command
-        "create" (migratus/create config name (keyword type))
-        "reset" (migratus/reset config)
-        "destroy" (migratus/destroy config)
-        "migrate" (migratus/migrate config)
-        (println "You can 'create' 'reset' 'destroy' or 'migrate' your seed data"))
-      (println "No seed configuration found"))))
-
 (defn seeder [{:keys [:args]}]
   (apply seed args))
+

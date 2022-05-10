@@ -8,5 +8,8 @@
                      :ns-patterns            [".*"]}
                     {:id                    :frontend
                      :test-paths             ["test/frontend"]
-                     :ns-patterns            [".*"]}]
+                     :ns-patterns            [".*"]}
+                    {:id          :shared
+                     :test-paths  ["test/shared"]
+                     :ns-patterns [".*"]}]
   :kaocha/reporter [kaocha.report.progress/report]}

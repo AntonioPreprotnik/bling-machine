@@ -1,6 +1,7 @@
 (ns test-fixtures
-  (:require [test-core :refer [get-system]]
-            [next.jdbc :as njdbc]))
+  (:require
+   [next.jdbc :as next-jdbc]
+   [test-core :refer [get-system]]))
 
 (defn clean-db
   "Fixture for truncating PG database between tests"
@@ -8,7 +9,7 @@
   (test)
   (-> (get-system)
       (get-in [:xiana/postgresql :datasource])
-      (njdbc/execute! ["DO $$ BEGIN
+      (next-jdbc/execute! ["DO $$ BEGIN
                          EXECUTE 'TRUNCATE TABLE '
                          || (SELECT string_agg(table_name::text, ',')
                              FROM information_schema.tables

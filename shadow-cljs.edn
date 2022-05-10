@@ -5,4 +5,3 @@
                 :modules {:app {:init-fn app.core/init,
                                 :preloads [devtools.preload]}}}},
  :deps true}
-

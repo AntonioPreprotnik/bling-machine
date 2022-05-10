@@ -1,13 +1,16 @@
 (ns app.penkala
-  (:require [com.verybigthings.funicular.anomalies :as anom]
-            [com.verybigthings.penkala.env :refer [with-db]]
-            [com.verybigthings.penkala.next-jdbc
-             :as
-             penkala-next-jdbc
-             :refer
-             [get-env]]
-            [com.verybigthings.pgerrors.core :as pgerrors])
-  (:import (org.postgresql.util PSQLException)))
+  (:require
+   [com.verybigthings.funicular.anomalies :as anom]
+   [com.verybigthings.penkala.env :refer [with-db]]
+   [com.verybigthings.penkala.next-jdbc
+    :as
+    penkala-next-jdbc
+    :refer
+    [get-env]]
+   [com.verybigthings.pgerrors.core :as pgerrors]
+   [next.jdbc.result-set :as rs])
+  (:import
+   org.postgresql.util.PSQLException))
 
 (defrecord Boundary [env])
 
@@ -39,8 +42,19 @@
 (def select! (wrap-exception-handler penkala-next-jdbc/select!))
 (def select-one! (wrap-exception-handler penkala-next-jdbc/select-one!))
 
+(defn read-as-instant!
+  "After calling this function, `next.jdbc.result-set/ReadableColumn`
+  will be extended to `java.sql.Timestamp` so that any
+  timestamp columns will automatically be read as `java.time.Instant`."
+  []
+  (extend-protocol rs/ReadableColumn
+    java.sql.Timestamp
+    (read-column-by-label [^java.sql.Timestamp v _]     (.toInstant v))
+    (read-column-by-index [^java.sql.Timestamp v _2 _3] (.toInstant v))))
+
 (defn init [{:keys [db] :as config}]
   (let [ds (get-in db [:datasource])
         env (assoc (get-env ds) ::error-formatters {})]
+    (read-as-instant!)
     (assoc config :penkala (->Boundary env))))
 
