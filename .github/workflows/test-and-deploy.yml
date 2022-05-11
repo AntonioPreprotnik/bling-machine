@@ -1,0 +1,113 @@
+name: "Run tests"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+        - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    env:
+      PG_HOST: localhost
+      PG_PASSWORD: postgres
+      PG_PORT: 5432
+      PG_DB_NAME: postgres
+      PG_TEST_DB_NAME: postgres
+      PG_USER: postgres
+      WS_PORT: 3000
+      WS_TEST_PORT: 3000
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Babashka
+        uses: turtlequeue/setup-babashka@v1.3.0
+        with:
+          babashka-version: 0.8.1
+
+      - name: Check bb runs
+        run: bb --version
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17.3.0'
+
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install clojure tools
+        uses: DeLaGuardo/setup-clojure@3.7
+        with:
+          cli: 1.11.1.1105
+
+      - name: Restore Maven cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            maven-
+
+      - name: Restore Gitlibs cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gitlibs/libs
+          key: gitlibs-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            maven-
+
+      - name: Restore NPM cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-
+
+      - name: Restore shadow-cljs cache
+        uses: actions/cache@v2
+        with:
+          path: .shadow-cljs
+          key: shadow-cljs-${{ github.sha }}
+          restore-keys: |
+            shadow-cljs-
+
+      - name: Check format
+        run: make format-check
+
+      - name: Check namespaces
+        run: make check-namespaces
+
+      - name: Check aliases
+        run: make check-aliases
+
+      - name: Check linter
+        run: make lint
+
+      - name: Check tests
+        run: make test
+
+      - name: Check migration reversibility
+        run: make check-migrations
+
+      - name: Check seeds
+        run: make check-seeds
+
+      - name: Check app build
+        run: make release-app
