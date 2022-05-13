@@ -108,8 +108,5 @@ jobs:
       - name: Check migration reversibility
         run: make check-migrations
 
-      - name: Check seeds
-        run: make check-seeds
-
       - name: Check app build
         run: make release-app
