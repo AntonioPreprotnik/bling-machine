@@ -1,7 +1,8 @@
 {:nrepl {:port 8777},
  :builds {:app {:target :browser,
                 :output-dir "resources/public/assets/js",
-                :asset-path "assets/js",
+                :devtools {:watch-dir "resources/public"}
                 :modules {:app {:init-fn app.core/init,
-                                :preloads [devtools.preload]}}}},
+                                :preloads [devtools.preload]}}}}
+ :fs-watch {:loop-wait 50}
  :deps true}
