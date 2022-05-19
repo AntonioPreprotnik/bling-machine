@@ -13,6 +13,15 @@
 ;; Suppresses clj-kondo unresolved symbol
 (declare user-create user-created create-and-get new-user get-new-user)
 
+(def user-data
+  {:email      "atd@vbt.com"
+   :first-name "Frka1"
+   :last-name  "Trle1"
+   :zip        "10000"})
+
+(def user-data-with-ns
+  (update-keys user-data #(keyword "users" (name %))))
+
 (defn init []
   (let [system (get-system)]
     {:system system}))
@@ -21,10 +30,7 @@
   (flow "Create user"
     (flow/swap-state
      (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
-       (let [new-user (command! funicular :api.user/create {:email      "atd@vbt.com"
-                                                            :first-name "Frka1"
-                                                            :last-name  "Trle1"
-                                                            :zip        "10000"})]
+       (let [new-user (command! funicular :api.user/create user-data)]
          (assoc state :new-user new-user))))
     (flow/get-state :new-user)))
 
@@ -39,22 +45,14 @@
 (defflow user-create
   {:init init}
   [user-created (create-user)]
-  (match? {:users/email      "atd@vbt.com"
-           :users/first-name "Frka1"
-           :users/last-name  "Trle1"
-           :users/zip        "10000"}
+  (match? user-data-with-ns
           (select-keys  user-created [:users/email :users/first-name :users/last-name :users/zip])))
 
 (defflow create-and-get
   {:init init}
   [_ (create-user)]
   [get-new-user (get-user)]
-  (match? {:users/email      "atd@vbt.com"
-           :users/first-name "Frka1"
-           :users/last-name  "Trle1"
-           :users/zip        "10000"}
-           ;:user/id          uuid?}
+  (match? user-data-with-ns
           (select-keys get-new-user [:users/email :users/first-name :users/last-name :users/zip])))
-                                ;:user/id])))
 
 

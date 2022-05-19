@@ -8,6 +8,7 @@
     :refer
     [get-env]]
    [com.verybigthings.pgerrors.core :as pgerrors]
+   [next.jdbc :as next-jdbc]
    [next.jdbc.result-set :as rs])
   (:import
    org.postgresql.util.PSQLException))
@@ -16,6 +17,14 @@
 
 (defn assoc-transaction [boundary t]
   (update boundary :env with-db t))
+
+(defn get-db [boundary]
+  (-> boundary :env force :com.verybigthings.penkala.env/db))
+
+(defmacro with-transaction [[sym penkala opts] & body]
+  `(next-jdbc/with-transaction [internal-sym# (get-db ~penkala) ~opts]
+     (let [~sym (assoc-transaction ~penkala internal-sym#)]
+       ~@body)))
 
 (defn humanize [error-formatters error-data data]
   (let [constraint (:postgresql/constraint error-data)
