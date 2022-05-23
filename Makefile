@@ -87,8 +87,10 @@ release-backend:
 
 release-frontend:
 	npm install && \
+	bb -m cache/clear-resources && \
 	clojure -X:dev:frontend:release-frontend && \
-	npm run build
+	npm run build && \
+	bb -m cache/add-timestamp
 
 release-app: release-frontend release-backend
 
