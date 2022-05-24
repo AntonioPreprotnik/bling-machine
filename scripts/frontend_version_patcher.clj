@@ -15,10 +15,10 @@
 
 (defn patch-prod-versions []
   (let [timestamp (quot (System/currentTimeMillis) 1000)
-        style ["resources/public/assets/css/style.css" (format "resources/public/assets/css/style-%s.css" timestamp)]
-        app ["resources/public/assets/js/app.js" (format "resources/public/assets/js/app-%s.js" timestamp)]]
-    (rename-file (first style) (second style))
-    (rename-file (first app) (second app))
+        css ["resources/public/assets/css/style.css" (format "resources/public/assets/css/style-%s.css" timestamp)]
+        js ["resources/public/assets/js/app.js" (format "resources/public/assets/js/app-%s.js" timestamp)]]
+    (rename-file (first css) (second css))
+    (rename-file (first js) (second js))
     (spit "resources/public/index.html"
           (-> (slurp "resources/public/index.tmpl")
               (str/replace #"\*style\*" (format "style-%s.css" timestamp))
