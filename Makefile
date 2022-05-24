@@ -22,11 +22,15 @@ DEFAULT_GOAL: help
 # --------------------------------------------------
 # Development
 # --------------------------------------------------
+patch-dev:
+	bb -m frontend-version-patcher/patch-dev
 
 start-app:
+	bb -m frontend-version-patcher/patch-dev && \
 	clojure -X:dev:frontend:start-app
 
 start-repl:
+	bb -m frontend-version-patcher/patch-dev && \
 	clojure -A:dev:frontend
 
 start-services:
@@ -45,23 +49,23 @@ test-repl:
 	clojure -A:test
 
 lint:
-	bb script/clj-kondo.clj
+	bb scripts/clj-kondo.clj
 
 format-check:
-	bb script/lsp-format.clj dry
+	bb scripts/lsp-format.clj dry
 
 format-fix:
-	bb script/lsp-format.clj
+	bb scripts/lsp-format.clj
 
 check-namespaces:
-	bb script/lsp-clean-ns.clj dry
+	bb scripts/lsp-clean-ns.clj dry
 
 fix-namespaces:
-	bb script/lsp-clean-ns.clj
+	bb scripts/lsp-clean-ns.clj
 
 # requires babashka/babashka to be installed locally
 check-aliases:
-	bb script/inconsistent_aliases.clj "."
+	bb scripts/inconsistent_aliases.clj "."
 
 check-migrations:
 	clojure -X:test:migrator :args '["check"]'
@@ -87,10 +91,10 @@ release-backend:
 
 release-frontend:
 	npm install && \
-	bb -m cache/clear-resources && \
+	bb -m frontend-version-patcher/clear-resources && \
 	clojure -X:dev:frontend:release-frontend && \
 	npm run build && \
-	bb -m cache/add-timestamp
+	bb -m frontend-version-patcher/patch-prod-versions
 
 release-app: release-frontend release-backend
 
