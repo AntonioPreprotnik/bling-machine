@@ -94,7 +94,7 @@ release-frontend:
 	bb -m frontend-version-patcher/clear-resources && \
 	clojure -X:dev:frontend:release-frontend && \
 	npm run build && \
-	bb -m frontend-version-patcher/patch-prod-versions
+	bb -m frontend-version-patcher/patch-prod
 
 release-app: release-frontend release-backend
 

@@ -6,14 +6,20 @@
 (defn rename-file [old new]
   (.renameTo (io/file old) (io/file new)))
 
-(defn clear-resources []
-  (let [css-files (.listFiles (io/file "resources/public/assets/css"))
-        js-files (.listFiles (io/file "resources/public/assets/js"))
-        assets-files (concat css-files js-files)]
-    (doseq [file assets-files]
-      (io/delete-file file))))
+(defn delete-directory-recursive [^java.io.File file]
+  "Recursively delete a directory."
+  (when (.isDirectory file)
+    (run! delete-directory-recursive (.listFiles file)))
+  (io/delete-file file))
 
-(defn patch-prod-versions []
+(defn clear-resources []
+  (let [css-root (io/file "resources/public/assets/css")
+        js-root  (io/file "resources/public/assets/js")
+        assets-roots [js-root css-root]]
+    (doseq [file assets-roots]
+      (when (.exists file) (delete-directory-recursive file)))))
+
+(defn patch-prod []
   (let [timestamp (quot (System/currentTimeMillis) 1000)
         css ["resources/public/assets/css/style.css" (format "resources/public/assets/css/style-%s.css" timestamp)]
         js ["resources/public/assets/js/app.js" (format "resources/public/assets/js/app-%s.js" timestamp)]]
