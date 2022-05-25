@@ -1,6 +1,6 @@
 (ns lsp-format
   (:require
-    [babashka.pods :as pods]))
+   [babashka.pods :as pods]))
 
 (pods/load-pod 'com.github.clojure-lsp/clojure-lsp "2022.02.01-20.02.32")
 

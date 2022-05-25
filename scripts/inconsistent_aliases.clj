@@ -1,8 +1,9 @@
 (ns konmari.inconsistent-aliases
-  (:require [clojure.java.io :as io]
-            [clojure.string :as str]
-            [clojure.tools.cli :as cli]
-            [rewrite-clj.zip :as z]))
+  (:require
+   [clojure.java.io :as io]
+   [clojure.string :as str]
+   [clojure.tools.cli :as cli]
+   [rewrite-clj.zip :as z]))
 
 (defn exit [status msg]
   (println msg)

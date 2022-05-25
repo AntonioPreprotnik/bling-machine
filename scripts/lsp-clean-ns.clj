@@ -1,6 +1,6 @@
 (ns lsp-clean-ns
   (:require
-    [babashka.pods :as pods]))
+   [babashka.pods :as pods]))
 
 (pods/load-pod 'com.github.clojure-lsp/clojure-lsp "2022.02.01-20.02.32")
 
@@ -13,5 +13,5 @@
                                     :dry?     true}) :edits)
             (dissoc (api/clean-ns! {:settings {:clean {:ns-inner-blocks-indentation   :next-line
                                                        :ns-import-classes-indentation :next-line}}})
-              :edits))]
+                    :edits))]
   (System/exit (:result-code res)))

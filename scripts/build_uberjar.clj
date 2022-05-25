@@ -1,5 +1,6 @@
 (ns build-uberjar
-  (:require [clojure.tools.build.api :as b]))
+  (:require
+   [clojure.tools.build.api :as b]))
 
 (def lib 'pasta/xiana)
 (def version (format "1.2.%s" (b/git-count-revs nil)))

@@ -4,6 +4,7 @@
    [app.core :refer [->system]]
    [app.funicular :as funicular]
    [cljfmt.main :as cljmft.main]
+   [clojure.java.io :as io]
    [clojure.tools.logging :refer [*tx-agent-levels*]]
    [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
    [hawk.core :as hawk]
@@ -73,15 +74,21 @@
    (shadow.api/nrepl-select build-id)))
 
 (defn postcss-watch []
-  (.exec (Runtime/getRuntime) "npm run postcss:watch"))
+  (let [proc (.waitFor (-> (ProcessBuilder. ["npm" "run" "postcss:watch"]) .inheritIO .start))]
+    (with-open [rdr (io/reader (.getInputStream proc))]
+      (binding [*in* rdr]
+        (loop [line (read-line)]
+          (when line
+            (println line 1)
+            (recur (read-line))))))))
 
 (defn start-dev
   "Starts development system and runs watcher for auto-restart."
   [& _]
   (watch-backend)
   (watch-frontend)
-  (postcss-watch)
-  (start-system))
+  (start-system)
+  (postcss-watch))
 
 (comment
   (start-dev)
