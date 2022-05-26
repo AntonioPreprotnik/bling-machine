@@ -98,11 +98,14 @@
                      :exec-fn     kaocha.runner/exec-fn
                      :exec-args   {:config-file ["tests.edn"]}}
 
-  :release-frontend {:command   "clj -X:dev:frontend:release-frontend"
+  :release-frontend {:command   "clj -X:build:frontend:release-frontend"
                      :exec-fn   [user/release-frontend]
                      :exec-args {:build :app}}
 
   :prod             {:extra-paths ["config/prod"]}
+
+  :build            {:extra-paths ["build"]
+                     :extra-deps  {thheller/shadow-cljs      #:mvn{:version "2.18.0"},}}
 
   :build-uberjar    {:commands   "clj -T:build-uberjar uber; java -jar xiana-1.2.124-standalone.jar"
                      :extra-paths ["scripts"]

@@ -56,9 +56,6 @@
    (shadow.server/start!)
    (shadow.api/watch build-id)))
 
-(defn release-frontend [{:keys [build]}]
-  (shadow.api/release build))
-
 (defn cljfmt [{:keys [cmd paths]}]
   (let [options (-> "cljfmt.edn" slurp read-string)
         paths (or paths (:paths options))
