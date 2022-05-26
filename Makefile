@@ -27,10 +27,6 @@ patch-dev:
 
 start-app:
 	bb -m frontend-version-patcher/patch-dev && \
-	clojure -X:dev:frontend:start-app
-
-start-repl:
-	bb -m frontend-version-patcher/patch-dev && \
 	clojure -A:dev:frontend
 
 start-services:

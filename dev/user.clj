@@ -4,7 +4,7 @@
    [app.core :refer [->system]]
    [app.funicular :as funicular]
    [cljfmt.main :as cljmft.main]
-   [clojure.java.io :as io]
+   [clojure.core.async :refer  [go]]
    [clojure.tools.logging :refer [*tx-agent-levels*]]
    [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
    [hawk.core :as hawk]
@@ -16,6 +16,8 @@
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
 (set-refresh-dirs "dev" "src" "resources")
+
+(defonce started (atom false))
 
 (defn start-system []
   (reset! dev-sys (->system)))
@@ -73,22 +75,28 @@
    (watch-frontend build-id)
    (shadow.api/nrepl-select build-id)))
 
+(def css-watch (atom nil))
+
 (defn postcss-watch []
-  (let [proc (.waitFor (-> (ProcessBuilder. ["npm" "run" "postcss:watch"]) .inheritIO .start))]
-    (with-open [rdr (io/reader (.getInputStream proc))]
-      (binding [*in* rdr]
-        (loop [line (read-line)]
-          (when line
-            (println line 1)
-            (recur (read-line))))))))
+  (let [proc (-> (ProcessBuilder. ["npm" "run" "postcss:watch"]) .inheritIO .start)]
+    (reset! css-watch proc)
+    (.waitFor proc)))
+
+(defn reset-postcss-watch []
+  (when @css-watch (.destroyForcibly @css-watch))
+  (go (postcss-watch)))
 
 (defn start-dev
   "Starts development system and runs watcher for auto-restart."
   [& _]
+  (reset! started true)
   (watch-backend)
   (watch-frontend)
   (start-system)
-  (postcss-watch))
+  (go (postcss-watch)))
+
+(when (= @started false)
+  (start-dev))
 
 (comment
   (start-dev)
