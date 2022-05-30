@@ -8,15 +8,12 @@
            keechma.pipelines.core/rescue!              cljs.core/fn
            promesa.core/let                            cljs.core/let
            com.verybigthings.commons.try/try-as->      clojure.core/as->
-           com.verybigthings.commons.try/try-let       clojure.core/let
            app.penkala/with-transaction                clojure.core/let
            applied-science.js-interop/fn               cljs.core/fn
            applied-science.js-interop/let              cljs.core/let
            applied-science.js-interop/defn             cljs.core/defn}
- :linters {:unused-binding {:exclude-destructured-keys-in-fn-args true}
-           :unresolved-var    {:exclude [helix.dom
-                                         com.rpl.specter
-                                         digest]}
+ :linters {:clojure-lsp/unused-public-var {:level :off}
+           :unused-binding {:exclude-destructured-keys-in-fn-args true}
            :unresolved-symbol {:exclude [(keechma.next.helix.lib/defnc [props])
                                          (keechma.pipelines.core/pipeline!)
                                          (keechma.pipelines.core/rescue!)
