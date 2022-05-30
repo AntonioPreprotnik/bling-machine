@@ -34,25 +34,7 @@
   org.slf4j/slf4j-api           #:mvn{:version "1.7.36"}}
 
  :aliases
- {:cljfmt           {:commands   "clj -X:dev:cljfmt :cmd :check;
-                                  clj -X:dev:cljfmt :cmd :fix;
-                                  clj -X:dev:cljfmt :cmd :check :paths '[\"src/frontend/app/ui/main.cljs\"]'"
-                     :extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
-                     :exec-fn    [user/cljfmt]}
-
-  :namespace-checker {:command "clj  -Mnamespace-checker src dev test
-                                clj  -Mnamespace-checker --replace src dev test"
-                      :extra-deps {nsorg-cli/nsorg-cli {:mvn/version "0.3.1"}}
-                      :main-opts  ["-m" "nsorg.cli"]}
-
-  :lint             {:command    "clj -M:lint"
-                     :extra-deps {clj-kondo/clj-kondo {:mvn/version "2022.02.09"},
-                                  clj-kondo/config    {:git/url "https://github.com/clj-kondo/config"
-                                                       :sha     "e2e156c53c6c228fee7242629b41013f3e55051d"}}
-                     :main-opts  ["-m" "clj-kondo.main"
-                                  "--lint" "src" "test" "dev"]}
-
-  :frontend         {:extra-deps
+ {:frontend         {:extra-deps
                      {applied-science/js-interop #:mvn{:version "0.3.3"},
                       com.cognitect/transit-cljs #:mvn{:version "0.8.269"},
                       hodgepodge/hodgepodge      #:mvn{:version "0.1.3"},
@@ -72,22 +54,11 @@
   :start-app        {:command "clj -X:dev:frontend:start-app"
                      :exec-fn [user/start-dev]}
 
-  :migrator         {:commands  "clj -X:dev:migrator;
-                                 clj -X:test:migrator;
-                                 clj -X:dev:migrator :args '[\"reset\"]'
-                                 clj -X:test:migrator :args '[\"rollback\"]'
-                                 clj -X:test:migrator :args '[\"create\" \"name\" \"type\"]'
-                                 clj -X:test:migrator :args '[\"up\" id1 id2 id3 ...]'"
-                     :exec-fn   [app.db/migrator]
-                     :exec-args {:args ["migrate"]}}
+  :cider {:extra-deps {cider/cider-nrepl #:mvn{:version "0.28.3"}}}
 
-  :seeder           {:commands  "clj -X:dev:seeder;
-                                clj -X:test:seeder;
-                                clj -X:dev:seeder :args '[\"reset\"]'
-                                clj -X:test:seeder :args '[\"destroy\"]'
-                                clj -X:test:seeder :args '[\"create\" \"name\" \"type\"]'"
-                     :exec-fn   [app.db/seeder]
-                     :exec-args {:args ["migrate"]}}
+  :db-integrity {:command "clj -X:test:db-integrity"
+                 :extra-paths ["dev"]
+                 :exec-fn [migratus/check-db-integrity]}
 
   :test             {:command     "clj -X:test"
                      :extra-paths ["config/test" "test"]
