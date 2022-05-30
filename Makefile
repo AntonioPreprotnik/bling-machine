@@ -44,37 +44,36 @@ test:
 test-repl:
 	clojure -A:test
 
-lint:
-	bb scripts/clj-kondo.clj
+check-warnings:
+	clojure-lsp  diagnostics
 
-format-check:
-	bb scripts/lsp-format.clj dry
+check-lint:
+	clj-kondo --lint src dev test
 
-format-fix:
-	bb scripts/lsp-format.clj
+check-formatting:
+	clojure-lsp format --dry
+
+fix-formatting:
+	clojure-lsp format
 
 check-namespaces:
-	bb scripts/lsp-clean-ns.clj dry
+	clojure-lsp clean-ns --dry
 
 fix-namespaces:
-	bb scripts/lsp-clean-ns.clj
+	clojure-lsp clean-ns
 
-# requires babashka/babashka to be installed locally
 check-aliases:
 	bb scripts/inconsistent_aliases.clj "."
 
-check-migrations:
-	clojure -X:test:migrator :args '["check"]'
-
-check-seeds:
-	clojure -X:test:seeder :args '["reset"]'
+check-db-integrity:
+	clojure -X:test:db-integrity
 
 npm-deps:
 	npm install
 
-fast-ci: format-check check-namespaces check-aliases lint test
+fast-ci: check-formatting check-namespaces check-aliases check-lint test
 
-ci: format-check check-namespaces check-aliases lint test check-migrations release-app build-docker-image
+ci: check-formatting check-namespaces check-warnings test check-db-integrity release-app
 
 develop: npm-deps start-services start-app
 
