@@ -1,4 +1,4 @@
-(ns konmari.inconsistent-aliases
+(ns inconsistent_aliases
   (:require
    [clojure.java.io :as io]
    [clojure.string :as str]
@@ -107,18 +107,18 @@
         (print "Choose: ")
         (flush)
         (let [user-choice (read-int-from-user (+ 2 choices-count))]
-          (let [chosen (cond
-                         (<= 1 user-choice choices-count)
-                         (swap! preferred-aliases assoc ns (nth aliases (dec user-choice)))
+          (let [_ (cond
+                    (<= 1 user-choice choices-count)
+                    (swap! preferred-aliases assoc ns (nth aliases (dec user-choice)))
 
-                         (= user-choice (+ 1 choices-count))
-                         :ignore
+                    (= user-choice (+ 1 choices-count))
+                    :ignore
 
-                         (= user-choice (+ 2 choices-count))
-                         (do
-                           (print "Enter a custom alias: ")
-                           (flush)
-                           (swap! preferred-aliases assoc ns (symbol (read-line)))))])
+                    (= user-choice (+ 2 choices-count))
+                    (do
+                      (print "Enter a custom alias: ")
+                      (flush)
+                      (swap! preferred-aliases assoc ns (symbol (read-line)))))])
           (println "~~~"))))
     (spit "preferred_aliases.edn" @preferred-aliases)))
 
