@@ -97,14 +97,14 @@ jobs:
       - name: Check namespaces
         run: make check-namespaces
 
-      - name: Check linter
-        run: make lint
+      - name: Check warnings
+        run: make check-warnings
 
       - name: Check tests
         run: make test
 
       - name: Check migration reversibility
-        run: make check-migrations
+        run: make check-db-integrity
 
       - name: Check app build
         run: make release-app
