@@ -16,8 +16,6 @@
 
 (set-refresh-dirs "dev" "src" "resources")
 
-(defonce started (atom false))
-
 (defn start-system []
   (reset! dev-sys (->system)))
 
@@ -30,7 +28,7 @@
   "Stops system, refreshes changed namespaces in REPL and starts the system again."
   []
   (stop-system)
-  (refresh :after 'user/start-system))
+  (refresh))
 
 (defn- clojure-or-edn-file? [_ {:keys [file]}]
   (re-matches #"[^.].*(\.clj|\.edn)$" (.getName file)))
@@ -76,13 +74,12 @@
 (defn start-dev
   "Starts development system and runs watcher for auto-restart."
   [& _]
-  (reset! started true)
   (watch-backend)
   (watch-frontend)
   (start-system)
   (go (postcss-watch)))
 
-(when (= @started false)
+(when (empty? @dev-sys)
   (start-dev))
 
 (comment
