@@ -9,7 +9,7 @@ services:
     ports:
       - "${PG_PORT:-5433}:5432"
     environment:
-      - POSTGRES_MULTIPLE_DATABASES=${PG_DB_NAME},${PG_TEST_DB_NAME},janje
+      - POSTGRES_MULTIPLE_DATABASES=${PG_DB_NAME},${PG_TEST_DB_NAME}
       - POSTGRES_USER=${PG_USER}
       - POSTGRES_PASSWORD=${PG_PASSWORD}
 
