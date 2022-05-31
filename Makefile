@@ -27,7 +27,7 @@ patch-dev:
 
 start-app:
 	bb -m frontend-version-patcher/patch-dev && \
-	clojure -A:dev:frontend
+	clojure -M:dev:frontend -m nrepl.cmdline
 
 start-services:
 	docker-compose up -d

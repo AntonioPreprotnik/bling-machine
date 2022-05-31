@@ -3,7 +3,6 @@
   (:require
    [app.core :refer [->system]]
    [app.funicular :as funicular]
-   [cljfmt.main :as cljmft.main]
    [clojure.core.async :refer  [go]]
    [clojure.tools.logging :refer [*tx-agent-levels*]]
    [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
@@ -17,8 +16,6 @@
 
 (set-refresh-dirs "dev" "src" "resources")
 
-(defonce started (atom false))
-
 (defn start-system []
   (reset! dev-sys (->system)))
 
@@ -31,7 +28,7 @@
   "Stops system, refreshes changed namespaces in REPL and starts the system again."
   []
   (stop-system)
-  (refresh :after 'user/start-system))
+  (refresh))
 
 (defn- clojure-or-edn-file? [_ {:keys [file]}]
   (re-matches #"[^.].*(\.clj|\.edn)$" (.getName file)))
@@ -56,15 +53,6 @@
    (shadow.server/start!)
    (shadow.api/watch build-id)))
 
-(defn cljfmt [{:keys [cmd paths]}]
-  (let [options (-> "cljfmt.edn" slurp read-string)
-        paths (or paths (:paths options))
-        options (-> options (dissoc :paths))
-        options (cljmft.main/merge-default-options options)]
-    (case cmd
-      :check (cljmft.main/check paths options)
-      :fix (cljmft.main/fix paths options))))
-
 (defn cljs-repl
   ([]
    (cljs-repl :app))
@@ -86,13 +74,12 @@
 (defn start-dev
   "Starts development system and runs watcher for auto-restart."
   [& _]
-  (reset! started true)
   (watch-backend)
   (watch-frontend)
   (start-system)
   (go (postcss-watch)))
 
-(when (= @started false)
+(when (empty? @dev-sys)
   (start-dev))
 
 (comment
