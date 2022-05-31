@@ -16,7 +16,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         ports:
-        - 5432:5432
+          - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     env:
@@ -32,14 +32,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Babashka
-        uses: turtlequeue/setup-babashka@v1.3.0
-        with:
-          babashka-version: 0.8.1
-
-      - name: Check bb runs
-        run: bb --version
-
       - name: Install Node
         uses: actions/setup-node@v2
         with:
@@ -52,9 +44,18 @@ jobs:
           java-version: '17'
 
       - name: Install clojure tools
-        uses: DeLaGuardo/setup-clojure@3.7
+        uses: DeLaGuardo/setup-clojure@5.0
         with:
-          cli: 1.11.1.1105
+          cli: 1.11.1.1113
+          bb: 0.8.2
+
+      - name: Setup clojure-lsp
+        uses: clojure-lsp/setup-clojure-lsp@v1
+        with:
+          clojure-lsp-version: 2022.05.23-13.18.11
+
+      - name: Check clojure-lsp version
+        run: clojure-lsp --version
 
       - name: Restore Maven cache
         uses: actions/cache@v2
@@ -89,22 +90,19 @@ jobs:
             shadow-cljs-
 
       - name: Check format
-        run: make format-check
+        run: make check-formatting
 
       - name: Check namespaces
         run: make check-namespaces
 
-      - name: Check aliases
-        run: make check-aliases
+      - name: Check warnings
+        run: make check-warnings
 
-      - name: Check linter
-        run: make lint
-
-      - name: Check tests
+      - name: Check run-tests
         run: make test
 
       - name: Check migration reversibility
-        run: make check-migrations
+        run: make check-db-integrity
 
       - name: Check app build
         run: make release-app

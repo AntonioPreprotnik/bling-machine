@@ -25,13 +25,9 @@ DEFAULT_GOAL: help
 patch-dev:
 	bb -m frontend-version-patcher/patch-dev
 
-start-app:
+start-dev:
 	bb -m frontend-version-patcher/patch-dev && \
-	clojure -X:dev:frontend:start-app
-
-start-repl:
-	bb -m frontend-version-patcher/patch-dev && \
-	clojure -A:dev:frontend
+	clojure -M:dev:frontend -m nrepl.cmdline
 
 start-services:
 	docker-compose up -d
@@ -42,45 +38,44 @@ stop-services:
 psql:
 	docker-compose exec db psql -U postgres
 
-test:
+run-tests:
 	clojure -X:test
 
-test-repl:
+start-test:
 	clojure -A:test
 
-lint:
-	bb scripts/clj-kondo.clj
+check-warnings:
+	clojure-lsp  diagnostics
 
-format-check:
-	bb scripts/lsp-format.clj dry
+check-lint:
+	clj-kondo --lint src dev test
 
-format-fix:
-	bb scripts/lsp-format.clj
+check-formatting:
+	clojure-lsp format --dry
+
+fix-formatting:
+	clojure-lsp format
 
 check-namespaces:
-	bb scripts/lsp-clean-ns.clj dry
+	clojure-lsp clean-ns --dry
 
 fix-namespaces:
-	bb scripts/lsp-clean-ns.clj
+	clojure-lsp clean-ns
 
-# requires babashka/babashka to be installed locally
 check-aliases:
 	bb scripts/inconsistent_aliases.clj "."
 
-check-migrations:
-	clojure -X:test:migrator :args '["check"]'
-
-check-seeds:
-	clojure -X:test:seeder :args '["reset"]'
+check-db-integrity:
+	clojure -X:test:db-integrity
 
 npm-deps:
 	npm install
 
-fast-ci: format-check check-namespaces check-aliases lint test
+fast-ci: check-formatting check-namespaces check-aliases check-lint run-tests
 
-ci: format-check check-namespaces check-aliases lint test check-migrations release-app build-docker-image
+ci: check-formatting check-namespaces check-warnings run-tests check-db-integrity release-app
 
-develop: npm-deps start-services start-app
+develop: npm-deps start-services start-dev
 
 # --------------------------------------------------
 # Production
@@ -92,7 +87,7 @@ release-backend:
 release-frontend:
 	npm install && \
 	bb -m frontend-version-patcher/clear-resources && \
-	clojure -X:dev:frontend:release-frontend && \
+	clojure -X:build:frontend:release-frontend && \
 	npm run build && \
 	bb -m frontend-version-patcher/patch-prod
 

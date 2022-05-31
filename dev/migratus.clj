@@ -1,53 +1,87 @@
 (ns migratus
+  "REPL namespace used for managing local DB migrations and seeds."
   (:require
    [app.config :as config]
-   [app.core :as core]
+   [app.core :refer [app-config]]
    [framework.db.core :as db]
    [migratus.core :as migratus]
-   [next.jdbc :as next-jdbc]))
+   [next.jdbc :as next-jdbc]
+   [xiana.commons :refer [rename-key]]))
 
-(def cfg
-  (let [c (config/load-config core/app-config)]
-    (-> c
-        :xiana/migration
-        (assoc :db (:xiana/postgresql c)))))
+(defn- load-migration-config []
+  (let [config (config/load-config app-config)
+        db-config (:xiana/postgresql config)]
+    (assoc (:xiana/migration config) :db db-config)))
 
-(defn create-migration
-  "Creates a pair (down&up) of new migration files."
-  [name]
-  (migratus/create cfg name))
+(defn- load-seed-config []
+  (-> (load-migration-config)
+      (rename-key :seeds-dir :migration-dir)
+      (rename-key :seeds-table-name :migration-table-name)))
 
-(defn purge-db [cfg]
-  (let [dbname (-> cfg :xiana/postgresql :dbname)]
-    (with-open [con (-> cfg
-                        (assoc-in [:xiana/postgresql :dbname] "postgres")
-                        db/connect
-                        (get-in [:xiana/postgresql :datasource])
-                        next-jdbc/get-connection)]
-      (doseq [q [(str "DROP DATABASE IF EXISTS " dbname ";")
-                 (str "CREATE DATABASE " dbname ";")]]
-        (next-jdbc/execute! con [q])))))
+(defn recreate-db
+  "Drops down and recreates database free of data and migrations."
+  []
+  (let [config (config/load-config app-config)
+        db-name (get-in config [:xiana/postgresql :dbname])
+        master-config (assoc-in config [:xiana/postgresql :dbname] "postgres")
+        datasource (get-in (db/connect master-config) [:xiana/postgresql :datasource])]
+    (with-open [connection (next-jdbc/get-connection datasource)]
+      (doseq [query [(format "DROP DATABASE IF EXISTS %s;" db-name)
+                     (format "CREATE DATABASE %s;" db-name)]]
+        (next-jdbc/execute! connection [query])))))
+
+(defn check-db-integrity
+  "Used for checking migration reversibility and seeds compatibility."
+  [& _]
+  (let [migration-config (load-migration-config)
+        seed-config (load-seed-config)]
+    (println "Reset migrations:")
+    (migratus/reset migration-config)
+
+    (println "Running seeds:")
+    (migratus/reset seed-config)
+
+    (println "Rollback migrations:")
+    (migratus/rollback migration-config)))
+
+(def ^:private down-count 1)
+(def ^:private migration-config (load-migration-config))
+(def ^:private migration-name "create-blockchain-transactions")
+(def ^:private seed-config (load-seed-config))
+(def ^:private seed-name "create-cards")
+(def ^:private up-count 1)
 
 (comment
+  ;;# --------------------------------------------------------------------------
+  ;;# FRESH DB
+  ;;# --------------------------------------------------------------------------
 
-  (migratus/migrate cfg) ; applies all new migrations
+  (recreate-db)
 
-  (migratus/reset cfg) ; applies all "down" migrations, then applies all "up"s
+  ;;# --------------------------------------------------------------------------
+  ;;# MIGRATIONS
+  ;;# --------------------------------------------------------------------------
 
-  (migratus/completed-list cfg)
+  (migratus/create migration-config migration-name)
+  (migratus/destroy migration-config)
+  (migratus/down migration-config down-count)
+  (migratus/init migration-config)
+  (migratus/migrate migration-config)
+  (migratus/reset migration-config)
+  (migratus/rollback migration-config)
+  (migratus/up migration-config up-count)
 
-  (migratus/rollback cfg)
+  ;;# --------------------------------------------------------------------------
+  ;;# SEEDS
+  ;;# --------------------------------------------------------------------------
 
-  (migratus/up cfg
-               #_" ^^^ int ids here (no vector needed)")
-  (migratus/down cfg
-                 #_" ^^^ int ids here (no vector needed)")
+  (migratus/create seed-config seed-name)
+  (migratus/destroy seed-config)
+  (migratus/migrate seed-config)
+  (migratus/reset seed-config)
 
-  ;; (do (purge-db) (m/migrate cfg))
+  ;;# --------------------------------------------------------------------------
+  ;;# DB INTEGRITY
+  ;;# --------------------------------------------------------------------------
 
-  (-> (config/load-config core/app-config) db/connect purge-db)
-
-  #_{:clj-kondo/ignore [:invalid-arity]}
-  (create-migration
-   #_mn
-   #_"^^^ use your IDE's `eval at context` functionality  ^^^"))
+  (check-db-integrity))

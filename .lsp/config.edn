@@ -1,2 +1,11 @@
-{:cljfmt-config-path "cljfmt.edn"
- :auto-add-ns-to-new-files? false}
+{:auto-add-ns-to-new-files? false
+ :clean {:after-ns-refactor true
+         :ns-inner-blocks-indentation :next-line
+         :ns-import-classes-indentation :next-line
+         :sort {:ns true
+                :require true
+                :import true
+                :refer {:max-line-length 80}}}
+ :cljfmt-config-path "cljfmt.edn"
+ :linters {:clj-kondo {:level :on
+                       :report-duplicates false}}}

@@ -6,8 +6,8 @@
 (defn rename-file [old new]
   (.renameTo (io/file old) (io/file new)))
 
-(defn delete-directory-recursive [^java.io.File file]
-  "Recursively delete a directory."
+(defn delete-directory-recursive  "Recursively delete a directory."
+  [^java.io.File file]
   (when (.isDirectory file)
     (run! delete-directory-recursive (.listFiles file)))
   (io/delete-file file))
