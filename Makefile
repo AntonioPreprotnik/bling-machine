@@ -35,13 +35,16 @@ start-repl:
 
 start-services:
 	chmod +x scripts/pg_init_scripts/multiple_databases.sh && \
-	docker-compose up -d
+	docker-compose up --remove-orphans -d
 
 stop-services:
+	docker-compose down
+
+clean-services:
 	docker-compose down -v
 
 psql:
-	docker-compose exec pasta_xiana_db psql -U postgres
+	docker-compose exec db psql -U postgres
 
 test:
 	clojure -X:test

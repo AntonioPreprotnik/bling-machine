@@ -1,16 +1,17 @@
 version: "3.7"
 services:
-  pasta_xiana_db:
+  db:
+    container_name: pasta_xiana_db
     image: postgres:14-alpine
     volumes:
       - ./scripts/pg_init_scripts:/docker-entrypoint-initdb.d
-      - db-data:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     ports:
       - "${PG_PORT:-5433}:5432"
     environment:
-      - POSTGRES_MULTIPLE_DATABASES=${PG_DB_NAME},${PG_TEST_DB_NAME}
+      - POSTGRES_MULTIPLE_DATABASES=${PG_DB_NAME},${PG_TEST_DB_NAME},janje
       - POSTGRES_USER=${PG_USER}
       - POSTGRES_PASSWORD=${PG_PASSWORD}
 
 volumes:
-  db-data:
+  db: {}
