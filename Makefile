@@ -25,7 +25,7 @@ DEFAULT_GOAL: help
 patch-dev:
 	bb -m frontend-version-patcher/patch-dev
 
-start-app:
+start-dev:
 	bb -m frontend-version-patcher/patch-dev && \
 	clojure -M:dev:frontend -m nrepl.cmdline
 
@@ -38,10 +38,10 @@ stop-services:
 psql:
 	docker-compose exec db psql -U postgres
 
-test:
+run-tests:
 	clojure -X:test
 
-test-repl:
+start-test:
 	clojure -A:test
 
 check-warnings:
@@ -71,11 +71,11 @@ check-db-integrity:
 npm-deps:
 	npm install
 
-fast-ci: check-formatting check-namespaces check-aliases check-lint test
+fast-ci: check-formatting check-namespaces check-aliases check-lint run-tests
 
-ci: check-formatting check-namespaces check-warnings test check-db-integrity release-app
+ci: check-formatting check-namespaces check-warnings run-tests check-db-integrity release-app
 
-develop: npm-deps start-services start-app
+develop: npm-deps start-services start-dev
 
 # --------------------------------------------------
 # Production

@@ -14,7 +14,9 @@
            applied-science.js-interop/defn             cljs.core/defn}
  :linters {:clojure-lsp/unused-public-var {:level :off}
            :unused-binding {:exclude-destructured-keys-in-fn-args true}
-           :unresolved-symbol {:exclude [(keechma.next.helix.lib/defnc [props])
+           :unresolved-symbol {:exclude [&
+                                         (helix.core/$)
+                                         (keechma.next.helix.lib/defnc [props])
                                          (keechma.pipelines.core/pipeline!)
                                          (keechma.pipelines.core/rescue!)
                                          (keechma.next.helix.template/defnt [configurable slot optional-slot])]}}

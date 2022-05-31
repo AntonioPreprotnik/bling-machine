@@ -1,5 +1,5 @@
 {:auto-add-ns-to-new-files? false
- :clean {:automatically-after-ns-refactor true
+ :clean {:after-ns-refactor true
          :ns-inner-blocks-indentation :next-line
          :ns-import-classes-indentation :next-line
          :sort {:ns true

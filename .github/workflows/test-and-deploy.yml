@@ -98,7 +98,7 @@ jobs:
       - name: Check warnings
         run: make check-warnings
 
-      - name: Check tests
+      - name: Check run-tests
         run: make test
 
       - name: Check migration reversibility

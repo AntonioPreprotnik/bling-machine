@@ -45,20 +45,20 @@
 
   :dev              {:command     "clj -A:dev:frontend"
                      :extra-paths ["dev" "config/dev"]
-                     :extra-deps  {binaryage/devtools        #:mvn{:version "1.0.3"},
-                                   hawk/hawk                 #:mvn{:version "0.2.11"},
-                                   nrepl/nrepl               #:mvn{:version "0.9.0"},
-                                   thheller/shadow-cljs      #:mvn{:version "2.18.0"},
-                                   vlaaad/reveal             #:mvn{:version "1.3.273"}}}
+                     :extra-deps  {binaryage/devtools   #:mvn{:version "1.0.3"},
+                                   hawk/hawk            #:mvn{:version "0.2.11"},
+                                   nrepl/nrepl          #:mvn{:version "0.9.0"},
+                                   thheller/shadow-cljs #:mvn{:version "2.18.0"},
+                                   vlaaad/reveal        #:mvn{:version "1.3.273"}}}
 
   :start-app        {:command "clj -X:dev:frontend:start-app"
                      :exec-fn [user/start-dev]}
 
-  :cider {:extra-deps {cider/cider-nrepl #:mvn{:version "0.28.3"}}}
+  :cider            {:extra-deps {cider/cider-nrepl #:mvn{:version "0.28.3"}}}
 
-  :db-integrity {:command "clj -X:test:db-integrity"
-                 :extra-paths ["dev"]
-                 :exec-fn [migratus/check-db-integrity]}
+  :db-integrity     {:command     "clj -X:test:db-integrity"
+                     :extra-paths ["dev"]
+                     :exec-fn     [migratus/check-db-integrity]}
 
   :test             {:command     "clj -X:test"
                      :extra-paths ["config/test" "test"]
@@ -76,11 +76,11 @@
   :prod             {:extra-paths ["config/prod"]}
 
   :build            {:extra-paths ["build"]
-                     :extra-deps  {thheller/shadow-cljs      #:mvn{:version "2.18.0"},}}
+                     :extra-deps  {thheller/shadow-cljs #:mvn{:version "2.18.0"},}}
 
-  :build-uberjar    {:commands   "clj -T:build-uberjar uber; java -jar xiana-1.2.124-standalone.jar"
+  :build-uberjar    {:commands    "clj -T:build-uberjar uber; java -jar xiana-1.2.124-standalone.jar"
                      :extra-paths ["scripts"]
-                     :deps       {io.github.clojure/tools.build {:git/tag "v0.8.1" :git/sha "7d40500"}}
-                     :ns-default build-uberjar}}
+                     :deps        {io.github.clojure/tools.build {:git/tag "v0.8.1" :git/sha "7d40500"}}
+                     :ns-default  build-uberjar}}
 
  :paths ["src/backend" "src/frontend" "src/shared" "config" "resources"]}

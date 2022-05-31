@@ -101,7 +101,7 @@ jobs:
         run: make check-warnings
 
       - name: Check tests
-        run: make test
+        run: make run-tests
 
       - name: Check migration reversibility
         run: make check-db-integrity
