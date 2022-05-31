@@ -30,9 +30,13 @@ start-dev:
 	clojure -M:dev:frontend -m nrepl.cmdline
 
 start-services:
-	docker-compose up -d
+	chmod +x scripts/pg_init_scripts/multiple_databases.sh && \
+	docker-compose up --remove-orphans -d
 
 stop-services:
+	docker-compose down
+
+clean-services:
 	docker-compose down -v
 
 psql:

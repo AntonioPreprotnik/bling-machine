@@ -1,10 +1,10 @@
 # PostgreSQL
 export PG_HOST=localhost
-export PG_DB_NAME=pasta-xiana_dev
+export PG_DB_NAME=pasta_xiana_dev
 export PG_USER=postgres
 export PG_PASSWORD=postgres
 export PG_PORT=5433
-export PG_TEST_DB_NAME=pasta-xiana_test
+export PG_TEST_DB_NAME=pasta_xiana_dev
 
 # Web server
 export WS_PORT=3000
