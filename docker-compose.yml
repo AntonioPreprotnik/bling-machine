@@ -1,9 +1,9 @@
 version: "3.7"
 services:
-  db:
+  pasta_xiana_db:
     image: postgres:14-alpine
     volumes:
-      - ./pg-init-scripts:/docker-entrypoint-initdb.d
+      - ./scripts/pg_init_scripts:/docker-entrypoint-initdb.d
       - db-data:/var/lib/postgresql/data
     ports:
       - "${PG_PORT:-5433}:5432"
