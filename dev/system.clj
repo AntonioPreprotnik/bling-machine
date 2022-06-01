@@ -1,33 +1,26 @@
 (ns system
   (:require
-   [app.core :refer [->system]]
-   [app.funicular :as funicular]
-   [clojure.core.async :refer  [go]]
-   [clojure.tools.logging :refer [*tx-agent-levels*]]
-   [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
-   [hawk.core :as hawk]
-   [piotr-yuxuan.closeable-map :refer [closeable-map]]
-   [shadow.cljs.devtools.api :as shadow.api]
-   [shadow.cljs.devtools.server :as shadow.server]
-   [state :as st :refer [dev-sys]]))
+    [app.core :refer [->system]]
+    [app.funicular :as funicular]
+    [clojure.core.async :refer  [go]]
+    [clojure.tools.logging :refer [*tx-agent-levels*]]
+    [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
+    [hawk.core :as hawk]
+    [piotr-yuxuan.closeable-map :refer [closeable-map]]
+    [shadow.cljs.devtools.api :as shadow.api]
+    [shadow.cljs.devtools.server :as shadow.server]))
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
+(declare restart-system)
+
+(defonce state (atom (closeable-map {})))
+
+;;# ----------------------------------------------------------------------------
+;;# WATCHERS
+;;# ----------------------------------------------------------------------------
+
 (set-refresh-dirs "dev" "src" "resources")
-
-(defn start-system []
-  (reset! dev-sys (->system)))
-
-(defn stop-system []
-  (when (:webserver @dev-sys)
-    (.close @dev-sys))
-  (reset! dev-sys (closeable-map {})))
-
-(defn restart-system
-  "Stops system, refreshes changed namespaces in REPL and starts the system again."
-  []
-  (stop-system)
-  (refresh))
 
 (defn- clojure-or-edn-file? [_ {:keys [file]}]
   (re-matches #"[^.].*(\.clj|\.edn)$" (.getName file)))
@@ -54,14 +47,36 @@
 
 (def css-watch (atom nil))
 
-(defn postcss-watch []
+(defn watch-postcss
+  "a"
+  []
   (let [proc (-> (ProcessBuilder. ["npm" "run" "postcss:watch"]) .inheritIO .start)]
     (reset! css-watch proc)
     (.waitFor proc)))
 
-(defn reset-postcss-watch []
+(defn reset-postcss-watch
+  "Run this function from REPL to kill the stuck postcss process and start the new one"
+  []
   (when @css-watch (.destroyForcibly @css-watch))
-  (go (postcss-watch)))
+  (go (watch-postcss)))
+
+;;# ----------------------------------------------------------------------------
+;;# DEV SYSTEM
+;;# ----------------------------------------------------------------------------
+
+(defn start-system []
+  (reset! state (->system)))
+
+(defn stop-system []
+  (when (:webserver @state)
+    (.close @state))
+  (reset! state (closeable-map {})))
+
+(defn restart-system
+  "Stops system, refreshes changed namespaces in REPL and starts the system again."
+  []
+  (stop-system)
+  (refresh))
 
 (defn start-dev
   "Starts development system and runs watcher for auto-restart."
@@ -69,9 +84,10 @@
   (watch-backend)
   (watch-frontend)
   (start-system)
-  (go (postcss-watch)))
+  (go (watch-postcss)))
 
-(when (empty? @dev-sys)
+; this will run the start-dev function on every namespace reload if dev-sys atom is empty (no system state)
+(when (empty? @state)
   (start-dev))
 
 (comment
@@ -80,26 +96,26 @@
   (stop-system)
   (restart-system)
 
-  (-> @st/dev-sys
+  (-> @state
       :app/funicular
       (funicular/execute {:queries {:user [:api.user/get-all {}]}}))
 
-  (-> @st/dev-sys
+  (-> @state
       :app/funicular
       (funicular/execute {:command [:api.user/create {:email "test@vbt.com"
                                                       :first-name  "First"
                                                       :last-name   "Last"
                                                       :zip         "10000"}]}))
 
-  (-> @st/dev-sys
+  (-> @state
       :app/funicular
-      (funicular/execute {:command [:api.user/update {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"
+      (funicular/execute {:command [:api.user/update {:user-id #uuid"da63492d-d8ab-4166-919b-01d5e48cae78"
                                                       :data          {:email      "test@vbt.com"
                                                                       :first-name "First"
                                                                       :last-name  "Last"
                                                                       :zip        "20000"}}]}))
 
-  (-> @st/dev-sys
+  (-> @state
       :app/funicular
       (funicular/execute {:queries {:user [:api.user/get-one {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"}]}})))
 
