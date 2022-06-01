@@ -1,7 +1,6 @@
 (ns system
   (:require
    [app.core :refer [->system]]
-   [app.funicular :as funicular]
    [clojure.core.async :refer  [go]]
    [clojure.tools.logging :refer [*tx-agent-levels*]]
    [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
@@ -94,28 +93,4 @@
   (start-dev)
   (start-system)
   (stop-system)
-  (restart-system)
-
-  (-> @state
-      :app/funicular
-      (funicular/execute {:queries {:user [:api.user/get-all {}]}}))
-
-  (-> @state
-      :app/funicular
-      (funicular/execute {:command [:api.user/create {:email "test@vbt.com"
-                                                      :first-name  "First"
-                                                      :last-name   "Last"
-                                                      :zip         "10000"}]}))
-
-  (-> @state
-      :app/funicular
-      (funicular/execute {:command [:api.user/update {:user-id #uuid"da63492d-d8ab-4166-919b-01d5e48cae78"
-                                                      :data          {:email      "test@vbt.com"
-                                                                      :first-name "First"
-                                                                      :last-name  "Last"
-                                                                      :zip        "20000"}}]}))
-
-  (-> @state
-      :app/funicular
-      (funicular/execute {:queries {:user [:api.user/get-one {:user-id #uuid"bb621b8b-a841-44c5-b393-01d4411bfb10"}]}})))
-
+  (restart-system))
