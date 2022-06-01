@@ -1,8 +1,8 @@
 (ns user-repl
   "REPL namespace used for testing funicular user related API calls."
   (:require
-    [app.helpers :refer [command! query!]]
-    [system :refer [state]]))
+   [app.helpers :refer [command! query!]]
+   [system :refer [state]]))
 
 (def ^:private funicular (:app/funicular @state))
 (def ^:private user-id #uuid "da63492d-d8ab-4166-919b-01d5e48cae78")
