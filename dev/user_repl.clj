@@ -16,8 +16,7 @@
                                         :zip "10000"})
 
   (command! funicular :api.user/update {:user-id user-id
-                                        :data {:email "test@vbt.com"
-                                               :first-name "First"
+                                        :data {:first-name "First"
                                                :last-name "Last"
                                                :zip "20000"}})
 
