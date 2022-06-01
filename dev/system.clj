@@ -3,7 +3,8 @@
    [app.core :refer [->system]]
    [clojure.core.async :refer  [go]]
    [clojure.tools.logging :refer [*tx-agent-levels*]]
-   [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
+   [clojure.tools.namespace.repl :refer [disable-reload! refresh
+                                         set-refresh-dirs]]
    [hawk.core :as hawk]
    [piotr-yuxuan.closeable-map :refer [closeable-map]]
    [shadow.cljs.devtools.api :as shadow.api]
@@ -14,6 +15,8 @@
 (declare restart-system)
 
 (defonce state (atom (closeable-map {})))
+
+(disable-reload!)
 
 ;;# ----------------------------------------------------------------------------
 ;;# WATCHERS
@@ -75,7 +78,7 @@
   "Stops system, refreshes changed namespaces in REPL and starts the system again."
   []
   (stop-system)
-  (refresh))
+  (refresh :after 'system/start-system))
 
 (defn start-dev
   "Starts development system and runs watcher for auto-restart."
@@ -85,7 +88,7 @@
   (start-system)
   (go (watch-postcss)))
 
-; this will run the start-dev function on every namespace reload if dev-sys atom is empty (no system state)
+; this will run the start-dev function on every namespace reload if state atom is empty (no system state)
 (when (empty? @state)
   (start-dev))
 
