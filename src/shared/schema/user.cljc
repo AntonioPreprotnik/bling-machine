@@ -14,9 +14,10 @@
   (-> User sc/remove-keys-namespaces (mu/dissoc :id)))
 
 (def InputUpdate
-  [:map
-   [:data (-> InputCreate (mu/dissoc :email) mu/optional-keys)]
-   [:user-id :uuid]])
+  (-> User
+      schema.common/remove-keys-namespaces
+      (mu/dissoc :email)
+      mu/optional-keys))
 
 (def registry
   {:app/user              User
