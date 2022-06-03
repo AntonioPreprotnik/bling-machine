@@ -1,6 +1,6 @@
 
-module.exports = {  
-  content: ["./src/frontend/app/ui/**/*.cljs"],
+module.exports = {
+  content: ["./src/**/*.clj*"],
   theme: {
     extend: {}
   },
