@@ -2,12 +2,12 @@
                     :ns-filter {:allow #{"*"}}}
 
 ;; if key :dburl is not null and is defined as #dyn/prop PG_TEST_URL it will take precedence over other configuration keys
- :xiana/postgresql {:dbname   #dyn/prop PG_DB_NAME
-                    :host     #dyn/prop PG_HOST
-                    :password #dyn/prop PG_PASSWORD
-                    :port     #dyn/long #dyn/prop PG_PORT
-                    :user     #dyn/prop PG_USER
-                    :dburl     nil}
+ :xiana/postgresql {:dbname   #dyn/prop [PG_TEST_DB_NAME "app_test"]
+                    :host     #dyn/prop [PG_TEST_HOST "localhost"]
+                    :password #dyn/prop [PG_TEST_PASSWORD "postgres"]
+                    :port     #dyn/prop [PG_TEST_PORT "5432"]
+                    :user     #dyn/prop [PG_TEST_USER "postgres"]
+                    :dburl    #dyn/prop [PG_TEST_URL nil]}
 
  :xiana/migration  {:seeds-dir "seeds/test"}
 
