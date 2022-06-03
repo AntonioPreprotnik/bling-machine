@@ -11,7 +11,7 @@ export PG_TEST_USER=postgres
 export PG_TEST_PASSWORD=postgres
 export PG_TEST_PORT=5432
 
-export PG_URL=postgres://postgres:postgres@localhost:5432/app_test
+export PG_URL=postgres://postgres:postgres@localhost:5432/app
 export PG_TEST_URL=postgres://postgres:postgres@localhost:5432/app_test
 
 # Web server

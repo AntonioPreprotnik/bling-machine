@@ -46,9 +46,7 @@
 
 (def ^:private down-count 1)
 (def ^:private migration-config (load-migration-config))
-(def ^:private migration-name "create-blockchain-transactions")
 (def ^:private seed-config (load-seed-config))
-(def ^:private seed-name "create-cards")
 (def ^:private up-count 1)
 
 (comment
@@ -61,6 +59,7 @@
   ;;# --------------------------------------------------------------------------
   ;;# MIGRATIONS
   ;;# --------------------------------------------------------------------------
+  (declare migration-name seed-name)
 
   (migratus/create migration-config migration-name)
   (migratus/destroy migration-config)
