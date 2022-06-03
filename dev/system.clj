@@ -25,7 +25,7 @@
 (set-refresh-dirs "dev" "src" "resources")
 
 (defn- clojure-or-edn-file? [_ {:keys [file]}]
-  (re-matches #"[^.].*(\.clj|\.edn)$" (.getName file)))
+  (re-matches #"[^.].*(\.clj|\.cljc|\.edn)$" (.getName file)))
 
 (defn- system-watch-handler [context _event]
   (binding [*ns* *ns*]
