@@ -27,3 +27,4 @@ profiles.clj
 /resources/public/assets/js
 /resources/public/assets/css
 /ruis
+/resources/public/index.html
