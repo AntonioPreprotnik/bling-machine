@@ -38,8 +38,10 @@
                      {applied-science/js-interop #:mvn{:version "0.3.3"},
                       com.cognitect/transit-cljs #:mvn{:version "0.8.269"},
                       hodgepodge/hodgepodge      #:mvn{:version "0.1.3"},
+                      keechma/next               {:git/url "https://github.com/keechma/keechma-next.git",
+                                                  :sha     "6560d5f87e6a731e9fff7dc0c52e6da571155f72"},
                       keechma.next/toolbox       {:git/url "https://github.com/keechma/keechma-next-toolbox.git",
-                                                  :sha     "bdeebce5f1b296fc971035b49f859dfaaa28883b"},
+                                                  :sha     "967f483e2e6f157647d7f5c65a1b44129ba0e6a5"},
                       lambdaisland/fetch         #:mvn{:version "1.0.41"},
                       lilactown/helix            #:mvn{:version "0.1.5"}}}
 
