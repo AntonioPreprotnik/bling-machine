@@ -1,7 +1,14 @@
-{:xiana/postgresql {:dbname   #dyn/prop PG_TEST_DB_NAME
+{:logging/timbre   {:min-level :info
+                    :ns-filter {:allow #{"*"}}}
+
+;; if key :dburl is not null and is defined as #dyn/prop PG_TEST_URL it will take precedence over other configuration keys
+ :xiana/postgresql {:dbname   #dyn/prop PG_DB_NAME
                     :host     #dyn/prop PG_HOST
                     :password #dyn/prop PG_PASSWORD
                     :port     #dyn/long #dyn/prop PG_PORT
-                    :user     #dyn/prop PG_USER}
+                    :user     #dyn/prop PG_USER
+                    :dburl     nil}
+
  :xiana/migration  {:seeds-dir "seeds/test"}
+
  :xiana/web-server {:port #dyn/long #dyn/prop WS_TEST_PORT}}

@@ -1,4 +1,4 @@
-(ns user-repl
+(ns helpers.user-repl
   "REPL namespace used for testing funicular user related API calls."
   (:require
    [app.helpers :refer [command! query!]]

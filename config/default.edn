@@ -1,12 +1,8 @@
-{:xiana/postgresql      {:dbtype "postgresql"}
- :xiana/session-backend {:storage            :database
-                         :session-table-name :sessions}
- :xiana/migration       {:init-in-transaction? true
-                         :migration-dir        "migrations"
-                         :migration-table-name "migrations"
-                         :seeds-table-name     "seeds"
-                         :store                :database}
- :xiana/web-server      {:join? false}
+{:logging/timbre {:min-level :info
+                  :ns-filter {:allow #{"*"}}}
+
+ :jwt-secret "verystrongjwtsecret"
+
  :xiana/auth            {:bcrypt-settings {:work-factor 11}
                          :hash-algorithm  :bcrypt
                          :pbkdf2-settings {:type       :sha1
@@ -14,5 +10,16 @@
                          :scrypt-settings {:cpu-cost        32768
                                            :memory-cost     8
                                            :parallelization 1}}
- :logging/timbre        {:min-level :warn
-                         :ns-filter {:allow #{"*"}}}}
+
+ :xiana/migration       {:init-in-transaction? true
+                         :migration-dir        "migrations"
+                         :migration-table-name "migrations"
+                         :seeds-table-name     "seeds"
+                         :store                :database}
+
+ :xiana/postgresql      {:dbtype "postgresql"}
+
+ :xiana/session-backend {:storage            :database
+                         :session-table-name :sessions}
+
+ :xiana/web-server      {:join? false}}

@@ -1,14 +1,21 @@
 # PostgreSQL
 export PG_HOST=localhost
-export PG_DB_NAME=pasta_xiana_dev
+export PG_DB_NAME=app
 export PG_USER=postgres
 export PG_PASSWORD=postgres
-export PG_PORT=5433
-export PG_TEST_DB_NAME=pasta_xiana_dev
+export PG_PORT=5432
+
+export PG_TEST_HOST=localhost
+export PG_TEST_DB_NAME=app_test
+export PG_TEST_USER=postgres
+export PG_TEST_PASSWORD=postgres
+export PG_TEST_PORT=5432
+
+export PG_URL=postgres://postgres:postgres@localhost:5432/app_test
+export PG_TEST_URL=postgres://postgres:postgres@localhost:5432/app_test
 
 # Web server
 export WS_PORT=3000
 export WS_TEST_PORT=3000
 
-# Log level
 export TAOENSSO_TIMBRE_MIN_LEVEL_EDN=:debug
