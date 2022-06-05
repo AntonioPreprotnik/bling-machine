@@ -27,7 +27,11 @@ patch-dev:
 
 start-dev:
 	bb -m frontend-version-patcher/patch-dev && \
-	clojure -M:dev:frontend -m nrepl.cmdline
+	clojure -X:dev:frontend 'system/start-dev'
+
+start-dev-nREPL:
+	bb -m frontend-version-patcher/patch-dev && \
+	clojure -X:dev:frontend 'user/start-dev-with-nrepl'
 
 start-services:
 	chmod +x scripts/pg_init_scripts/multiple_databases.sh && \

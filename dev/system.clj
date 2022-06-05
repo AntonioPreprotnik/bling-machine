@@ -3,20 +3,16 @@
    [app.core :refer [->system]]
    [clojure.core.async :refer  [go]]
    [clojure.tools.logging :refer [*tx-agent-levels*]]
-   [clojure.tools.namespace.repl :refer [disable-reload! refresh
-                                         set-refresh-dirs]]
+   [clojure.tools.namespace.repl :refer [refresh set-refresh-dirs]]
    [hawk.core :as hawk]
    [piotr-yuxuan.closeable-map :refer [closeable-map]]
    [shadow.cljs.devtools.api :as shadow.api]
-   [shadow.cljs.devtools.server :as shadow.server]))
+   [shadow.cljs.devtools.server :as shadow.server]
+   [state :refer [dev-sys]]))
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
 (declare restart-system)
-
-(defonce state (atom (closeable-map {})))
-
-(disable-reload!)
 
 ;;# ----------------------------------------------------------------------------
 ;;# WATCHERS
@@ -67,12 +63,12 @@
 ;;# ----------------------------------------------------------------------------
 
 (defn start-system []
-  (reset! state (->system)))
+  (reset! dev-sys (->system)))
 
 (defn stop-system []
-  (when (:webserver @state)
-    (.close @state))
-  (reset! state (closeable-map {})))
+  (when (:webserver @dev-sys)
+    (.close @dev-sys))
+  (reset! dev-sys (closeable-map {})))
 
 (defn restart-system
   "Stops system, refreshes changed namespaces in REPL and starts the system again."
@@ -87,10 +83,6 @@
   (watch-frontend)
   (start-system)
   (go (watch-postcss)))
-
-; this will run the start-dev function on every namespace reload if state atom is empty (no system state)
-(when (empty? @state)
-  (start-dev))
 
 (comment
   (start-dev)

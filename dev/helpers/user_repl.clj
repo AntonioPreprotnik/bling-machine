@@ -2,9 +2,9 @@
   "REPL namespace used for testing funicular user related API calls."
   (:require
    [app.helpers :refer [command! query!]]
-   [system :refer [state]]))
+   [state :refer [dev-sys]]))
 
-(def ^:private funicular (:app/funicular @state))
+(def ^:private funicular (:app/funicular @dev-sys))
 (def ^:private user-id #uuid "da63492d-d8ab-4166-919b-01d5e48cae78")
 
 (comment
