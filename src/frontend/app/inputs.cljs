@@ -5,7 +5,7 @@
    [keechma.next.controllers.malli-form.ui :as mfui]
    [keechma.next.helix.core :refer [with-keechma]]
    [keechma.next.helix.lib :refer [defnc]]))
-   
+
 (defn get-element-props
   [default-props props]
   (let [element-props (into {} (filter (fn [[k _]] (simple-keyword? k)) props))]
@@ -30,9 +30,9 @@
        {:class error-msg-style}
        (map-indexed
         (fn [i e] (d/div {:key i} e))
-        (when-not (= "" value)
+        (when-not (empty? value)
           errors))))))
-    
+
 (defnc TextInput [{:keechma.form/keys [controller] :input/keys [attr type style] :as props}]
   {:wrap [with-keechma]}
   (let [element-props (get-element-props {} props)
@@ -43,7 +43,7 @@
               :onChange #(mfui/on-partial-change props controller attr (.. % -target -value))
               :onBlur #(mfui/on-commit-change props controller attr)
               :class style
-              & (if (= errors [])
+              & (if (empty? errors)
                   element-props
                   (assoc element-props :class style))})))
 
@@ -53,5 +53,5 @@
 (defmulti wrapped-input (fn [props] (:input/type props)))
 (defmethod wrapped-input :default [props]
   (d/div
-    (input props)
-    ($ Errors {& props})))
+   (input props)
+   ($ Errors {& props})))

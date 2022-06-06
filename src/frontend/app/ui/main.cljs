@@ -1,8 +1,8 @@
 (ns app.ui.main
   (:require
+   [app.ui.pages.admin-panel :refer [AdminPanel]]
    [app.ui.pages.home :refer [Home]]
    [app.ui.pages.user :refer [User]]
-   [app.ui.pages.admin-panel :refer [AdminPanel]]
    [clojure.core.match :refer-macros [match]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]

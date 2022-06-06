@@ -17,7 +17,7 @@
   (let [users (use-sub props :users)]
     ($ AdminPanelWrap
       ($ AdminPanelContainer
-        ($ HomeLink 
+        ($ HomeLink
           {:href (router/get-url props :router {:page "home"})}
           "HOME")
         ($ Datatable {:config [{:header/content "ID"

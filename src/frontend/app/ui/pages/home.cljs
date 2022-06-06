@@ -6,7 +6,7 @@
    [helix.hooks :as hooks]
    [keechma.next.controllers.malli-form.ui :as mfui]
    [keechma.next.helix.classified :refer [defclassified]]
-   [keechma.next.helix.core :refer [with-keechma dispatch use-sub]]
+   [keechma.next.helix.core :refer [dispatch use-sub with-keechma]]
    [keechma.next.helix.lib :refer [defnc]]))
 
 (defclassified HomeWrap :div "h-screen w-screen flex flex-col items-center justify-around font-light")
@@ -19,7 +19,7 @@
 (def error-msg-style "text-red-400 text-sm")
 (def title-style "text-lg font-semibold")
 
-(def input-field 
+(def input-field
   [{:controller :login-form :type :text :attr :email :placeholder "Enter email address"}
    {:controller :login-form :type :text :attr :password :placeholder "Enter password"}])
 
@@ -35,21 +35,21 @@
                             :input/attr attr
                             :placeholder placeholder})))
    input-field))
-   
-(defnc SignUpForm [{:keys [set-is-sign-up is-sign-up]}] 
+
+(defnc SignUpForm [{:keys [set-is-sign-up is-sign-up]}]
   ($ FormWrap
-    (d/button 
+    (d/button
      {:class title-style
       :onClick #(set-is-sign-up (not is-sign-up))}
      "Sign Up Form Placeholder")))
-     
+
 (defnc Home [props]
   {:wrap [with-keechma]}
   (let [[is-sign-up set-is-sign-up] (hooks/use-state false)
         email-value (mfui/use-get-in-data props :login-form :email)
         password-value (mfui/use-get-in-data props :login-form :password)
         inputs-empty? (and (empty? email-value) (empty? password-value))
-        is-input-value-erased? (and (= "" email-value) (= "" password-value))
+        is-input-value-erased? (and (empty? email-value) (empty? password-value))
         {:keys [login-error-msg]} (use-sub props :login-form)]
     ($ HomeWrap
       (if is-sign-up
@@ -70,7 +70,7 @@
             ($ InputGroupRow)
             (d/div {:class "w-full"}
                    ($ LogInBtn
-                     {:disabled (if inputs-empty? true false)}
+                     {:disabled inputs-empty?}
                      "Log In")
                    (when-not is-input-value-erased?
                      (d/div {:class error-msg-style}
