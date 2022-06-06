@@ -1,3 +1,6 @@
+#JWT
+export JWT_SECRET=verystrongjwtsecret
+
 # PostgreSQL
 export PG_HOST=localhost
 export PG_DB_NAME=app
@@ -19,3 +22,6 @@ export WS_PORT=3000
 export WS_TEST_PORT=3000
 
 export TAOENSSO_TIMBRE_MIN_LEVEL_EDN=:debug
+
+# shadow-cljs watcher timeout
+export SHADOW_LOOP_WAIT=100

@@ -4,5 +4,5 @@
                 :devtools {:watch-dir "resources/public"}
                 :modules {:app {:init-fn app.core/init,
                                 :preloads [devtools.preload]}}}}
- :fs-watch {:loop-wait 50}
+ :fs-watch {:loop-wait #shadow/env ["SHADOW_LOOP_WAIT" :as :int :default 50]}
  :deps true}
