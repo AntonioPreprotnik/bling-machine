@@ -1,4 +1,4 @@
-(ns migratus
+(ns helpers.migratus
   "REPL namespace used for managing local DB migrations and seeds."
   (:require
    [app.config :as config]

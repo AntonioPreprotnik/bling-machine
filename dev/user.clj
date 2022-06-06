@@ -1,21 +1,24 @@
 (ns user
   (:require
-   [nrepl.server :refer [start-server stop-server]]
-   [system]))
+   [clojure.core.async :refer  [go]]
+   [system.n-repl :as n-repl]
+   [system.core :refer  [start-system stop-system restart-system]]
+   [system.watchers :refer [watch-backend watch-frontend postcss-watch]]))
 
-(def nrepl-server (atom nil))
-
-(defn start-nrepl []
-  (reset! nrepl-server (start-server :port 7888)))
-
-(defn stop-nrepl []
-  (stop-server @nrepl-server))
-
-(defn reset-nrepl []
-  (stop-nrepl)
-  (start-nrepl))
+(defn start-dev
+  "Starts development system and runs watcher for auto-restart."
+  [& _]
+  (watch-backend restart-system)
+  (watch-frontend)
+  (start-system)
+  (go (postcss-watch)))
 
 (defn start-dev-with-nrepl [& _]
-  (start-nrepl)
-  (system/start-dev))
+  (n-repl/start-nrepl)
+  (start-dev))
 
+(comment
+  (start-dev)
+  (start-system)
+  (stop-system)
+  (restart-system))
