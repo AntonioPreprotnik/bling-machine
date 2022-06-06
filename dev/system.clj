@@ -10,6 +10,8 @@
    [shadow.cljs.devtools.server :as shadow.server]
    [state :refer [dev-sys]]))
 
+(import '[java.util Timer TimerTask])
+
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
 (declare restart-system)
@@ -17,6 +19,22 @@
 ;;# ----------------------------------------------------------------------------
 ;;# WATCHERS
 ;;# ----------------------------------------------------------------------------
+
+(defn debounce
+  ([f] (debounce f 50))
+  ([f timeout]
+   (let [timer (Timer.)
+         task (atom nil)]
+     (fn [& args]
+       (when-let [t ^TimerTask @task]
+         (.cancel t))
+       (let [new-task (proxy [TimerTask] []
+                        (run []
+                          (apply f args)
+                          (reset! task nil)
+                          (.purge timer)))]
+         (reset! task new-task)
+         (.schedule timer new-task timeout))))))
 
 (set-refresh-dirs "dev" "src" "resources")
 
@@ -28,12 +46,14 @@
     (restart-system)
     context))
 
+(def system-watch-handler-debounced (debounce #(system-watch-handler %1 %2)))
+
 (defn watch-backend
   "Automatically restarts the system if backend related files are changed."
   []
   (hawk/watch! [{:paths   ["src/backend/" "src/shared" "config/dev"]
                  :filter  clojure-or-edn-file?
-                 :handler system-watch-handler}]))
+                 :handler system-watch-handler-debounced}]))
 
 (defn watch-frontend
   "Automatically re-builds frontend and re-renders browser page if frontend related files are changed."
