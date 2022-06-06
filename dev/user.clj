@@ -1,9 +1,9 @@
 (ns user
   (:require
    [clojure.core.async :refer  [go]]
+   [system.core :refer  [restart-system start-system stop-system]]
    [system.n-repl :as n-repl]
-   [system.core :refer  [start-system stop-system restart-system]]
-   [system.watchers :refer [watch-backend watch-frontend postcss-watch]]))
+   [system.watchers :refer [postcss-watch watch-backend watch-frontend]]))
 
 (defn start-dev
   "Starts development system and runs watcher for auto-restart."
