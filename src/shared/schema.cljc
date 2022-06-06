@@ -28,7 +28,12 @@
     ::email
     [:and
      :string
-     [:re (regal/regex [:cat [:+ :any] "@" [:+ :any]])]]
+     [:re {:error/message "Must be a valid email"}
+      (regal/regex [:cat :start :non-whitespace [:+ :any] "@" [:+ :any] "." [:repeat :word 2 10] :end])]]
+
+    :password.rules/length
+    [:string {:min 8
+              :error/message "Must be 8 characters"}]
 
     :app/jwt [:string]
 
@@ -66,4 +71,9 @@
 
     :app.input.user/one
     [:map
-     [:user-id :uuid]]}))
+     [:user-id :uuid]]
+
+    :app.input.login
+    [:map
+     [:email ::email]
+     [:password :password.rules/length]]}))
