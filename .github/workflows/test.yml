@@ -94,9 +94,6 @@ jobs:
       - name: Check format
         run: make check-formatting
 
-      - name: Check namespaces
-        run: make check-namespaces
-
       - name: Check warnings
         run: make check-warnings
 

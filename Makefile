@@ -27,9 +27,9 @@ patch-dev:
 
 start-dev:
 	bb -m frontend-version-patcher/patch-dev && \
-	clojure -X:dev:frontend 'system/start-dev'
+	clojure -X:dev:frontend 'user/start-dev'
 
-start-dev-nREPL:
+start-dev-nrepl:
 	bb -m frontend-version-patcher/patch-dev && \
 	clojure -X:dev:frontend 'user/start-dev-with-nrepl'
 
@@ -59,15 +59,11 @@ check-lint:
 	clj-kondo --lint src dev test
 
 check-formatting:
-	clojure-lsp format --dry
-
-fix-formatting:
-	clojure-lsp format
-
-check-namespaces:
+	clojure-lsp format --dry && \
 	clojure-lsp clean-ns --dry
 
-fix-namespaces:
+fix-formatting:
+	clojure-lsp format && \
 	clojure-lsp clean-ns
 
 check-aliases:
@@ -79,9 +75,9 @@ check-db-integrity:
 npm-deps:
 	npm install
 
-fast-ci: check-formatting check-namespaces check-aliases check-lint run-tests
+fast-ci: check-formatting check-aliases check-lint run-tests
 
-ci: check-formatting check-namespaces check-warnings run-tests check-db-integrity release-app
+ci: check-formatting check-warnings run-tests check-db-integrity release-app
 
 develop: npm-deps start-services start-dev
 
