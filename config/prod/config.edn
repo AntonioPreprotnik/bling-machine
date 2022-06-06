@@ -1,12 +1,6 @@
 {:jwt-secret       #dyn/prop JWT_SECRET
 
- ;; if key :dburl is not null and is defined as #dyn/prop PG_URL it will take precedence over other configuration keys
- :xiana/postgresql {:dbname   #dyn/prop [PG_DB_NAME "app"]
-                    :host     #dyn/prop [PG_HOST "localhost"]
-                    :password #dyn/prop [PG_PASSWORD "postgres"]
-                    :port     #dyn/prop [PG_PORT "5432"]
-                    :user     #dyn/prop [PG_USER "postgres"]
-                    :dburl    #dyn/prop [PG_URL nil]}
+ :xiana/postgresql {:dburl #dyn/prop PG_URL}
 
  :xiana/migration  {:seeds-dir "seeds/prod"}
 

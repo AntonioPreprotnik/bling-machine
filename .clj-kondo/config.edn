@@ -20,5 +20,4 @@
                                          (keechma.pipelines.core/pipeline!)
                                          (keechma.pipelines.core/rescue!)
                                          (keechma.next.helix.template/defnt [configurable slot optional-slot])]}}
- :output {:exclude-files ["user"]}
  :config-paths ["clj-kondo/nubank/state-flow"]}
