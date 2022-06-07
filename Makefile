@@ -27,11 +27,11 @@ patch-dev:
 
 start-dev:
 	bb -m frontend-version-patcher/patch-dev && \
-	clojure -X:dev:frontend 'user/start-dev'
+	clojure -X:dev:frontend 'core-dev/start-dev'
 
 start-dev-nrepl:
 	bb -m frontend-version-patcher/patch-dev && \
-	clojure -X:dev:frontend 'user/start-dev-with-nrepl'
+	clojure -X:dev:frontend 'core-dev/start-dev-with-nrepl'
 
 start-services:
 	chmod +x scripts/pg_init_scripts/multiple_databases.sh && \
@@ -50,7 +50,7 @@ run-tests:
 	clojure -X:test
 
 start-test:
-	clojure -A:test
+	 clojure -M:test -r
 
 check-warnings:
 	clojure-lsp  diagnostics

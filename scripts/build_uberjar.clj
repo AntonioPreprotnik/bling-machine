@@ -22,5 +22,5 @@
            :uber-file uber-file
            :basis basis
            :exclude exclude
-           :main 'app/core})
+           :main 'app/core-be})
   (println (str "Created file: " uber-file)))
