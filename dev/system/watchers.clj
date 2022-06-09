@@ -24,8 +24,8 @@
          (.schedule timer new-task timeout))
        reset-fn))))
 
-(defn- clojure-or-edn-file? [_ {:keys [file]}]
-  (re-matches #"[^.].*(\.clj|\.cljc|\.edn)$" (.getName file)))
+(defn- clojure-file? [_ {:keys [file]}]
+  (re-matches #"[^.].*(\.clj|\.cljc)$" (.getName file)))
 
 (defn- system-watch-handler [reset-fn _event]
   (binding [*ns* *ns*]
@@ -36,7 +36,7 @@
   [fn]
   (hawk/watch! [{:paths   ["src/backend/" "src/shared" "config/dev"]
                  :context (constantly fn)
-                 :filter  clojure-or-edn-file?
+                 :filter  clojure-file?
                  :handler (debounce #(system-watch-handler %1 %2) fn)}]))
 
 (defn watch-frontend
