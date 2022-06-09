@@ -14,7 +14,9 @@
 (defclassified TableDataCell :td "p-3"
   (fn [{:keys [idx]}]
     (when (odd? idx) " bg-gray-100")))
-(defclassified EditUserWrap :td "p-3 rounded-rb hover:bg-gray-200 hover:text-white")
+(defclassified EditUserWrap :td "p-3 rounded-rb hover:text-red-400"
+  (fn [{:keys [idx]}]
+    (when (odd? idx) " bg-gray-100")))
 (defclassified EditUserBtn :button "disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
 
 (def table-header-descriptions ["first 10 ID characters" "First Name" "Last Name" "Email" "ZIP" ""])
@@ -37,9 +39,8 @@
                    ($ TableDataCell {:idx idx} last-name)
                    ($ TableDataCell {:idx idx} email)
                    ($ TableDataCell {:idx idx} zip)
-                   ($ EditUserWrap
-                     ($ EditUserBtn {:idx idx
-                                     :onClick on-click}
+                   ($ EditUserWrap {:idx idx}
+                     ($ EditUserBtn {:onClick on-click}
                        (inline "edit-pencil.svg"))))))
        users))))
 
