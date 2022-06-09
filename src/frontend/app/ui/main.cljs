@@ -1,20 +1,24 @@
 (ns app.ui.main
   (:require
-   [app.ui.pages.admin-panel :refer [AdminPanel]]
+   [app.ui.components.admin.dashboard :refer [Dashboard]]
+   [app.ui.components.admin.users :refer [Users]]
+   [app.ui.pages.admin.admin-panel-layout :refer [AdminPanelLayout]]
    [app.ui.pages.home :refer [Home]]
-   [app.ui.pages.user :refer [User]]
    [clojure.core.match :refer-macros [match]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
    [keechma.next.helix.core :refer [use-sub with-keechma]]
    [keechma.next.helix.lib :refer [defnc]]))
 
-(defnc MainRenderer [props]
-  (let [router (use-sub props :router)]
-    (match [router]
-      [{:page "home"}] ($ Home)
-      [{:page "admin-panel" :id _}] ($ User)
-      [{:page "admin-panel"}] ($ AdminPanel)
+(defnc Main [props]
+  {:wrap [with-keechma]}
+  (let [{:keys [page subpage]} (use-sub props :router)]
+    (match [page subpage]
+      ["home" _] ($ Home)
+      ["admin-panel" "users"] ($ AdminPanelLayout ($ Users))
+      ["admin-panel" "test"] ($ AdminPanelLayout (d/div
+                                                  {:class "w-full flex items-center justify-center"}
+                                                  "TEST"))
+      ["admin-panel" _] ($ AdminPanelLayout ($ Dashboard))
       :else (d/div "404"))))
 
-(def Main (with-keechma MainRenderer))

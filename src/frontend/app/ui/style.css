@@ -3,3 +3,18 @@
 @import "tailwindcss/components";
 /* purgecss end ignore */
 @import "tailwindcss/utilities";
+
+/* spinner animation */
+
+.spinner {
+  width: auto;
+  height: auto;
+  animation: spinner 1.5s linear infinite;
+  animation-direction: reverse;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
