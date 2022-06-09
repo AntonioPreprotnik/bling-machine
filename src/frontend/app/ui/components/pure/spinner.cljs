@@ -1,4 +1,4 @@
-(ns app.ui.components.spinner
+(ns app.ui.components.pure.spinner
   (:require
    [app.util.inliner :as inliner :refer-macros [inline]]
    [helix.core :as hx :refer [$]]

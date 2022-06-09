@@ -2,7 +2,7 @@
   (:require
    [app.ui.components.admin.sidebar :refer [Sidebar]]
    [app.ui.components.pure.dialog :refer [Modal]]
-   [app.ui.components.spinner :refer [Spinner]]
+   [app.ui.components.pure.spinner :refer [Spinner]]
    [helix.core :as hx :refer [$ suspense]]
    [helix.dom :as d]
    [keechma.next.helix.classified :refer [defclassified]]
