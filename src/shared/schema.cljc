@@ -1,11 +1,11 @@
 (ns schema
   (:require
-   [lambdaisland.regal :as regal]
    [malli.core :as m]
    [malli.error :as me]
    [malli.util :as mu]
+   schema.admin
    schema.common
-   [schema.user]))
+   schema.user))
 
 (def registry
   (merge
@@ -13,13 +13,7 @@
    (mu/schemas)
    schema.common/registry
    schema.user/registry
-   {:password.rules/length
-    [:string {:min 8
-              :error/message "Must be 8 characters"}]
-    :app.input.login
-    [:map
-     [:email ::email]
-     [:password :password.rules/length]]}))
+   schema.admin/registry))
 
 (defn validate
   "Validates data over schema in registry."
