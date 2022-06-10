@@ -1,10 +1,10 @@
 (ns schema
   (:require
-    [malli.core :as m]
-    [malli.error :as me]
-    [malli.util :as mu]
-    schema.common
-    [schema.user]))
+   [malli.core :as m]
+   [malli.error :as me]
+   [malli.util :as mu]
+   schema.common
+   [schema.user]))
 
 (def registry
   (merge
@@ -17,7 +17,7 @@
   "Validates data over schema in registry."
   [data schema]
   (if-let [errors (->> data
-                    (m/explain (schema registry))
-                    (me/humanize))]
+                       (m/explain (schema registry))
+                       (me/humanize))]
     (throw (ex-info "Invalid data" {:data data :errors errors}))
     data))
