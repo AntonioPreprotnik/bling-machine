@@ -1,5 +1,6 @@
 (ns app.app
   (:require
+   app.controllers.admin.login-form
    app.controllers.current-user
    app.controllers.users
    [com.verybigthings.funicular.controller :as f]
@@ -20,11 +21,14 @@
      :entitydb #:keechma.controller{:params true
                                     :type :keechma/entitydb
                                     :keechma.entitydb/schema {:user {:entitydb/id :users/id}}}
+     :login-form #:keechma.controller {:params (fn [{:keys [router]}]
+                                                 (= "home" (:page router)))
+                                       :deps [:router]}
      :users #:keechma.controller{:params (fn [{:keys [router]}]
-                                           (= "users" (:page router)))
+                                           (= "admin-panel" (:page router)))
                                  :deps [:entitydb :router]}
      :current-user #:keechma.controller{:params (fn [{:keys [router]}]
-                                                  (when (= "users" (:page router))
+                                                  (when (= "admin-panel" (:page router))
                                                     (:id router)))
                                         :deps [:router :entitydb]}}}
    f/install))
