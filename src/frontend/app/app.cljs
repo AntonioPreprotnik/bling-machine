@@ -32,22 +32,22 @@
 
      :modal-add-user #:keechma.controller {:type                       :generic/switch
                                            :params                     (fn [{:keys [router]}]
-                                                                         (= "admin-panel" (:page router)))
+                                                                         (= "admin" (:page router)))
                                            :deps                       [:router]
                                            :generic.switch/set-default (fn [_ _ _] true)}
 
      :modal-edit-user #:keechma.controller {:type                       :generic/switch
                                             :params                     (fn [{:keys [router]}]
-                                                                          (= "admin-panel" (:page router)))
+                                                                          (= "admin" (:page router)))
                                             :deps                       [:router]
                                             :generic.switch/set-default (fn [_ _ _] true)}
 
      :users        #:keechma.controller {:params (fn [{:keys [router]}]
-                                                   (= "admin-panel" (:page router)))
+                                                   (= "admin" (:page router)))
                                          :deps   [:entitydb :router]}
 
      :current-user #:keechma.controller {:params (fn [{:keys [router]}]
-                                                   (when (= "admin-panel" (:page router))
+                                                   (when (= "admin" (:page router))
                                                      (:id router)))
                                          :deps   [:router :entitydb]}}}
    f/install))

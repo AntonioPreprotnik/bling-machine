@@ -2,7 +2,7 @@
   (:require
    [app.ui.components.admin.dashboard :refer [Dashboard]]
    [app.ui.components.admin.users :refer [Users]]
-   [app.ui.pages.admin.admin-panel-layout :refer [AdminPanelLayout]]
+   [app.ui.pages.admin.admin-layout :refer [AdminLayout]]
    [app.ui.pages.home :refer [Home]]
    [clojure.core.match :refer-macros [match]]
    [helix.core :as hx :refer [$]]
@@ -15,7 +15,7 @@
   (let [{:keys [page subpage]} (use-sub props :router)]
     (match [page subpage]
       ["home" _] ($ Home)
-      ["admin-panel" "users"] ($ AdminPanelLayout ($ Users))
-      ["admin-panel" _] ($ AdminPanelLayout ($ Dashboard))
+      ["admin" "users"] ($ AdminLayout ($ Users))
+      ["admin" _] ($ AdminLayout ($ Dashboard))
       :else (d/div "404"))))
 

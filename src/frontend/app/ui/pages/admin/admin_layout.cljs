@@ -1,4 +1,4 @@
-(ns app.ui.pages.admin.admin-panel-layout
+(ns app.ui.pages.admin.admin-layout
   (:require
    [app.ui.components.admin.sidebar :refer [Sidebar]]
    [app.ui.components.dialog :refer [Modal]]
@@ -12,7 +12,7 @@
 (defclassified AdminPanelWrap :div "h-screen w-screen flex")
 (defclassified AdminPanelInner :div "max-h-full h-full w-full absolute flex overflow-y-auto py-4 pr-6")
 
-(defnc AdminPanelLayout [{:keys [children] :as props}]
+(defnc AdminLayout [{:keys [children] :as props}]
   {:wrap [with-keechma]}
   (let [is-modal-add-user-open? (use-sub props :modal-add-user)
         close-modal-add-user #(dispatch props :modal-add-user :off)
