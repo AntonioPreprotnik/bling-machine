@@ -21,4 +21,4 @@
   (start-dev)
   (start-system)
   (stop-system)
-  (restart-system))
+  (restart-system false))
