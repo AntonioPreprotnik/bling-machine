@@ -20,7 +20,7 @@
 (def submit-harcode-login-credentials
   (pipeline! [value {:keys [state*] :as ctrl}]
     (if (= login-credentials value)
-      (router/redirect! ctrl :router {:page "admin-panel"})
+      (router/redirect! ctrl :router {:page "admin"})
       (pp/swap! state* assoc-in [:login-error-msg] "Invalid credentials"))))
 
 (def pipelines

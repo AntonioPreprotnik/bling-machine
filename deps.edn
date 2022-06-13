@@ -20,6 +20,7 @@
   com.walmartlabs/dyn-edn       #:mvn{:version "0.2.0"},
   io.aviso/pretty               #:mvn{:version "1.1.1"},
   lambdaisland/regal            #:mvn{:version "0.0.143"},
+  lilactown/helix               #:mvn{:version "0.1.5"},
   medley/medley                 #:mvn{:version "1.4.0"},
   metosin/jsonista              #:mvn{:version "0.3.5"},
   metosin/malli                 #:mvn{:version "0.8.4"},
@@ -31,7 +32,10 @@
   org.clojure/core.match        #:mvn{:version "1.0.0"},
   org.clojure/spec.alpha        #:mvn{:version "0.3.218"},
   org.clojure/tools.namespace   #:mvn{:version "1.2.0"},
-  org.slf4j/slf4j-api           #:mvn{:version "1.7.36"}}
+  org.slf4j/slf4j-api           #:mvn{:version "1.7.36"}
+  clj-tagsoup/clj-tagsoup       #:mvn{:version "0.3.0"}
+  org.clojure/data.xml          #:mvn{:version "0.0.8"}
+  hicada/hicada                 #:mvn{:version "0.1.9"}}
 
  :aliases
  {:frontend         {:extra-deps
@@ -42,8 +46,7 @@
                                                   :sha     "6560d5f87e6a731e9fff7dc0c52e6da571155f72"},
                       keechma.next/toolbox       {:git/url "https://github.com/keechma/keechma-next-toolbox.git",
                                                   :sha     "967f483e2e6f157647d7f5c65a1b44129ba0e6a5"},
-                      lambdaisland/fetch         #:mvn{:version "1.0.41"},
-                      lilactown/helix            #:mvn{:version "0.1.5"}}}
+                      lambdaisland/fetch         #:mvn{:version "1.0.41"}}}
 
   :dev              {:command     "clj -A:dev:frontend"
                      :extra-paths ["dev" "config/dev"]
@@ -79,4 +82,4 @@
                      :deps        {io.github.clojure/tools.build {:git/tag "v0.8.1" :git/sha "7d40500"}}
                      :ns-default  build-uberjar}}
 
- :paths ["src/backend" "src/frontend" "src/shared" "config" "resources"]}
+ :paths ["src/backend" "src/frontend" "src/shared" "config" "resources" "resources/public/svgs"]}
