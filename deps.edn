@@ -82,4 +82,4 @@
                      :deps        {io.github.clojure/tools.build {:git/tag "v0.8.1" :git/sha "7d40500"}}
                      :ns-default  build-uberjar}}
 
- :paths ["src/backend" "src/frontend" "src/shared" "config" "resources"]}
+ :paths ["src/backend" "src/frontend" "src/shared" "config" "resources" "resources/public/svgs"]}
