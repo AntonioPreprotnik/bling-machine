@@ -5,10 +5,8 @@
    app.controllers.generic.switch
    app.controllers.users
    [com.verybigthings.funicular.controller :as f]
-   keechma.next.controllers.dataloader
    keechma.next.controllers.entitydb
    keechma.next.controllers.router
-   keechma.next.controllers.subscription
    [react-dom :as rdom]))
 
 (def routes
@@ -24,15 +22,9 @@
                                          :keechma.router/base-href "/"
                                          :keechma/routes           routes}
 
-     :dataloader   #:keechma.controller {:params true
-                                         :type   :keechma/dataloader}
-
      :entitydb     #:keechma.controller {:params                  true
                                          :type                    :keechma/entitydb
                                          :keechma.entitydb/schema {:user {:entitydb/id :users/id}}}
-
-     :jwt          #:keechma.controller {:params true
-                                         :type   :keechma/subscription}
 
      :login-form   #:keechma.controller {:params (fn [{:keys [router]}]
                                                    (= "home" (:page router)))
