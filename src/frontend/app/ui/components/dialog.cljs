@@ -47,5 +47,3 @@
     ($ Dialog {:title modal-title
                :onClose close-modal}
       children)))
-
-; for form will need to add input-value, valid?, onSubmit and label for btn

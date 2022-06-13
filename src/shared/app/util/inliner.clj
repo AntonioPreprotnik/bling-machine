@@ -24,6 +24,3 @@
     (hicada.compiler/compile hiccup {:create-element 'helix.core/$
                                      :server-render? true
                                      {} &env})))
-
-(comment
-  (macroexpand-1 '(inline "primary-tent.svg")))
