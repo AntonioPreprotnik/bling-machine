@@ -38,9 +38,7 @@
                        {:class dialog-title}
                        title)
                  ($ DialogCross {:onDismiss onClose}))
-          children
-          (d/button
-           {:onClick #()}))))
+          children)))
 
 (defnc Modal [{:keys [modal-title is-modal-open? close-modal children]}]
   (when is-modal-open?
