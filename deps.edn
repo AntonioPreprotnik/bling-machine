@@ -55,7 +55,7 @@
 
   :db-integrity     {:command     "clj -X:test:db-integrity"
                      :extra-paths ["dev"]
-                     :exec-fn     [migratus/check-db-integrity]}
+                     :exec-fn     [helpers.migratus/check-db-integrity]}
 
   :test             {:command     "clj -X:test"
                      :extra-paths ["config/test" "test"]
@@ -63,17 +63,16 @@
                                    nubank/matcher-combinators #:mvn{:version "3.4.0"},
                                    nubank/state-flow          {:mvn/version "5.14.1", :exclusions [nubank/matcher-combinators]},
                                    org.clojure/test.check     #:mvn{:version "1.1.1"}}
+                     :main-opts ["-e" "(require,'test-repl)"
+                                 "-e" "(in-ns,'test-repl)"]
                      :exec-fn     kaocha.runner/exec-fn
                      :exec-args   {:config-file ["tests.edn"]}}
 
-  :release-frontend {:command   "clj -X:build:frontend:release-frontend"
-                     :exec-fn   [user/release-frontend]
+  :release-frontend {:command   "clj -X:dev:frontend:release-frontend"
+                     :exec-fn   [helpers.build/release-frontend]
                      :exec-args {:build :app}}
 
   :prod             {:extra-paths ["config/prod"]}
-
-  :build            {:extra-paths ["build"]
-                     :extra-deps  {thheller/shadow-cljs #:mvn{:version "2.18.0"},}}
 
   :build-uberjar    {:commands    "clj -T:build-uberjar uber; java -jar xiana-1.2.124-standalone.jar"
                      :extra-paths ["scripts"]

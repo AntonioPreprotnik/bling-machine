@@ -1,4 +1,4 @@
-(ns app.core
+(ns app.core-fe
   (:require
    [app.app :refer [app]]
    [app.ui.main :refer [Main]]

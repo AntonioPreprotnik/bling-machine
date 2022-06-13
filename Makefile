@@ -27,7 +27,11 @@ patch-dev:
 
 start-dev:
 	bb -m frontend-version-patcher/patch-dev && \
-	clojure -M:dev:frontend -m nrepl.cmdline
+	clojure -X:dev:frontend 'core-dev/start-dev'
+
+start-dev-nrepl:
+	bb -m frontend-version-patcher/patch-dev && \
+	clojure -X:dev:frontend 'core-dev/start-dev-with-nrepl'
 
 start-services:
 	chmod +x scripts/pg_init_scripts/multiple_databases.sh && \
@@ -46,7 +50,7 @@ run-tests:
 	clojure -X:test
 
 start-test:
-	clojure -A:test
+	 clojure -M:test -r
 
 check-warnings:
 	clojure-lsp  diagnostics
@@ -55,15 +59,11 @@ check-lint:
 	clj-kondo --lint src dev test
 
 check-formatting:
-	clojure-lsp format --dry
-
-fix-formatting:
-	clojure-lsp format
-
-check-namespaces:
+	clojure-lsp format --dry && \
 	clojure-lsp clean-ns --dry
 
-fix-namespaces:
+fix-formatting:
+	clojure-lsp format && \
 	clojure-lsp clean-ns
 
 check-aliases:
@@ -75,9 +75,9 @@ check-db-integrity:
 npm-deps:
 	npm install
 
-fast-ci: check-formatting check-namespaces check-aliases check-lint run-tests
+fast-ci: check-formatting check-aliases check-lint run-tests
 
-ci: check-formatting check-namespaces check-warnings run-tests check-db-integrity release-app
+ci: check-formatting check-warnings run-tests check-db-integrity release-app
 
 develop: npm-deps start-services start-dev
 
@@ -91,7 +91,7 @@ release-backend:
 release-frontend:
 	npm install && \
 	bb -m frontend-version-patcher/clear-resources && \
-	clojure -X:build:frontend:release-frontend && \
+	clojure -X:dev:frontend:release-frontend && \
 	npm run build && \
 	bb -m frontend-version-patcher/patch-prod
 

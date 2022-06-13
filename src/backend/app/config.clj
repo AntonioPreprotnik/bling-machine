@@ -24,7 +24,7 @@
     config))
 
 (defn- read-default-config []
-  (->> (io/resource "default.edn")
+  (->> (io/resource "common.edn")
        (slurp)
        (edn/read-string)))
 

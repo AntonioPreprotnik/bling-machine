@@ -1,4 +1,4 @@
-(ns reveal
+(ns debug.reveal
   (:require
    [vlaaad.reveal :as r]
    [vlaaad.reveal.prefs :as rp]
