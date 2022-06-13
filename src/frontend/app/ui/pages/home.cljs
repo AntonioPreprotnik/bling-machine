@@ -1,7 +1,7 @@
 (ns app.ui.pages.home
   (:require
    [app.inputs :refer [wrapped-input]]
-   [app.ui.components.pure.button :refer [ButtonDefaul]]
+   [app.ui.components.button :refer [ButtonDefaul]]
    [app.util.inliner :as inliner :refer-macros [inline]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]

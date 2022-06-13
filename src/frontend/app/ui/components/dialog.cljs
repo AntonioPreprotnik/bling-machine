@@ -1,4 +1,4 @@
-(ns app.ui.components.pure.dialog
+(ns app.ui.components.dialog
   (:require
    ["@headlessui/react" :refer [Dialog] :rename {Dialog HUIDialog}]
    [app.util.inliner :as inliner :refer-macros [inline]]
