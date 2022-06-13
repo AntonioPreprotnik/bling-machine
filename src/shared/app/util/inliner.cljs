@@ -1,4 +1,4 @@
 (ns app.util.inliner
-  (:require 
+  (:require
    [helix.core])
   (:require-macros [app.util.inliner]))
