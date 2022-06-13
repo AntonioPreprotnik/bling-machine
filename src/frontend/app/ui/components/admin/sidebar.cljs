@@ -15,7 +15,6 @@
 (def sidebar-items
   [{:page "admin-panel" :svg (inline "dashboard.svg") :label "Dashboard"}
    {:page "admin-panel" :subpage "users" :svg (inline "user.svg") :label "Users"}
-   {:page "admin-panel" :subpage "test" :svg (inline "chevron-up.svg") :label "Test Link"}
    {:page "home" :subpage false :svg (inline "log-out.svg") :label "Log Out"}])
 
 (defnc SidebarItem [props]

@@ -16,9 +16,6 @@
     (match [page subpage]
       ["home" _] ($ Home)
       ["admin-panel" "users"] ($ AdminPanelLayout ($ Users))
-      ["admin-panel" "test"] ($ AdminPanelLayout (d/div
-                                                  {:class "w-full flex items-center justify-center"}
-                                                  "TEST"))
       ["admin-panel" _] ($ AdminPanelLayout ($ Dashboard))
       :else (d/div "404"))))
 
