@@ -13,8 +13,7 @@
   com.verybigthings/funicular   {:git/url    "https://github.com/VeryBigThings/funicular",
                                  :sha        "fb4cb3ae49a9246f4489396c047779b73e9c82ba",
                                  :exclusions [io.aviso/pretty com.taoensso/encore cljc.java-time/cljc.java-time]},
-  com.verybigthings/penkala     {:git/url "https://github.com/retro/penkala",
-                                 :sha     "8f38814dcfe5a23ee2c6fcdd5d2c48ccd6f4f1c7"},
+  com.verybigthings/penkala     #:mvn{:version "0.9.1"},,
   com.verybigthings/pgerrors    {:git/url "https://github.com/VeryBigThings/pgerrors",
                                  :sha     "b7a95d13cee17ec9a0bcbab3a5107950f7113ea9"},
   com.walmartlabs/dyn-edn       #:mvn{:version "0.2.0"},
@@ -79,4 +78,4 @@
                      :deps        {io.github.clojure/tools.build {:git/tag "v0.8.1" :git/sha "7d40500"}}
                      :ns-default  build-uberjar}}
 
- :paths ["src/backend" "src/frontend" "src/shared" "config" "resources"]}
+ :paths ["src/app" "config" "resources"]}
