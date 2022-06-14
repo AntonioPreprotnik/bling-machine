@@ -2,6 +2,8 @@
   (:require
    app.controllers.admin.login-form
    app.controllers.admin.users.create-user
+   app.controllers.admin.users.edit-user
+   app.controllers.admin.users.selected-user
    app.controllers.current-user
    app.controllers.generic.switch
    app.controllers.users
@@ -35,6 +37,11 @@
                                                   (and modal-add-user (= "users" (:subpage router))))
                                         :deps   [:router :modal-add-user]}
 
+     :edit-user #:keechma.controller {:params (fn [{:keys [router modal-edit-user selected-user]}]
+                                                (when (and modal-edit-user (= "admin" (:page router)))
+                                                  selected-user))
+                                      :deps   [:router :selected-user :modal-edit-user]}
+
      :modal-add-user #:keechma.controller {:type                       :generic/switch
                                            :params                     (fn [{:keys [router]}]
                                                                          (= "admin" (:page router)))
@@ -50,6 +57,10 @@
      :users        #:keechma.controller {:params (fn [{:keys [router modal-add-user]}]
                                                    (and (not modal-add-user) (= "admin" (:page router))))
                                          :deps   [:entitydb :router :modal-add-user]}
+
+     :selected-user #:keechma.controller {:params (fn [{:keys [router users]}]
+                                                    (and users (= "users" (:subpage router))))
+                                          :deps   [:router :users]}
 
      :current-user #:keechma.controller {:params (fn [{:keys [router]}]
                                                    (when (= "admin" (:page router))
