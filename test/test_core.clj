@@ -1,9 +1,9 @@
 (ns test-core
   (:require
-   [app.config :as config]
-   [app.core-be :refer [app-config]]
-   [app.funicular :as funicular]
-   [app.penkala :as penkala]
+   [backend.config :as config]
+   [backend.core :refer [app-config]]
+   [backend.funicular :as funicular]
+   [backend.penkala :as penkala]
    [framework.db.core :as db]
    [piotr-yuxuan.closeable-map :refer [closeable-map]]))
 

@@ -1,6 +1,6 @@
 (ns system.core
   (:require
-   [app.core-be :refer [->system]]
+   [backend.core :refer [->system]]
    [clojure.tools.logging :refer [*tx-agent-levels*]]
    [clojure.tools.namespace.repl :refer [refresh refresh-all set-refresh-dirs]]
    [piotr-yuxuan.closeable-map :refer [closeable-map]]

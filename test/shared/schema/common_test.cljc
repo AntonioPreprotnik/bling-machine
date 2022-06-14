@@ -2,7 +2,7 @@
   (:require
    [clojure.test :refer [deftest is]]
    [malli.util :as mu]
-   [schema.common :as sut]))
+   [shared.schema.common :as sut]))
 
 (deftest remove-keys-namespaces-test
   (let [schema   [:map {:registry {::mid :int}}

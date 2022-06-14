@@ -1,6 +1,6 @@
-(ns backend.app.web.api.handlers.user-test
+(ns backend.web.api.handlers.user-test
   (:require
-   [backend.app.web.api.helpers :refer [command!]]
+   [backend.web.api.helpers :refer [command!]]
    [clojure.test :refer [use-fixtures]]
    [state-flow.api :as flow :refer [flow]]
    [state-flow.assertions.matcher-combinators :refer [match?]]

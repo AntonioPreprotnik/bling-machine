@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "clean": "rimraf resources/app/public/js && rm -rf .shadow-cljs",
-    "postcss": "NODE_ENV=production postcss src/frontend/app/ui/style.css -o resources/public/assets/css/style.css",
-    "postcss:watch": "NODE_ENV=development TAILWIND_MODE=watch postcss src/frontend/app/ui/style.css -o resources/public/assets/css/style.css -w  --verbose",
+    "clean": "rimraf resources/public/assets/js && rm -rf .shadow-cljs",
+    "postcss": "NODE_ENV=production postcss src/app/frontend/ui/style.css -o resources/public/assets/css/style.css",
+    "postcss:watch": "NODE_ENV=development TAILWIND_MODE=watch postcss src/app/frontend/ui/style.css -o resources/public/assets/css/style.css -w  --verbose",
     "develop": "npm run postcss:watch",
     "build": "npm run postcss"
   },

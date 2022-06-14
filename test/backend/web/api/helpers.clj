@@ -1,6 +1,6 @@
-(ns backend.app.web.api.helpers
+(ns backend.web.api.helpers
   (:require
-   [app.funicular :as funicular]))
+   [backend.funicular :as funicular]))
 
 (defn get-command [{[_ command-payload] :command}]
   command-payload)

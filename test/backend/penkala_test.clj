@@ -1,8 +1,8 @@
-(ns backend.app.penkala
+(ns backend.penkala-test
   (:require
-   [app.domain.user :as user]
-   [app.penkala :refer [with-transaction]]
-   [backend.app.web.api.helpers :refer [command!]]
+   [backend.domain.user :as user]
+   [backend.penkala :refer [with-transaction]]
+   [backend.web.api.helpers :refer [command!]]
    [clojure.test :refer [use-fixtures]]
    [medley.core :as m]
    [state-flow.api :as flow :refer [flow]]
