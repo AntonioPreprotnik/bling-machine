@@ -8,7 +8,7 @@
 (import '[java.util Timer TimerTask])
 
 (defn debounce
-  ([f] (debounce f  2000))
+  ([f] (debounce f  500))
   ([f timeout]
    (let [timer (Timer.)
          task (atom nil)]
@@ -17,7 +17,9 @@
          (.cancel t))
        (let [new-task (proxy [TimerTask] []
                         (run []
-                          (apply f args)
+                          (try (apply f args)
+                               (catch Exception e (println (str "exception in: " (.getName (:file (second args)))
+                                                                " error: " (.getMessage e)))))
                           (reset! task nil)
                           (.purge timer)))]
          (reset! task new-task)
@@ -39,7 +41,7 @@
 (defn watch-backend
   "Automatically restarts the system if backend related files are changed."
   [reset-fn]
-  (hawk/watch! [{:paths   ["src/backend/" "src/shared" "config/dev"]
+  (hawk/watch! [{:paths   ["src/app/backend/" "src/app/shared" "config/dev"]
                  :context (constantly  {:fn  reset-fn})
                  :filter  clojure-file?
                  :handler (debounce #(system-watch-handler %1 %2))}]))
