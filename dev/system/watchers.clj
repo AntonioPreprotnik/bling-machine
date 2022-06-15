@@ -3,7 +3,8 @@
    [clojure.core.async :refer  [go]]
    [hawk.core :as hawk]
    [shadow.cljs.devtools.api :as shadow.api]
-   [shadow.cljs.devtools.server :as shadow.server]))
+   [shadow.cljs.devtools.server :as shadow.server]
+   [taoensso.timbre :refer  [color-str info]]))
 
 (import '[java.util Timer TimerTask])
 
@@ -18,8 +19,10 @@
        (let [new-task (proxy [TimerTask] []
                         (run []
                           (try (apply f args)
-                               (catch Exception e (println (str "exception in: " (.getName (:file (second args)))
-                                                                " error: " (.getMessage e)))))
+                               (catch Exception e
+                                 (info (color-str :red
+                                                  (str "exception in: " (.getName (:file (second args)))
+                                                       " error: " (.getMessage e))))))
                           (reset! task nil)
                           (.purge timer)))]
          (reset! task new-task)
