@@ -1,4 +1,4 @@
-(ns core-dev
+(ns core
   (:require
    [clojure.core.async :refer  [go]]
    [system.core :refer  [restart-system start-system stop-system]]
