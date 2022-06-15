@@ -17,7 +17,7 @@
    :controller-interceptors controller-interceptors})
 
 (defn ->system
-  "Initalization of system configuration and services"
+  "Initialization of system configuration and services"
   []
   (-> (config/load-config app-config)
       logging/init!
