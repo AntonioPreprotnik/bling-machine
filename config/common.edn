@@ -1,9 +1,4 @@
-{:logging/timbre {:min-level :info
-                  :ns-filter {:allow #{"*"}}}
-
- :jwt-secret "verystrongjwtsecret" ;prebaci u dev, test i prod
-
- :xiana/migration       {:init-in-transaction? true
+{:xiana/migration       {:init-in-transaction? true
                          :migration-dir        "migrations"
                          :migration-table-name "migrations"
                          :seeds-table-name     "seeds"
