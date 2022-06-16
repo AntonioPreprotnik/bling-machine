@@ -1,6 +1,6 @@
-(ns backend.web.api.handlers.user
+(ns app.backend.web.api.handlers.user
   (:require
-   [backend.domain.user :as user]
+   [app.backend.domain.user :as user]
    [medley.core :as m]))
 
 (defn create-one [config]

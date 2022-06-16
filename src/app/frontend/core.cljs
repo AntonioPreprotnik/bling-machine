@@ -1,7 +1,7 @@
-(ns frontend.core
+(ns app.frontend.core
   (:require
-   [frontend.app :refer [app]]
-   [frontend.ui.main :refer [Main]]
+   [app.frontend.app :refer [app]]
+   [app.frontend.ui.main :refer [Main]]
    [helix.core :as hx :refer [$]]
    [keechma.next.core :as keechma]
    [keechma.next.helix.core :refer [KeechmaRoot]]

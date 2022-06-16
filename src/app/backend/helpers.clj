@@ -1,6 +1,6 @@
-(ns backend.helpers
+(ns app.backend.helpers
   (:require
-   [backend.funicular :as funicular]))
+   [app.backend.funicular :as funicular]))
 
 ;;------------------------------------------------------------------------------
 ;; FUNICULAR HELPERS

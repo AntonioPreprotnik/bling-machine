@@ -1,4 +1,4 @@
-(ns backend.boundary.penkala-helpers)
+(ns app.backend.boundary.penkala-helpers)
 
 (defn cast-as [value as]
   [:cast value as])

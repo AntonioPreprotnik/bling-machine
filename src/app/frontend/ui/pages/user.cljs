@@ -1,6 +1,6 @@
-(ns frontend.ui.pages.user
+(ns app.frontend.ui.pages.user
   (:require
-   [frontend.ui.components.datatable :refer [Datatable]]
+   [app.frontend.ui.components.datatable :refer [Datatable]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
    [keechma.next.controllers.router :as router]

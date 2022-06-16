@@ -1,7 +1,7 @@
-(ns backend.domain.user
+(ns app.backend.domain.user
   (:require
-   [backend.boundary.penkala-helpers :refer [cast-as]]
-   [backend.penkala :refer [insert! select! select-one! update!]]
+   [app.backend.boundary.penkala-helpers :refer [cast-as]]
+   [app.backend.penkala :refer [insert! select! select-one! update!]]
    [com.verybigthings.penkala.relation :as r]))
 
 (defprotocol UserDatabase
@@ -11,7 +11,7 @@
   (get-one-by-id [penkala id]))
 
 (extend-protocol UserDatabase
-  backend.penkala.Boundary
+  app.backend.penkala.Boundary
 
   (insert [{:keys [env]} data]
     (insert! env :users data))

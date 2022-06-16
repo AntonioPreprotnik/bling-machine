@@ -1,9 +1,9 @@
-(ns frontend.ui.main
+(ns app.frontend.ui.main
   (:require
+   [app.frontend.ui.pages.admin-panel :refer [AdminPanel]]
+   [app.frontend.ui.pages.home :refer [Home]]
+   [app.frontend.ui.pages.user :refer [User]]
    [clojure.core.match :refer-macros [match]]
-   [frontend.ui.pages.admin-panel :refer [AdminPanel]]
-   [frontend.ui.pages.home :refer [Home]]
-   [frontend.ui.pages.user :refer [User]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
    [keechma.next.helix.core :refer [use-sub with-keechma]]

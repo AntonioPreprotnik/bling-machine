@@ -1,4 +1,4 @@
-(ns backend.logging
+(ns app.backend.logging
   (:require
    [taoensso.timbre :as log]
    taoensso.timbre.tools.logging))

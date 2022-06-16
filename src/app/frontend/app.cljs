@@ -1,9 +1,9 @@
-(ns frontend.app
+(ns app.frontend.app
   (:require
+   app.frontend.controllers.admin.login-form
+   app.frontend.controllers.current-user
+   app.frontend.controllers.users
    [com.verybigthings.funicular.controller :as f]
-   frontend.controllers.admin.login-form
-   frontend.controllers.current-user
-   frontend.controllers.users
    keechma.next.controllers.dataloader
    keechma.next.controllers.entitydb
    keechma.next.controllers.router

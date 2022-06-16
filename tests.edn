@@ -2,14 +2,14 @@
  {:plugins         [:kaocha.plugin/capture-output
                     :kaocha.plugin/hooks]
   :tests           [{:id                    :backend
-                     :kaocha.hooks/pre-test  [test-core/start-test-system]
-                     :kaocha.hooks/post-test [test-core/stop-test-system]
-                     :test-paths             ["test/backend"]
+                     :kaocha.hooks/pre-test  [app.test-core/start-test-system]
+                     :kaocha.hooks/post-test [app.test-core/stop-test-system]
+                     :test-paths             ["test/app/backend"]
                      :ns-patterns            [".*"]}
                     {:id                    :frontend
-                     :test-paths             ["test/frontend"]
+                     :test-paths             ["test/app/frontend"]
                      :ns-patterns            [".*"]}
                     {:id          :shared
-                     :test-paths  ["test/shared"]
+                     :test-paths  ["test/app/shared"]
                      :ns-patterns [".*"]}]
   :kaocha/reporter [kaocha.report.progress/report]}

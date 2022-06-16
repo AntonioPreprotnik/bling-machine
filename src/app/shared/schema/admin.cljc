@@ -1,4 +1,4 @@
-(ns shared.schema.admin)
+(ns app.shared.schema.admin)
 
 (def registry
   {:app.input.login

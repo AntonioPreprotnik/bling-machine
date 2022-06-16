@@ -1,12 +1,12 @@
-(ns frontend.controllers.admin.login-form
+(ns app.frontend.controllers.admin.login-form
   (:require
+   [app.shared.schema :as schema]
    [keechma.malli-forms.core :as mf]
    [keechma.next.controller :as ctrl]
    [keechma.next.controllers.malli-form :as mfc]
    [keechma.next.controllers.pipelines :as pipelines]
    [keechma.next.controllers.router :as router]
-   [keechma.pipelines.core :as pp :refer-macros [pipeline!]]
-   [shared.schema :as schema]))
+   [keechma.pipelines.core :as pp :refer-macros [pipeline!]]))
 
 (derive :login-form ::pipelines/controller)
 

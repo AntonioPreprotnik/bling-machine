@@ -1,4 +1,4 @@
-(ns backend.web.controllers.keechma
+(ns app.backend.web.controllers.keechma
   (:require
    [ring.util.response :as ring]))
 

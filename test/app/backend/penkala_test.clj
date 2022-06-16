@@ -1,15 +1,15 @@
-(ns backend.penkala-test
+(ns app.backend.penkala-test
   (:require
-   [backend.domain.user :as user]
-   [backend.penkala :refer [with-transaction]]
-   [backend.web.api.helpers :refer [command!]]
+   [app.backend.domain.user :as user]
+   [app.backend.penkala :refer [with-transaction]]
+   [app.backend.web.api.helpers :refer [command!]]
+   [app.test-core :refer [get-system]]
+   [app.test-fixtures :refer [clean-db]]
    [clojure.test :refer [use-fixtures]]
    [medley.core :as m]
    [state-flow.api :as flow :refer [flow]]
    [state-flow.assertions.matcher-combinators :refer [match?]]
-   [state-flow.cljtest :refer [defflow]]
-   [test-core :refer [get-system]]
-   [test-fixtures :refer [clean-db]]))
+   [state-flow.cljtest :refer [defflow]]))
 
 (use-fixtures :each clean-db)
 

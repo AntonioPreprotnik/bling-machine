@@ -1,6 +1,6 @@
-(ns frontend.ui.pages.home
+(ns app.frontend.ui.pages.home
   (:require
-   [frontend.inputs :refer [wrapped-input]]
+   [app.frontend.inputs :refer [wrapped-input]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
    [helix.hooks :as hooks]

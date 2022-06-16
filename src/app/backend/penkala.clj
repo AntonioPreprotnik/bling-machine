@@ -1,4 +1,4 @@
-(ns backend.penkala
+(ns app.backend.penkala
   (:require
    [com.verybigthings.funicular.anomalies :as anom]
    [com.verybigthings.penkala.env :refer [with-db]]

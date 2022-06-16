@@ -1,12 +1,12 @@
-(ns backend.web.api.handlers.user-test
+(ns app.backend.web.api.handlers.user-test
   (:require
-   [backend.web.api.helpers :refer [command!]]
+   [app.backend.web.api.helpers :refer [command!]]
+   [app.test-core :refer [get-system]]
+   [app.test-fixtures :refer [clean-db]]
    [clojure.test :refer [use-fixtures]]
    [state-flow.api :as flow :refer [flow]]
    [state-flow.assertions.matcher-combinators :refer [match?]]
-   [state-flow.cljtest :refer [defflow]]
-   [test-core :refer [get-system]]
-   [test-fixtures :refer [clean-db]]))
+   [state-flow.cljtest :refer [defflow]]))
 
 (use-fixtures :each clean-db)
 

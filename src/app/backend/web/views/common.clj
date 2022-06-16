@@ -1,4 +1,4 @@
-(ns backend.web.views.common)
+(ns app.backend.web.views.common)
 
 (defn response
   [state body]

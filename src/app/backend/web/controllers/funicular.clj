@@ -1,6 +1,6 @@
-(ns backend.web.controllers.funicular
+(ns app.backend.web.controllers.funicular
   (:require
-   [backend.funicular :as funicular]))
+   [app.backend.funicular :as funicular]))
 
 (defn handler [{:keys [deps request] :as state}]
   (let [{:app/keys [funicular]} deps

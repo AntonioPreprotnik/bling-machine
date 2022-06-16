@@ -1,4 +1,4 @@
-(ns shared.schema.common
+(ns app.shared.schema.common
   (:require
    malli.util))
 

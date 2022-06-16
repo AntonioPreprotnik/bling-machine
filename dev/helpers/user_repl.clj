@@ -1,7 +1,7 @@
 (ns helpers.user-repl
   "REPL namespace used for testing funicular user related API calls."
   (:require
-   [backend.helpers :refer [command! query!]]
+   [app.backend.helpers :refer [command! query!]]
    [system.state :refer [dev-sys]]))
 
 (defn ^:private funicular []

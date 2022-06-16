@@ -1,4 +1,4 @@
-(ns frontend.inputs
+(ns app.frontend.inputs
   (:require
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]

@@ -1,11 +1,11 @@
-(ns backend.core
+(ns app.backend.core
   (:gen-class)
   (:require
-   [backend.config :as config]
-   [backend.funicular :as funicular]
-   [backend.logging :as logging]
-   [backend.penkala :as penkala]
-   [backend.web :refer [controller-interceptors routes]]
+   [app.backend.config :as config]
+   [app.backend.funicular :as funicular]
+   [app.backend.logging :as logging]
+   [app.backend.penkala :as penkala]
+   [app.backend.web :refer [controller-interceptors routes]]
    [framework.db.core :as db]
    [framework.db.seed :as seed]
    [framework.route.core :as routes]

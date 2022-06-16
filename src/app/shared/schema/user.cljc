@@ -1,7 +1,7 @@
-(ns shared.schema.user
+(ns app.shared.schema.user
   (:require
-   [malli.util :as mu]
-   [shared.schema.common :as sc]))
+   [app.shared.schema.common :as sc]
+   [malli.util :as mu]))
 
 (def User
   [:map

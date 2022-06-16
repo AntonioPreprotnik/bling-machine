@@ -27,11 +27,11 @@ patch-dev:
 
 start-dev:
 	bb -m frontend-version-patcher/patch-dev && \
-	clojure -X:dev:frontend 'core-dev/start-dev'
+	clojure -X:dev:frontend 'core/start-dev'
 
 start-dev-nrepl:
 	bb -m frontend-version-patcher/patch-dev && \
-	clojure -X:dev:frontend 'core-dev/start-dev-with-nrepl'
+	clojure -X:dev:frontend 'core/start-dev-with-nrepl'
 
 start-services:
 	chmod +x scripts/pg_init_scripts/multiple_databases.sh && \

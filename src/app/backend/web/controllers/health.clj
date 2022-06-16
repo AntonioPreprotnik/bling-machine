@@ -1,4 +1,4 @@
-(ns backend.web.controllers.health
+(ns app.backend.web.controllers.health
   (:require
    [ring.util.response :as ring]))
 

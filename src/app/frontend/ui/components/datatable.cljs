@@ -1,4 +1,4 @@
-(ns frontend.ui.components.datatable
+(ns app.frontend.ui.components.datatable
   (:require
    [clojure.string :as str]
    [helix.core :as hx :refer [$]]

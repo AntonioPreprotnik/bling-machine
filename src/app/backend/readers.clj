@@ -1,4 +1,4 @@
-(ns backend.readers)
+(ns app.backend.readers)
 
 (defn resolve-var [sym]
   (let [resolved (clojure.core/requiring-resolve sym)]

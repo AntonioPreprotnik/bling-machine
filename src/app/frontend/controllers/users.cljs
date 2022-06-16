@@ -1,4 +1,4 @@
-(ns frontend.controllers.users
+(ns app.frontend.controllers.users
   (:require
    [com.verybigthings.funicular.controller :refer [query!]]
    [keechma.next.controller :as ctrl]

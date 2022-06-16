@@ -1,19 +1,19 @@
-(ns shared.schema
+(ns app.shared.schema
   (:require
+   app.shared.schema.admin
+   app.shared.schema.common
+   app.shared.schema.user
    [malli.core :as m]
    [malli.error :as me]
-   [malli.util :as mu]
-   shared.schema.admin
-   shared.schema.common
-   shared.schema.user))
+   [malli.util :as mu]))
 
 (def registry
   (merge
    (m/default-schemas)
    (mu/schemas)
-   shared.schema.common/registry
-   shared.schema.user/registry
-   shared.schema.admin/registry))
+   app.shared.schema.common/registry
+   app.shared.schema.user/registry
+   app.shared.schema.admin/registry))
 
 (defn validate
   "Validates data over schema in registry."

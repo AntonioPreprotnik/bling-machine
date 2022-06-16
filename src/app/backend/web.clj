@@ -1,8 +1,8 @@
-(ns backend.web
+(ns app.backend.web
   (:require
-   [backend.web.controllers.funicular :as funicular]
-   [backend.web.controllers.health :as health]
-   [backend.web.controllers.keechma :as keechma]
+   [app.backend.web.controllers.funicular :as funicular]
+   [app.backend.web.controllers.health :as health]
+   [app.backend.web.controllers.keechma :as keechma]
    [com.verybigthings.funicular.transit :as funicular-transit]
    [framework.interceptor.core :as interceptors]
    [muuntaja.core :as muntaja]

@@ -9,25 +9,24 @@
 (import '[java.util Timer TimerTask])
 
 (defn debounce
-  ([f] (debounce f  500))
-  ([f timeout]
-   (let [timer (Timer.)
-         task (atom nil)]
-     (fn [& args]
-       (when-let [t ^TimerTask @task]
-         (.cancel t))
-       (let [new-task (proxy [TimerTask] []
-                        (run []
-                          (try (apply f args)
-                               (catch Exception e
-                                 (info (color-str :red
-                                                  (str "exception in: " (.getName (:file (second args)))
-                                                       " error: " (.getMessage e))))))
-                          (reset! task nil)
-                          (.purge timer)))]
-         (reset! task new-task)
-         (.schedule timer new-task timeout))
-       (first args)))))
+  [f timeout]
+  (let [timer (Timer.)
+        task (atom nil)]
+    (fn [& args]
+      (when-let [t ^TimerTask @task]
+        (.cancel t))
+      (let [new-task (proxy [TimerTask] []
+                       (run []
+                         (try (apply f args)
+                              (catch Exception e
+                                (info (color-str :red
+                                                 (str "exception in: " (.getName (:file (second args)))
+                                                      " error: " (.getMessage e))))))
+                         (reset! task nil)
+                         (.purge timer)))]
+        (reset! task new-task)
+        (.schedule timer new-task timeout))
+      (first args))))
 
 (defn- clojure-file? [_ {:keys [file]}]
   (re-matches #"[^.].*(\.clj|\.cljc|\.edn)$" (.getName file)))
@@ -47,7 +46,7 @@
   (hawk/watch! [{:paths   ["src/app/backend/" "src/app/shared" "config/dev"]
                  :context (constantly  {:fn  reset-fn})
                  :filter  clojure-file?
-                 :handler (debounce #(system-watch-handler %1 %2))}]))
+                 :handler (debounce #(system-watch-handler %1 %2) 500)}]))
 
 (defn watch-frontend
   "Automatically re-builds frontend and re-renders browser page if frontend related files are changed."
