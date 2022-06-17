@@ -3,6 +3,7 @@
    [app.backend.readers :refer [readers]]
    [app.shared.schema :refer [registry]]
    [clojure.edn :as edn]
+   [clojure.java.io :as io]
    [clojure.spec.alpha :as s]
    [com.verybigthings.funicular.core :as funicular]))
 
@@ -20,7 +21,7 @@
                          {} %)))
 
 (defn init [config]
-  (let [funicular-cnf (edn/read-string {:readers readers :config config} (slurp "src/app/shared/funicular.edn"))
+  (let [funicular-cnf (edn/read-string {:readers readers :config config} (slurp (io/resource "app/shared/funicular.edn")))
         funicular-cnf' (update-cnf funicular-cnf config)
         {:keys [context] :as api} funicular-cnf'
         compiled (funicular/compile api {:malli/registry registry})]
