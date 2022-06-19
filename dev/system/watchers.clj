@@ -59,6 +59,7 @@
 (def css-watcher-proc (atom nil))
 
 (defn postcss-watch []
+  (info (color-str :cyan "Start postcss:watch"))
   (let [proc (-> (ProcessBuilder. ["npm" "run" "postcss:watch"]) .inheritIO .start)]
     (reset! css-watcher-proc proc)
     (.waitFor proc)))
