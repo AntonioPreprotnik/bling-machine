@@ -1,6 +1,8 @@
-(ns app.frontend.ui.pages.home
+(ns app.ui.pages.home
   (:require
-   [app.frontend.inputs :refer [wrapped-input]]
+   [app.inputs :refer [wrapped-input]]
+   [app.ui.components.button :refer [ButtonDefaul]]
+   [app.util.inliner :as inliner :refer-macros [inline]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
    [helix.hooks :as hooks]
@@ -13,7 +15,7 @@
 (defclassified FormWrap :div "p-10 border border-gray-400 rounded-lg flex flex-col items-center justify-center space-y-6")
 (defclassified FormContainer :form "flex flex-col items-center space-y-6 w-96")
 (defclassified SignUpBtn :button "inline hover:text-gray-400 underline underline-offset-2")
-(defclassified LogInBtn :button "text-center w-full py-2 border border-gray-400 rounded-lg hover:bg-gray-400 hover:text-white disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
+(defclassified LogInBtn :button "flex py-2 px-3 border border-gray-400 rounded-lg hover:bg-gray-400 hover:text-white disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
 
 (def input-style "w-full border border-gray-400 px-3 py-2 rounded-lg focus:outline-none")
 (def error-msg-style "text-red-400 text-sm")
@@ -69,9 +71,10 @@
                          (dispatch props :login-form :on-submit {:email email-value :password password-value}))}
             ($ InputGroupRow)
             (d/div {:class "w-full"}
-                   ($ LogInBtn
-                     {:disabled inputs-empty?}
-                     "Log In")
+                   ($ ButtonDefaul {:additional-style "w-full flex justify-center"
+                                    :label "Log In"
+                                    :svg (inline "log-in.svg")
+                                    :disabled inputs-empty?})
                    (when-not is-input-value-erased?
                      (d/div {:class error-msg-style}
                             login-error-msg)))))))))

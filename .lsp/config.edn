@@ -1,4 +1,4 @@
-{:auto-add-ns-to-new-files? false
+{:auto-add-ns-to-new-files? true
  :clean {:after-ns-refactor true
          :ns-inner-blocks-indentation :next-line
          :ns-import-classes-indentation :next-line

@@ -1,35 +1,53 @@
-(ns app.frontend.app
+(ns app.app
   (:require
-   app.frontend.controllers.admin.login-form
-   app.frontend.controllers.current-user
-   app.frontend.controllers.users
+   app.controllers.admin.login-form
+   app.controllers.current-user
+   app.controllers.generic.switch
+   app.controllers.users
    [com.verybigthings.funicular.controller :as f]
-   keechma.next.controllers.dataloader
    keechma.next.controllers.entitydb
    keechma.next.controllers.router
-   keechma.next.controllers.subscription
    [react-dom :as rdom]))
+
+(def routes
+  [["" {:page "home"}]
+   ":page" ":page/:subpage"])
 
 (def app
   (->
    {:keechma.subscriptions/batcher rdom/unstable_batchedUpdates
     :keechma/controllers
-    {:router {:keechma.controller/params true
-              :keechma.controller/type :keechma/router
-              :keechma/routes [["" {:page "home"}] ":page" ":page/:id"]}
-     :dataloader {:keechma.controller/params true
-                  :keechma.controller/type :keechma/dataloader}
-     :entitydb #:keechma.controller{:params true
-                                    :type :keechma/entitydb
-                                    :keechma.entitydb/schema {:user {:entitydb/id :users/id}}}
-     :login-form #:keechma.controller {:params (fn [{:keys [router]}]
-                                                 (= "home" (:page router)))
-                                       :deps [:router]}
-     :users #:keechma.controller{:params (fn [{:keys [router]}]
-                                           (= "admin-panel" (:page router)))
-                                 :deps [:entitydb :router]}
-     :current-user #:keechma.controller{:params (fn [{:keys [router]}]
-                                                  (when (= "admin-panel" (:page router))
-                                                    (:id router)))
-                                        :deps [:router :entitydb]}}}
+    {:router       #:keechma.controller {:params                   true
+                                         :type                     :keechma/router
+                                         :keechma.router/base-href "/"
+                                         :keechma/routes           routes}
+
+     :entitydb     #:keechma.controller {:params                  true
+                                         :type                    :keechma/entitydb
+                                         :keechma.entitydb/schema {:user {:entitydb/id :users/id}}}
+
+     :login-form   #:keechma.controller {:params (fn [{:keys [router]}]
+                                                   (= "home" (:page router)))
+                                         :deps   [:router]}
+
+     :modal-add-user #:keechma.controller {:type                       :generic/switch
+                                           :params                     (fn [{:keys [router]}]
+                                                                         (= "admin" (:page router)))
+                                           :deps                       [:router]
+                                           :generic.switch/set-default (fn [_ _ _] true)}
+
+     :modal-edit-user #:keechma.controller {:type                       :generic/switch
+                                            :params                     (fn [{:keys [router]}]
+                                                                          (= "admin" (:page router)))
+                                            :deps                       [:router]
+                                            :generic.switch/set-default (fn [_ _ _] true)}
+
+     :users        #:keechma.controller {:params (fn [{:keys [router]}]
+                                                   (= "admin" (:page router)))
+                                         :deps   [:entitydb :router]}
+
+     :current-user #:keechma.controller {:params (fn [{:keys [router]}]
+                                                   (when (= "admin" (:page router))
+                                                     (:id router)))
+                                         :deps   [:router :entitydb]}}}
    f/install))
