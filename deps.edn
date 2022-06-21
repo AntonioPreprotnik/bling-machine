@@ -30,7 +30,10 @@
   org.clojure/core.match        #:mvn{:version "1.0.0"},
   org.clojure/spec.alpha        #:mvn{:version "0.3.218"},
   org.clojure/tools.namespace   #:mvn{:version "1.2.0"},
-  org.slf4j/slf4j-api           #:mvn{:version "1.7.36"}}
+  org.slf4j/slf4j-api           #:mvn{:version "1.7.36"}
+  clj-tagsoup/clj-tagsoup       #:mvn{:version "0.3.0"}
+  org.clojure/data.xml          #:mvn{:version "0.0.8"}
+  hicada/hicada                 #:mvn{:version "0.1.9"}}
 
  :aliases
  {:frontend         {:extra-deps
@@ -78,4 +81,4 @@
                      :deps        {io.github.clojure/tools.build {:git/tag "v0.8.1" :git/sha "7d40500"}}
                      :ns-default  build-uberjar}}
 
- :paths ["src/backend" "src/frontend" "src/shared" "config" "resources"]}
+ :paths ["src" "config" "resources" "resources/public/svgs"]}

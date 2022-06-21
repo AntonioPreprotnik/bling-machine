@@ -1,7 +1,7 @@
-(ns app.ui.components.dialog
+(ns app.frontend.ui.components.dialog
   (:require
    ["@headlessui/react" :refer [Dialog] :rename {Dialog HUIDialog}]
-   [app.util.inliner :as inliner :refer-macros [inline]]
+   [app.shared.util.inliner :as inliner :refer-macros [inline]]
    [applied-science.js-interop :as j]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]

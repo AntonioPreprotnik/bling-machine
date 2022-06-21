@@ -1,9 +1,9 @@
-(ns app.ui.main
+(ns app.frontend.ui.main
   (:require
-   [app.ui.components.admin.dashboard :refer [Dashboard]]
-   [app.ui.components.admin.users :refer [Users]]
-   [app.ui.pages.admin.admin-layout :refer [AdminLayout]]
-   [app.ui.pages.home :refer [Home]]
+   [app.frontend.ui.components.admin.dashboard :refer [Dashboard]]
+   [app.frontend.ui.components.admin.users :refer [Users]]
+   [app.frontend.ui.pages.admin.admin-layout :refer [AdminLayout]]
+   [app.frontend.ui.pages.home :refer [Home]]
    [clojure.core.match :refer-macros [match]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]

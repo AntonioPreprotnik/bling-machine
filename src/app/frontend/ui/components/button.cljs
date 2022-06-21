@@ -1,4 +1,4 @@
-(ns app.ui.components.button
+(ns app.frontend.ui.components.button
   (:require
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]

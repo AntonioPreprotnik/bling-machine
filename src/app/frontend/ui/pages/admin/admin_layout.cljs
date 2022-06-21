@@ -1,8 +1,8 @@
-(ns app.ui.pages.admin.admin-layout
+(ns app.frontend.ui.pages.admin.admin-layout
   (:require
-   [app.ui.components.admin.sidebar :refer [Sidebar]]
-   [app.ui.components.dialog :refer [Modal]]
-   [app.ui.components.spinner :refer [Spinner]]
+   [app.frontend.ui.components.admin.sidebar :refer [Sidebar]]
+   [app.frontend.ui.components.dialog :refer [Modal]]
+   [app.frontend.ui.components.spinner :refer [Spinner]]
    [helix.core :as hx :refer [$ suspense]]
    [helix.dom :as d]
    [keechma.next.helix.classified :refer [defclassified]]

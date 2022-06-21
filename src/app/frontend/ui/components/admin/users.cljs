@@ -1,7 +1,7 @@
-(ns app.ui.components.admin.users
+(ns app.frontend.ui.components.admin.users
   (:require
-   [app.ui.components.button :refer [ButtonDefaul]]
-   [app.util.inliner :as inliner :refer-macros [inline]]
+   [app.frontend.ui.components.button :refer [ButtonDefaul]]
+   [app.shared.util.inliner :as inliner :refer-macros [inline]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
    [keechma.next.helix.classified :refer [defclassified]]

@@ -1,6 +1,6 @@
-(ns app.ui.components.spinner
+(ns app.frontend.ui.components.spinner
   (:require
-   [app.util.inliner :as inliner :refer-macros [inline]]
+   [app.shared.util.inliner :as inliner :refer-macros [inline]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
    [keechma.next.helix.classified :refer [defclassified]]

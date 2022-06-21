@@ -1,4 +1,4 @@
-(ns app.ui.components.admin.dashboard
+(ns app.frontend.ui.components.admin.dashboard
   (:require
    [helix.dom :as d]
    [keechma.next.helix.lib :refer [defnc]]))

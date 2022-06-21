@@ -1,4 +1,4 @@
-(ns app.util.inliner
+(ns app.shared.util.inliner
   (:require
    [clojure.java.io :as io]
    [clojure.walk :refer [prewalk]]

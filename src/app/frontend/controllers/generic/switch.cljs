@@ -1,4 +1,4 @@
-(ns app.controllers.generic.switch
+(ns app.frontend.controllers.generic.switch
   (:require
    [keechma.next.controller :as ctrl]))
 
