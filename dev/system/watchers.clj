@@ -2,9 +2,10 @@
   (:require
    [clojure.core.async :refer  [go]]
    [hawk.core :as hawk]
+   [io.aviso.ansi :as ansi]
    [shadow.cljs.devtools.api :as shadow.api]
    [shadow.cljs.devtools.server :as shadow.server]
-   [taoensso.timbre :refer  [color-str info]]))
+   [taoensso.timbre :refer  [color-str error]]))
 
 (import '[java.util Timer TimerTask])
 
@@ -19,9 +20,9 @@
                        (run []
                          (try (apply f args)
                               (catch Exception e
-                                (info (color-str :red
-                                                 (str "exception in: " (.getName (:file (second args)))
-                                                      " error: " (.getMessage e))))))
+                                (error (color-str :red
+                                                  (str "exception in: " (.getName (:file (second args)))
+                                                       " error: " (.getMessage e))))))
                          (reset! task nil)
                          (.purge timer)))]
         (reset! task new-task)
@@ -59,6 +60,7 @@
 (def css-watcher-proc (atom nil))
 
 (defn postcss-watch []
+  (println (ansi/cyan "Start postcss:watch"))
   (let [proc (-> (ProcessBuilder. ["npm" "run" "postcss:watch"]) .inheritIO .start)]
     (reset! css-watcher-proc proc)
     (.waitFor proc)))

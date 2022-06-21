@@ -1,6 +1,7 @@
 (ns core
   (:require
    [clojure.core.async :refer  [go]]
+   [clojure.repl :as repl]
    [system.core :refer  [restart-system start-system stop-system]]
    [system.n-repl :as n-repl]
    [system.watchers :refer [postcss-watch watch-backend watch-frontend]]))
@@ -21,4 +22,5 @@
   (start-dev)
   (start-system)
   (stop-system)
-  (restart-system false))
+  (restart-system false)
+  (repl/pst))
