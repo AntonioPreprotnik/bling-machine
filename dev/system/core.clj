@@ -3,6 +3,7 @@
    [app.backend.core :refer [->system]]
    [clj-kondo.core :as kondo]
    clojure.pprint
+   [clojure.string :as str]
    [clojure.tools.logging :refer [*tx-agent-levels*]]
    [clojure.tools.namespace.repl :refer [refresh refresh-all set-refresh-dirs]]
    [helpers.logging :refer [format-log log-wrapper]]
@@ -30,7 +31,7 @@
 (defn restart-system
   "Stops system, refreshes changed namespaces in REPL and starts the system again."
   [all]
-  (println  (ansi/bold-cyan "\nRestart- system:"))
+  (println  (ansi/bold-cyan "\nRestart system:"))
   (stop-system)
   (let [[reloading system-log error?]
         (format-log (with-out-str (if all
@@ -43,7 +44,10 @@
                            (clojure.pprint/print-table (-> (kondo/run! {:lint ["src/app/backend" "src/app/shared"]})
                                                            :findings)))]
                  (error (color-str :red system-log))
-                 (println (ansi/magenta err)))
+                 (if (empty? err)
+                   (error (color-str :purple (str "Run time error!\n Switch REPL to " (last (str/split system-log #":error-while-loading"))
+                                                  " namespace and load it in REPL. Inspect stack trace with (clojure.repl/pst)")))
+                   (error (color-str :purple err))))
         (print system-log))
     (println (if error? (ansi/bold-red "System NOT restarted.")
                  (ansi/bold-cyan "System restarted.")))))

@@ -12,7 +12,6 @@
                         (let [log-body (rest log-rows)]
                           (str (first (str/split (first log-body) #"\[m ")) "\n"
                                (str/join "\n" (drop 2 log-rows)))))]
-    (tap> log-rows)
     [reloading system-log error]))
 
 (defn log-wrapper [output title title-color body-color log-type]
