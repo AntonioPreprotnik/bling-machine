@@ -40,8 +40,8 @@
     (log-wrapper  reload-sys "Reloading system" ansi/cyan :yellow :info)
     (println "")
     (if error? (let [err (with-out-str
-                           (clojure.pprint/pprint (-> (kondo/run! {:lint ["src/app/backend" "src/app/shared"]})
-                                                      :findings)))]
+                           (clojure.pprint/print-table (-> (kondo/run! {:lint ["src/app/backend" "src/app/shared"]})
+                                                           :findings)))]
                  (error (color-str :red system-log))
                  (println (ansi/magenta err)))
         (print system-log))
