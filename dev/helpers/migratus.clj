@@ -1,8 +1,8 @@
 (ns helpers.migratus
   "REPL namespace used for managing local DB migrations and seeds."
   (:require
-   [app.config :as config]
-   [app.core-be :refer [app-config]]
+   [app.backend.config :as config]
+   [app.backend.core :refer [app-config]]
    [framework.db.core :as db]
    [migratus.core :as migratus]
    [next.jdbc :as next-jdbc]

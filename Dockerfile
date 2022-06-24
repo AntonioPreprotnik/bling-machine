@@ -3,7 +3,7 @@
 FROM openjdk:17-jdk-alpine
 WORKDIR /
 
-COPY target/xiana-standalone.jar app.jar
+COPY target/pasta-xiana-standalone.jar app.jar
 COPY entrypoint.sh ./
 
 RUN chmod +x ./entrypoint.sh

@@ -22,6 +22,7 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     env:
+      JWT_SECRET: verystrongjwtsecret
       PG_HOST: localhost
       PG_PASSWORD: postgres
       PG_PORT: 5432
@@ -48,8 +49,8 @@ jobs:
       - name: Install clojure tools
         uses: DeLaGuardo/setup-clojure@5.0
         with:
-          cli: 1.11.1.1113
-          bb: 0.8.2
+          cli: 1.11.1.1129
+          bb: 0.8.156
 
       - name: Setup clojure-lsp
         uses: clojure-lsp/setup-clojure-lsp@v1
