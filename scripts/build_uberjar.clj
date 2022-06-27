@@ -13,14 +13,14 @@
 
 (defn uber [_]
   (clean nil)
-  (b/copy-dir {:src-dirs ["src/backend" "src/frontend" "src/shared" "resources" "config/prod" "config"]
+  (b/copy-dir {:src-dirs ["src" "resources" "config/prod" "config"]
                :target-dir class-dir})
   (b/compile-clj {:basis basis
-                  :src-dirs ["src/backend" "src/frontend" "src/shared"]
+                  :src-dirs ["src"]
                   :class-dir class-dir})
   (b/uber {:class-dir class-dir
            :uber-file uber-file
            :basis basis
            :exclude exclude
-           :main 'app/core-be})
+           :main 'app.backend/core})
   (println (str "Created file: " uber-file)))
