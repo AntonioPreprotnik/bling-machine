@@ -14,12 +14,12 @@
 (defclassified TableDataCell :td "p-3"
   (fn [{:keys [idx]}]
     (when (odd? idx) " bg-gray-100")))
-(defclassified EditUserWrap :td "p-3 rounded-rb hover:text-red-400"
+(defclassified UserActionWrap :td "p-3 rounded-rb hover:text-red-400"
   (fn [{:keys [idx]}]
     (when (odd? idx) " bg-gray-100")))
-(defclassified EditUserBtn :button "disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
+(defclassified UserActionBtn :button "disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
 
-(def table-header-descriptions ["ID" "First Name" "Last Name" "Email" "ZIP" ""])
+(def table-header-descriptions ["ID" "First Name" "Last Name" "Email" "ZIP" "" ""])
 
 (defnc UsersTable [{:keys [users on-click]}]
   ($ UsersTableContainer
@@ -39,9 +39,12 @@
                    ($ TableDataCell {:idx idx} last-name)
                    ($ TableDataCell {:idx idx} email)
                    ($ TableDataCell {:idx idx} zip)
-                   ($ EditUserWrap {:idx idx}
-                     ($ EditUserBtn {:onClick #(on-click m)}
-                       (inline "edit-pencil.svg"))))))
+                   ($ UserActionWrap {:idx idx}
+                     ($ UserActionBtn {:onClick #(on-click m)}
+                       (inline "edit-pencil.svg")))
+                   ($ UserActionWrap {:idx idx}
+                     ($ UserActionBtn {:onClick #()}
+                       (inline "trash.svg"))))))
        users))))
 
 (defnc Users [props]
