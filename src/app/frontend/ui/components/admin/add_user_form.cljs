@@ -1,4 +1,4 @@
-(ns app.ui.components.admin.add-user-form
+(ns app.frontend.ui.components.admin.add-user-form
   (:require
    [app.inputs :refer [wrapped-input]]
    [app.ui.components.button :refer [ButtonDefaul]]

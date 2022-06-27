@@ -1,4 +1,4 @@
-(ns app.controllers.admin.users.create-user
+(ns app.frontend.controllers.admin.users.create-user
   (:require
    [com.verybigthings.funicular.controller :refer [command!]]
    [keechma.malli-forms.core :as mf]

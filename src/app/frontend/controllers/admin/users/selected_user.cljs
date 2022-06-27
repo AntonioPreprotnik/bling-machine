@@ -1,4 +1,4 @@
-(ns app.controllers.admin.users.selected-user
+(ns app.frontend.controllers.admin.users.selected-user
   (:require
    [keechma.next.controller :as ctrl]
    [keechma.next.controllers.pipelines :as pipelines]

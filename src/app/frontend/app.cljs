@@ -1,6 +1,9 @@
 (ns app.frontend.app
   (:require
-   app.frontend.controllers.admin.login-form
+   app.frontend.controllers.admin.login-form 
+   app.frontend.controllers.admin.users.create-user
+   app.frontend.controllers.admin.users.edit-user
+   app.frontend.controllers.admin.users.selected-user
    app.frontend.controllers.current-user
    app.frontend.controllers.generic.switch
    app.frontend.controllers.users
