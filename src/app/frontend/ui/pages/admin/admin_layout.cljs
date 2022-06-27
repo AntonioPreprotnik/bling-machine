@@ -1,5 +1,7 @@
 (ns app.frontend.ui.pages.admin.admin-layout
   (:require
+   [app.frontend.ui.components.admin.add-user-form :refer [AddUserForm]]
+   [app.frontend.ui.components.admin.edit-user-form :refer [EditUserForm]]
    [app.frontend.ui.components.admin.sidebar :refer [Sidebar]]
    [app.frontend.ui.components.dialog :refer [Modal]]
    [app.frontend.ui.components.spinner :refer [Spinner]]
@@ -22,17 +24,14 @@
       ($ Modal {:modal-title "Add User"
                 :is-modal-open? is-modal-add-user-open?
                 :close-modal close-modal-add-user}
-        (d/div {:class "text-center"}
-               "Add User Form Content"))
+        ($ AddUserForm))
       ($ Modal {:modal-title "Edit User"
                 :is-modal-open? is-modal-edit-user-open?
                 :close-modal close-modal-edit-user}
-        (d/div {:class "text-center"}
-               "Edit User Form Content"))
+        ($ EditUserForm))
       ($ Sidebar)
       (d/div {:class "flex-grow relative"}
              ($ AdminPanelInner
                (suspense
                 {:fallback ($ Spinner)}
                 children))))))
-
