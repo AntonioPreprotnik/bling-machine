@@ -1,9 +1,8 @@
 {:logging/timbre   {:min-level :info
                     :ns-filter {:allow #{"*"}}}
 
- :jwt-secret #dyn/prop [JWT_SECRET "verystrongjwtsecret"]
+ :jwt-secret       #dyn/prop JWT_SECRET
 
-;; if key :dburl is not null and is defined as #dyn/prop PG_TEST_URL it will take precedence over other configuration keys
  :xiana/postgresql {:dbname   #dyn/prop [PG_TEST_DB_NAME "app_test"]
                     :host     #dyn/prop [PG_TEST_HOST "localhost"]
                     :password #dyn/prop [PG_TEST_PASSWORD "postgres"]

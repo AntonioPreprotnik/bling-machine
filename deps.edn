@@ -13,14 +13,12 @@
   com.verybigthings/funicular   {:git/url    "https://github.com/VeryBigThings/funicular",
                                  :sha        "fb4cb3ae49a9246f4489396c047779b73e9c82ba",
                                  :exclusions [io.aviso/pretty com.taoensso/encore cljc.java-time/cljc.java-time]},
-  com.verybigthings/penkala     {:git/url "https://github.com/retro/penkala",
-                                 :sha     "8f38814dcfe5a23ee2c6fcdd5d2c48ccd6f4f1c7"},
+  com.verybigthings/penkala     #:mvn{:version "0.9.1"},,
   com.verybigthings/pgerrors    {:git/url "https://github.com/VeryBigThings/pgerrors",
                                  :sha     "b7a95d13cee17ec9a0bcbab3a5107950f7113ea9"},
   com.walmartlabs/dyn-edn       #:mvn{:version "0.2.0"},
   io.aviso/pretty               #:mvn{:version "1.1.1"},
   lambdaisland/regal            #:mvn{:version "0.0.143"},
-  lilactown/helix               #:mvn{:version "0.1.5"},
   medley/medley                 #:mvn{:version "1.4.0"},
   metosin/jsonista              #:mvn{:version "0.3.5"},
   metosin/malli                 #:mvn{:version "0.8.4"},
@@ -46,12 +44,15 @@
                                                   :sha     "6560d5f87e6a731e9fff7dc0c52e6da571155f72"},
                       keechma.next/toolbox       {:git/url "https://github.com/keechma/keechma-next-toolbox.git",
                                                   :sha     "967f483e2e6f157647d7f5c65a1b44129ba0e6a5"},
-                      lambdaisland/fetch         #:mvn{:version "1.0.41"}}}
+                      lambdaisland/fetch         #:mvn{:version "1.0.41"},
+                      lilactown/helix            #:mvn{:version "0.1.5"}}}
 
   :dev              {:command     "clj -A:dev:frontend"
                      :extra-paths ["dev" "config/dev"]
                      :extra-deps  {binaryage/devtools   #:mvn{:version "1.0.3"},
+                                   clj-kondo/clj-kondo  {:mvn/version "2022.05.31"}
                                    hawk/hawk            #:mvn{:version "0.2.11"},
+                                   io.aviso/pretty      {:mvn/version "1.1.1"}
                                    nrepl/nrepl          #:mvn{:version "0.9.0"},
                                    thheller/shadow-cljs #:mvn{:version "2.18.0"},
                                    vlaaad/reveal        #:mvn{:version "1.3.273"}}}
@@ -66,8 +67,8 @@
                                    nubank/matcher-combinators #:mvn{:version "3.4.0"},
                                    nubank/state-flow          {:mvn/version "5.14.1", :exclusions [nubank/matcher-combinators]},
                                    org.clojure/test.check     #:mvn{:version "1.1.1"}}
-                     :main-opts ["-e" "(require,'test-repl)"
-                                 "-e" "(in-ns,'test-repl)"]
+                     :main-opts   ["-e" "(require,'app.test-repl)"
+                                   "-e" "(in-ns,'app.test-repl)"]
                      :exec-fn     kaocha.runner/exec-fn
                      :exec-args   {:config-file ["tests.edn"]}}
 
@@ -77,9 +78,9 @@
 
   :prod             {:extra-paths ["config/prod"]}
 
-  :build-uberjar    {:commands    "clj -T:build-uberjar uber; java -jar xiana-1.2.124-standalone.jar"
+  :build-uberjar    {:commands    "clj -T:build-uberjar uber; java -jar pasta-xiana-standalone.jar"
                      :extra-paths ["scripts"]
                      :deps        {io.github.clojure/tools.build {:git/tag "v0.8.1" :git/sha "7d40500"}}
                      :ns-default  build-uberjar}}
 
- :paths ["src/backend" "src/frontend" "src/shared" "config" "resources" "resources/public/svgs"]}
+ :paths ["src" "config" "resources" "resources/public/svgs"]}

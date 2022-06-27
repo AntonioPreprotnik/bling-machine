@@ -1,0 +1,18 @@
+{:api     [:api
+           {:input-schema [:map
+                           [:app/jwt {:optional true}]]}
+           [:user
+            {:commands {:create             {:input-schema  :app.input.user/create
+                                             :output-schema :app/user
+                                             :handler       #resolve app.backend.web.api.handlers.user/create-one}
+                        :update             {:input-schema  :app.input.user/update
+                                             :output-schema :app/user
+                                             :handler       #resolve app.backend.web.api.handlers.user/update-one}}
+             :queries  {:get-all             {:input-schema  :any
+                                              :output-schema :app/users
+                                              :handler       #resolve app.backend.web.api.handlers.user/get-all}
+                        :get-one             {:input-schema  :app.input.user/one
+                                              :output-schema :app/user
+                                              :handler       #resolve app.backend.web.api.handlers.user/get-one}}}]]
+ :pipes   {}
+ :context {:penkala  :config/penkala}}
