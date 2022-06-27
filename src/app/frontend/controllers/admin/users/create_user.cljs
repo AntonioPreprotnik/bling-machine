@@ -1,12 +1,12 @@
 (ns app.frontend.controllers.admin.users.create-user
   (:require
+   [app.shared.schema :as schema]
    [com.verybigthings.funicular.controller :refer [command!]]
    [keechma.malli-forms.core :as mf]
    [keechma.next.controller :as ctrl]
    [keechma.next.controllers.malli-form :as mfc]
    [keechma.next.controllers.pipelines :as pipelines]
-   [keechma.pipelines.core :as pp :refer-macros [pipeline!]]
-   [schema :as schema]))
+   [keechma.pipelines.core :as pp :refer-macros [pipeline!]]))
 
 (derive :create-user ::pipelines/controller)
 

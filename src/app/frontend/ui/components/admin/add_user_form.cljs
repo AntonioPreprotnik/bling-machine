@@ -1,9 +1,9 @@
 (ns app.frontend.ui.components.admin.add-user-form
   (:require
-   [app.inputs :refer [wrapped-input]]
-   [app.ui.components.button :refer [ButtonDefaul]]
-   [app.ui.pages.home :refer [error-msg-style input-style]]
-   [app.util.inliner :as inliner :refer-macros [inline]]
+   [app.frontend.inputs :refer [wrapped-input]]
+   [app.frontend.ui.components.button :refer [ButtonDefaul]]
+   [app.frontend.ui.pages.home :refer [error-msg-style input-style]]
+   [app.shared.util.inliner :as inliner :refer-macros [inline]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
    [keechma.next.helix.core :refer [dispatch with-keechma]]
