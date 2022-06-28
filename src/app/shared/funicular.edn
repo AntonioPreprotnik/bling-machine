@@ -7,7 +7,10 @@
                                              :handler       #resolve app.backend.web.api.handlers.user/create-one}
                         :update             {:input-schema  :app.input.user/update
                                              :output-schema :app/user
-                                             :handler       #resolve app.backend.web.api.handlers.user/update-one}}
+                                             :handler       #resolve app.backend.web.api.handlers.user/update-one} 
+                        :delete             {:input-schema  :any 
+                                             :output-schema :app/user 
+                                             :handler       #resolve app.backend.web.api.handlers.user/delete-by-id}}
              :queries  {:get-all             {:input-schema  :any
                                               :output-schema :app/users
                                               :handler       #resolve app.backend.web.api.handlers.user/get-all}

@@ -3,6 +3,7 @@
    app.frontend.controllers.admin.login-form
    app.frontend.controllers.admin.users.create-user
    app.frontend.controllers.admin.users.edit-user
+   app.frontend.controllers.admin.users.delete-user
    app.frontend.controllers.admin.users.selected-user
    app.frontend.controllers.current-user
    app.frontend.controllers.generic.switch
@@ -41,6 +42,11 @@
                                                 (when (and modal-edit-user (= "admin" (:page router)))
                                                   selected-user))
                                       :deps   [:router :selected-user :modal-edit-user]}
+     
+     :delete-user #:keechma.controller {:params (fn [{:keys [router modal-delete-user selected-user]}]
+                                                (when (and modal-delete-user (= "admin" (:page router)))
+                                                  selected-user))
+                                      :deps   [:router :selected-user :modal-delete-user]}
 
      :modal-add-user #:keechma.controller {:type                       :generic/switch
                                            :params                     (fn [{:keys [router]}]
@@ -53,6 +59,12 @@
                                                                           (= "admin" (:page router)))
                                             :deps                       [:router]
                                             :generic.switch/set-default (fn [_ _ _] true)}
+     
+     :modal-delete-user #:keechma.controller {:type                       :generic/switch
+                                              :params                     (fn [{:keys [router]}]
+                                                                            (= "admin" (:page router)))
+                                              :deps                       [:router]
+                                              :generic.switch/set-default (fn [_ _ _] true)}
 
      :users        #:keechma.controller {:params (fn [{:keys [router modal-add-user]}]
                                                    (and (not modal-add-user) (= "admin" (:page router))))

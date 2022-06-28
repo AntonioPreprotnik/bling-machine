@@ -19,9 +19,9 @@
     (when (odd? idx) " bg-gray-100")))
 (defclassified UserActionBtn :button "disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
 
-(def table-header-descriptions ["ID" "First Name" "Last Name" "Email" "ZIP" "" ""])
+(def table-header-descriptions ["ID" "First Name" "Last Name" "Email" "ZIP" "" " "])
 
-(defnc UsersTable [{:keys [users on-click]}]
+(defnc UsersTable [{:keys [users on-click-edit-pencil on-click-trash]}]
   ($ UsersTableContainer
     ($ UsersTableWrap
       (d/thead
@@ -40,23 +40,26 @@
                    ($ TableDataCell {:idx idx} email)
                    ($ TableDataCell {:idx idx} zip)
                    ($ UserActionWrap {:idx idx}
-                     ($ UserActionBtn {:onClick #(on-click m)}
+                     ($ UserActionBtn {:onClick #(on-click-edit-pencil m)}
                        (inline "edit-pencil.svg")))
                    ($ UserActionWrap {:idx idx}
-                     ($ UserActionBtn {:onClick #()}
+                     ($ UserActionBtn {:onClick #(on-click-trash m)}
                        (inline "trash.svg"))))))
        users))))
 
 (defnc Users [props]
   {:wrap [with-keechma]}
   (let [users (use-sub props :users)
-        on-open-add-user-modal #(dispatch props :modal-add-user :on)
+        on-open-add-user-modal #(dispatch props :modal-add-user :on) 
         on-open-edit-modal #(do (dispatch props :modal-edit-user :on)
-                                (dispatch props :selected-user :on-select-user %))]
+                                (dispatch props :selected-user :on-select-user %)) 
+        on-open-delete-user-modal #(do (dispatch props :modal-delete-user :on)
+                                       (dispatch props :selected-user :on-select-user %))]
     (d/div {:class "flex flex-col w-full"}
            ($ ButtonDefaul {:additional-style "ml-auto"
                             :label "Add User"
                             :svg (inline "add-user.svg")
                             :on-click on-open-add-user-modal})
            ($ UsersTable {:users users
-                          :on-click on-open-edit-modal}))))
+                          :on-click-edit-pencil on-open-edit-modal
+                          :on-click-trash on-open-delete-user-modal}))))

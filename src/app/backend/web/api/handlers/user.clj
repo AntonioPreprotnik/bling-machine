@@ -24,3 +24,9 @@
   (let [{:keys [penkala data]} config
         user-id (:user-id data)]
     (user/get-one-by-id penkala user-id)))
+
+(defn delete-by-id [config]
+    (let [{:keys [penkala data]} config
+          user-data (:data data) 
+          user-id (:user-id data)]
+      (user/delete-by-id penkala user-id)))
