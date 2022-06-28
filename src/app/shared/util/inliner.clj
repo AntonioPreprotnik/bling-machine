@@ -2,7 +2,6 @@
   (:require
    [clojure.java.io :as io]
    [clojure.walk :refer [prewalk]]
-   [helix.core]
    [hicada.compiler]
    [pl.danieljanus.tagsoup :as ts]))
 

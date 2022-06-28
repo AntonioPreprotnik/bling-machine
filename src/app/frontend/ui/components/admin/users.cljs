@@ -14,12 +14,12 @@
 (defclassified TableDataCell :td "p-3"
   (fn [{:keys [idx]}]
     (when (odd? idx) " bg-gray-100")))
-(defclassified EditUserWrap :td "p-3 rounded-rb hover:text-red-400"
+(defclassified UserActionWrap :td "p-3 rounded-rb hover:text-red-400"
   (fn [{:keys [idx]}]
     (when (odd? idx) " bg-gray-100")))
-(defclassified EditUserBtn :button "disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
+(defclassified UserActionBtn :button "disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
 
-(def table-header-descriptions ["first 10 ID characters" "First Name" "Last Name" "Email" "ZIP" ""])
+(def table-header-descriptions ["ID" "First Name" "Last Name" "Email" "ZIP" "" ""])
 
 (defnc UsersTable [{:keys [users on-click]}]
   ($ UsersTableContainer
@@ -31,24 +31,28 @@
                   :class "p-3"} %)
           table-header-descriptions)))
       (map-indexed
-       (fn [idx {:users/keys [first-name last-name email zip id]}]
+       (fn [idx {:users/keys [first-name last-name email zip id] :as m}]
          (d/tbody {:key idx}
                   (d/tr
-                   ($ TableDataCell {:idx idx} (take 10 (str id)))
+                   ($ TableDataCell {:idx idx} (str id))
                    ($ TableDataCell {:idx idx} first-name)
                    ($ TableDataCell {:idx idx} last-name)
                    ($ TableDataCell {:idx idx} email)
                    ($ TableDataCell {:idx idx} zip)
-                   ($ EditUserWrap {:idx idx}
-                     ($ EditUserBtn {:onClick on-click}
-                       (inline "edit-pencil.svg"))))))
+                   ($ UserActionWrap {:idx idx}
+                     ($ UserActionBtn {:onClick #(on-click m)}
+                       (inline "edit-pencil.svg")))
+                   ($ UserActionWrap {:idx idx}
+                     ($ UserActionBtn {:onClick #()}
+                       (inline "trash.svg"))))))
        users))))
 
 (defnc Users [props]
   {:wrap [with-keechma]}
   (let [users (use-sub props :users)
         on-open-add-user-modal #(dispatch props :modal-add-user :on)
-        on-open-edit-modal #(dispatch props :modal-edit-user :on)]
+        on-open-edit-modal #(do (dispatch props :modal-edit-user :on)
+                                (dispatch props :selected-user :on-select-user %))]
     (d/div {:class "flex flex-col w-full"}
            ($ ButtonDefaul {:additional-style "ml-auto"
                             :label "Add User"
