@@ -27,5 +27,5 @@
 
 (defn delete-by-id [config]
   (let [{:keys [penkala data]} config
-        user-id (:user-id data)]
-    (user/delete-by-id penkala user-id)))
+        user-id data]
+    (user/delete-by-id! penkala user-id)))

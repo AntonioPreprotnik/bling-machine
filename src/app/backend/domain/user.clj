@@ -9,7 +9,7 @@
   (update-by-id! [penkala data id])
   (get-all-users [penkala])
   (get-one-by-id [penkala id])
-  (delete-by-id [penkala id]))
+  (delete-by-id! [penkala id]))
 
 (extend-protocol UserDatabase
   app.backend.penkala.Boundary
@@ -31,8 +31,8 @@
                     (r/where [:= :id [:cast id "uuid"]]))]
       (select-one! env users)))
 
-  (delete-by-id [{:keys [env]} id]
+  (delete-by-id! [{:keys [env]} id]
     (let [delete-user (-> (:users env)
                           r/->deletable
-                          (r/where [:= :id [:cast id "uuid"]]))]
+                          (r/where [:= :id (cast-as id "uuid")]))]
       (delete! env delete-user))))
