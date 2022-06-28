@@ -1,7 +1,7 @@
 (ns app.backend.domain.user
   (:require
    [app.backend.boundary.penkala-helpers :refer [cast-as]]
-   [app.backend.penkala :refer [insert! select! select-one! update! delete!]]
+   [app.backend.penkala :refer [delete! insert! select! select-one! update!]]
    [com.verybigthings.penkala.relation :as r]))
 
 (defprotocol UserDatabase
@@ -29,9 +29,9 @@
   (get-one-by-id [{:keys [env]} id]
     (let [users (-> (:users env)
                     (r/where [:= :id [:cast id "uuid"]]))]
-      (select-one! env users))) 
-  
-  (delete-by-id [{:keys [env]} id] 
+      (select-one! env users)))
+
+  (delete-by-id [{:keys [env]} id]
     (let [delete-user (-> (:users env)
                           r/->deletable
                           (r/where [:= :id [:cast id "uuid"]]))]

@@ -50,9 +50,9 @@
 (defnc Users [props]
   {:wrap [with-keechma]}
   (let [users (use-sub props :users)
-        on-open-add-user-modal #(dispatch props :modal-add-user :on) 
+        on-open-add-user-modal #(dispatch props :modal-add-user :on)
         on-open-edit-modal #(do (dispatch props :modal-edit-user :on)
-                                (dispatch props :selected-user :on-select-user %)) 
+                                (dispatch props :selected-user :on-select-user %))
         on-open-delete-user-modal #(do (dispatch props :modal-delete-user :on)
                                        (dispatch props :selected-user :on-select-user %))]
     (d/div {:class "flex flex-col w-full"}
