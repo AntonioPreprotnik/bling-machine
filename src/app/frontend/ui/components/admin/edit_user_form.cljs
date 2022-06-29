@@ -30,7 +30,6 @@
                                       :input/type :text
                                       :input/attr attr
                                       :placeholder placeholder})))
-
              edit-user-input)
             ($ ButtonDefaul {:additional-style "w-full flex justify-center mt-4"
                              :label "Edit User"

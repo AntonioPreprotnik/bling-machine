@@ -1,16 +1,15 @@
 (ns app.frontend.app
   (:require
-   app.frontend.controllers.admin.login-form
-   app.frontend.controllers.admin.users.create-user
-   app.frontend.controllers.admin.users.delete-user
-   app.frontend.controllers.admin.users.edit-user
-   app.frontend.controllers.admin.users.selected-user
-   app.frontend.controllers.current-user
-   app.frontend.controllers.generic.switch
-   app.frontend.controllers.users
+   [app.frontend.controllers.admin.login-form]
+   [app.frontend.controllers.admin.users.create-user]
+   [app.frontend.controllers.admin.users.delete-user]
+   [app.frontend.controllers.admin.users.edit-user]
+   [app.frontend.controllers.admin.users.selected-user]
+   [app.frontend.controllers.generic.switch]
+   [app.frontend.controllers.users]
    [com.verybigthings.funicular.controller :as f]
-   keechma.next.controllers.entitydb
-   keechma.next.controllers.router
+   [keechma.next.controllers.entitydb]
+   [keechma.next.controllers.router]
    [react-dom :as rdom]))
 
 (def routes
@@ -66,16 +65,11 @@
                                               :deps                       [:router]
                                               :generic.switch/set-default (fn [_ _ _] true)}
 
-     :users        #:keechma.controller {:params (fn [{:keys [router modal-add-user]}]
-                                                   (and (not modal-add-user) (= "admin" (:page router))))
-                                         :deps   [:entitydb :router :modal-add-user]}
+     :users        #:keechma.controller {:params (fn [{:keys [router]}]
+                                                   (= "admin" (:page router)))
+                                         :deps   [:entitydb :router]}
 
      :selected-user #:keechma.controller {:params (fn [{:keys [router users]}]
                                                     (and users (= "users" (:subpage router))))
-                                          :deps   [:router :users]}
-
-     :current-user #:keechma.controller {:params (fn [{:keys [router]}]
-                                                   (when (= "admin" (:page router))
-                                                     (:id router)))
-                                         :deps   [:router :entitydb]}}}
+                                          :deps   [:router :users]}}}
    f/install))
