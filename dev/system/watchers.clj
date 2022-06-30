@@ -30,7 +30,7 @@
       (first args))))
 
 (defn- clojure-file? [_ {:keys [file]}]
-  (re-matches #"[^.].*(\.clj|\.cljc|\.edn)$" (.getName file)))
+  (re-matches #"[^.].*(\.clj|\.edn)$" (.getName file)))
 
 (defn- edn-file? [{:keys [file]}]
   (re-matches #"[^.].*(\.edn)$" (.getName file)))
