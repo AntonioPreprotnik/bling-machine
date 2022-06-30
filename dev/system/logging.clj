@@ -50,12 +50,9 @@
 
 (def clj-files
   (let [src       (clojure.java.io/file "src")
-        dev       (clojure.java.io/file "dev")
         src-files (file-seq src)
-        dev-files (file-seq dev)
-        files     (into src-files dev-files)
-        clj-files (filter clojure-file? files)]
-    (filter #(not (.contains (str %) "system/logging")) clj-files)))
+        clj-files (filter clojure-file? src-files)]
+    (filter #(not (.contains (str %) "system/")) clj-files)))
 
 (def clj-nss
   (let [src (find-namespaces-in-dir (clojure.java.io/file "src"))
@@ -71,7 +68,7 @@
 
 (load-clj-files)
 
-(def nss-files
+(defn nss-files []
   (-> (->> (for [clj-ns clj-nss]
              (ns-to-file clj-ns))
            (into {}))
@@ -79,4 +76,4 @@
 
 (defn get-err-ns [loading-err]
   (let [err-ns (read-string (last (str/split loading-err #":error-while-loading ")))]
-    (vector ((keyword err-ns) nss-files))))
+    (vector ((keyword err-ns) (nss-files)))))

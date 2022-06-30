@@ -12,7 +12,7 @@
    [system.state :refer [dev-sys]]
    [taoensso.timbre :refer [color-str error]]))
 
-(set-refresh-dirs "dev" "src" "resources")
+(set-refresh-dirs  "src" "resources")
 
 (alter-var-root #'*tx-agent-levels* conj :debug :trace)
 
