@@ -2,11 +2,7 @@
   (:require
    [clojure.java.io]
    [clojure.string :as str]
-   [clojure.tools.namespace.find :refer  [find-namespaces-in-dir]]
-   [clojure.tools.namespace.repl :refer [disable-reload!]]
    [taoensso.timbre :refer [color-str error info]]))
-
-(disable-reload!)
 
 (defn format-log [log]
   (let [log-rows      (str/split-lines log)
@@ -32,51 +28,10 @@
                                  (map #(select-keys % [:filename :row :message]))
                                  first
                                  (map #(val %)))]
-    (when file (str file ":" line " - " message))))
+    (when file (str (str "/src/" (last (str/split file #"/src/"))) ":" line " - " message))))
 
-(defn ns-to-file
-  [ns]
-  (-> (->> (ns-map ns)
-           (filter #(.contains (str (val %)) (str ns)))
-           (map second)
-           (map meta)
-           (drop-while #(not (:file %)))
-           first
-           ((juxt :ns :file)))
-      (update-in [0] str)))
+(defn edn-file? [{:keys [file]}]
+  (when file (re-matches #"[^.].*(\.edn)$" (.getName file))))
 
-(defn- clojure-file? [file]
-  (re-matches #"[^.].*(\.clj)$" (.getName file)))
-
-(def clj-files
-  (let [src       (clojure.java.io/file "src")
-        dev       (clojure.java.io/file "dev")
-        src-files (file-seq src)
-        dev-files (file-seq dev)
-        files     (into src-files dev-files)
-        clj-files (filter clojure-file? files)]
-    (filter #(not (.contains (str %) "system/logging")) clj-files)))
-
-(def clj-nss
-  (let [src (find-namespaces-in-dir (clojure.java.io/file "src"))
-        dev (find-namespaces-in-dir (clojure.java.io/file "dev"))]
-    (into src dev)))
-
-(defn load-clj-files []
-  (->> (mapv #(load-file (str %)) clj-files)))
-
-(declare nss-files)
-
-(declare get-err-ns)
-
-(load-clj-files)
-
-(def nss-files
-  (-> (->> (for [clj-ns clj-nss]
-             (ns-to-file clj-ns))
-           (into {}))
-      (update-keys keyword)))
-
-(defn get-err-ns [loading-err]
-  (let [err-ns (read-string (last (str/split loading-err #":error-while-loading ")))]
-    (vector ((keyword err-ns) nss-files))))
+(defn cljc-file? [{:keys [file]}]
+  (when file (re-matches #"[^.].*(\.cljc)$" (.getName file))))

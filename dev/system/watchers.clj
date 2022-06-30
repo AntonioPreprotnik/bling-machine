@@ -30,16 +30,12 @@
       (first args))))
 
 (defn- clojure-file? [_ {:keys [file]}]
-  (re-matches #"[^.].*(\.clj|\.edn)$" (.getName file)))
-
-(defn- edn-file? [{:keys [file]}]
-  (re-matches #"[^.].*(\.edn)$" (.getName file)))
+  (re-matches #"[^.].*(\.clj|\.edn|\.cljc)$" (.getName file)))
 
 (defn- system-watch-handler [ctx e]
-  (let [all (edn-file? e)]
-    (binding [*ns* *ns*]
-      ((:fn ctx) all)
-      ctx)))
+  (binding [*ns* *ns*]
+    ((:fn ctx)  e)
+    ctx))
 
 (defn watch-backend
   "Automatically restarts the system if backend related files are changed."
