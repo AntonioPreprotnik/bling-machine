@@ -9,7 +9,8 @@
   (update-by-id! [penkala data id])
   (get-all-users [penkala])
   (get-one-by-id [penkala id])
-  (delete-by-id! [penkala id]))
+  (delete-by-id! [penkala id])
+  (get-admin-by-credentials [penkala data]))
 
 (extend-protocol UserDatabase
   app.backend.penkala.Boundary
@@ -35,4 +36,11 @@
     (let [delete-user (-> (:users env)
                           r/->deletable
                           (r/where [:= :id (cast-as id "uuid")]))]
-      (delete! env delete-user))))
+      (delete! env delete-user)))
+
+  (get-admin-by-credentials [{:keys [env]} {:keys [email password]}]
+    (let [users (-> (:users env)
+                    (r/where [:= :email email])
+                    (r/where [:= :password_hash password])
+                    (r/where [:= :is_admin true]))]
+      (select-one! env users))))

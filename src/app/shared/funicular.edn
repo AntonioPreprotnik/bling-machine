@@ -1,6 +1,10 @@
 {:api     [:api
            {:input-schema [:map
                            [:app/jwt {:optional true}]]}
+           [:session
+            {:commands {:login             {:input-schema :any
+                                            :output-schema :any
+                                            :handler #resolve app.backend.web.api.handlers.session/login}}}]
            [:user
             {:commands {:create             {:input-schema  :app.input.user/create
                                              :output-schema :app/user
