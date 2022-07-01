@@ -12,8 +12,7 @@
 (def add-user-input
   [{:attr :email :placeholder "Enter Email"}
    {:attr :first-name :placeholder "Enter First Name"}
-   {:attr :last-name :placeholder "Enter Last Name"}
-   {:attr :zip :placeholder "Enter Zip Code"}])
+   {:attr :last-name :placeholder "Enter Last Name"}])
 
 (defnc AddUserForm [props]
   {:wrap [with-keechma]}

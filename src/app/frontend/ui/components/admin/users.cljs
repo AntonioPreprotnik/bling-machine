@@ -19,7 +19,7 @@
     (when (odd? idx) " bg-gray-100")))
 (defclassified UserActionBtn :button "disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
 
-(def table-header-descriptions ["ID" "First Name" "Last Name" "Email" "ZIP" "" " "])
+(def table-header-descriptions ["ID" "First Name" "Last Name" "Email" "" " "])
 
 (defnc UsersTable [{:keys [users on-click-edit-pencil on-click-trash]}]
   ($ UsersTableContainer
@@ -31,14 +31,13 @@
                   :class "p-3"} %)
           table-header-descriptions)))
       (map-indexed
-       (fn [idx {:users/keys [first-name last-name email zip id] :as m}]
+       (fn [idx {:users/keys [first-name last-name email id] :as m}]
          (d/tbody {:key idx}
                   (d/tr
                    ($ TableDataCell {:idx idx} (str id))
                    ($ TableDataCell {:idx idx} first-name)
                    ($ TableDataCell {:idx idx} last-name)
                    ($ TableDataCell {:idx idx} email)
-                   ($ TableDataCell {:idx idx} zip)
                    ($ UserActionWrap {:idx idx}
                      ($ UserActionBtn {:onClick #(on-click-edit-pencil m)}
                        (inline "edit-pencil.svg")))
