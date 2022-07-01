@@ -1,2 +1,2 @@
-INSERT INTO users (id, email, password_hash, first_name, last_name, zip, is_admin)
-VALUES (gen_random_uuid(), 'admin@vbt.com', 'password', 'Master', 'Admin', '10000', TRUE);
+INSERT INTO users (id, first_name, last_name, email, is_admin, password_hash)
+VALUES (gen_random_uuid(), 'Master', 'Admin', 'admin@vbt.com', TRUE, 'password');

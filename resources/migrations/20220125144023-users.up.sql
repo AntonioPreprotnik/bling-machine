@@ -7,9 +7,10 @@ CREATE TABLE users (
   first_name character varying(255) NOT NULL,
   last_name character varying(255) NOT NULL,
   email citext NOT NULL,
+  is_admin BOOLEAN DEFAULT FALSE,
+  password_hash VARCHAR(255) NOT NULL,
   inserted_at timestamp without time zone DEFAULT NOW(),
   updated_at timestamp without time zone DEFAULT NOW(),
-  zip character varying(255) NOT NULL,
   PRIMARY KEY (id)
 );
 
