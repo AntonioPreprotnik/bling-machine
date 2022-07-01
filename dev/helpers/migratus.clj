@@ -47,6 +47,7 @@
 (def ^:private down-count 1)
 (def ^:private migration-config (load-migration-config))
 (def ^:private migration-name "add-admin-credentials-in-users")
+(def ^:private seed-name "add-default-admin")
 (def ^:private seed-config (load-seed-config))
 (def ^:private up-count 1)
 
