@@ -16,8 +16,7 @@
 (def user-data
   {:email      "atd@vbt.com"
    :first-name "Frka1"
-   :last-name  "Trle1"
-   :zip        "10000"})
+   :last-name  "Trle1"})
 
 (def user-data-with-ns
   (update-keys user-data #(keyword "users" (name %))))

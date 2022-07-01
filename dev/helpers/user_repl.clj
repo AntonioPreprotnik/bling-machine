@@ -14,13 +14,11 @@
 
   (command! (funicular) :api.user/create {:email "test@vbt.com"
                                           :first-name "First"
-                                          :last-name "Last"
-                                          :zip "10000"})
+                                          :last-name "Last"})
 
   (command! (funicular) :api.user/update {:user-id user-id
                                           :data {:first-name "First"
-                                                 :last-name "Last"
-                                                 :zip "20000"}})
+                                                 :last-name "Last"}})
 
   (query! (funicular) :api.user/get-one :user {:user-id user-id}))
 
