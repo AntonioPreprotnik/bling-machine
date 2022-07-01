@@ -41,6 +41,6 @@
   (get-admin-by-credentials [{:keys [env]} {:keys [email password]}]
     (let [users (-> (:users env)
                     (r/where [:= :email email])
-                    (r/where [:= :password_hash password])
-                    (r/where [:= :is_admin true]))]
+                    (r/where [:= :password-hash password])
+                    (r/where [:= :is-admin true]))]
       (select-one! env users))))
