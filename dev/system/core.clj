@@ -56,7 +56,7 @@
          (println "")
          (error (color-str :red system-log))
          (if (= err "nil")
-           (do (error (color-str :red (str "Run time error in:" (last (str/split system-log #":error-while-loading"))
+           (do (error (color-str :red (str "Run time error. File modified: " (str "/src/" (last (str/split filename #"/src/")))
                                            "  ")))
                (try (load (->> (->
                                 (last (str/split system-log #":error-while-loading "))
