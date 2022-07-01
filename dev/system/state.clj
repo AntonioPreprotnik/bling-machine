@@ -5,4 +5,4 @@
 
 (disable-reload!)
 
-(defonce dev-sys (atom (closeable-map {})))
+(defonce dev-state (atom (closeable-map {})))
