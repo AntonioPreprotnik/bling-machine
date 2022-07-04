@@ -13,7 +13,7 @@
   [{:attr :email :placeholder "Enter Email"}
    {:attr :first-name :placeholder "Enter First Name"}
    {:attr :last-name :placeholder "Enter Last Name"}
-   {:attr :zip :placeholder "Enter Zip Code"}])
+   {:attr :password-hash :placeholder "Enter Password"}])
 
 (defnc AddUserForm [props]
   {:wrap [with-keechma]}

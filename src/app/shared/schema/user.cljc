@@ -8,7 +8,8 @@
    [:users/id :uuid]
    [:users/email sc/Email]
    [:users/first-name :string]
-   [:users/last-name :string]])
+   [:users/last-name :string]
+   [:users/password-hash :string]])
 
 (def InputCreate
   (-> User sc/remove-keys-namespaces (mu/dissoc :id)))

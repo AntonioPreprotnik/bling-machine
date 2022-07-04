@@ -11,8 +11,7 @@
 
 (def edit-user-input
   [{:attr :first-name :placeholder "Edit first name"}
-   {:attr :last-name :placeholder "Edit last name"}
-   {:attr :zip :placeholder "Edit zip"}])
+   {:attr :last-name :placeholder "Edit last name"}])
 
 (defnc EditUserForm [props]
   {:wrap [with-keechma]}
