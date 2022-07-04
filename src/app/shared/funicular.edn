@@ -2,7 +2,7 @@
            {:input-schema [:map
                            [:app/jwt {:optional true}]]}
            [:session
-            {:commands {:login             {:input-schema :any
+            {:commands {:login             {:input-schema :app.input.login
                                             :output-schema :any
                                             :handler #resolve app.backend.web.api.handlers.session/login}}}]
            [:user

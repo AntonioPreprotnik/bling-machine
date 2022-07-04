@@ -21,9 +21,11 @@
 (def error-msg-style "text-red-400 text-sm")
 (def title-style "text-lg font-semibold")
 
+(def login-error-msg "Trying to submit invalid form")
+
 (def input-field
   [{:controller :login-form :type :text :attr :email :placeholder "Enter email address"}
-   {:controller :login-form :type :text :attr :password :placeholder "Enter password"}])
+   {:controller :login-form :type :text :attr :password-hash :placeholder "Enter password"}])
 
 (defnc InputGroupRow [_]
   (map-indexed
@@ -51,8 +53,7 @@
         email-value (mfui/use-get-in-data props :login-form :email)
         password-value (mfui/use-get-in-data props :login-form :password)
         inputs-empty? (and (empty? email-value) (empty? password-value))
-        is-input-value-erased? (and (empty? email-value) (empty? password-value))
-        {:keys [login-error-msg]} (use-sub props :login-form)]
+        {:keys [submit-errors]} (use-sub props :login-form)]
     ($ HomeWrap
       (if is-sign-up
         ($ SignUpForm
@@ -66,15 +67,15 @@
                  {:onClick #(set-is-sign-up (not is-sign-up))}
                  "Sign Up"))
           ($ FormContainer
-            {:onSubmit (fn [e]
-                         (.preventDefault e)
-                         (dispatch props :login-form :on-submit {:email email-value :password password-value}))}
+            {:onSubmit #(do
+                          (.preventDefault %)
+                          (dispatch props :login-form :on-submit))}
             ($ InputGroupRow)
             (d/div {:class "w-full"}
                    ($ ButtonDefaul {:additional-style "w-full flex justify-center"
                                     :label "Log In"
                                     :svg (inline "log-in.svg")
                                     :disabled inputs-empty?})
-                   (when-not is-input-value-erased?
+                   (when-not inputs-empty?
                      (d/div {:class error-msg-style}
-                            login-error-msg)))))))))
+                            submit-errors)))))))))
