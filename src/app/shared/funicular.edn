@@ -22,5 +22,7 @@
                         :get-one             {:input-schema  :app.input.user/one
                                               :output-schema :app/user
                                               :handler       #resolve app.backend.web.api.handlers.user/get-one}}}]]
- :pipes   {}
+ :pipes   {[:api.user/create :api.user/get-all] #resolve app.backend.pipes/merge-command-response
+           [:api.user/update :api.user/get-all] #resolve app.backend.pipes/merge-command-response
+           [:api.user/delete :api.user/get-all] #resolve app.backend.pipes/merge-command-response}
  :context {:penkala  :config/penkala}}
