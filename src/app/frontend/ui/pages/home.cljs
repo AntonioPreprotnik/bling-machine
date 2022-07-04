@@ -21,8 +21,6 @@
 (def error-msg-style "text-red-400 text-sm")
 (def title-style "text-lg font-semibold")
 
-(def login-error-msg "Trying to submit invalid form")
-
 (def input-field
   [{:controller :login-form :type :text :attr :email :placeholder "Enter email address"}
    {:controller :login-form :type :text :attr :password-hash :placeholder "Enter password"}])
