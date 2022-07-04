@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS citext;
 --;;
 CREATE TABLE users (
-  id uuid NOT NULL,
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
   first_name character varying(255) NOT NULL,
   last_name character varying(255) NOT NULL,
   email citext NOT NULL,
