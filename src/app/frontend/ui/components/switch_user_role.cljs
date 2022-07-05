@@ -1,8 +1,9 @@
 (ns app.frontend.ui.components.switch-user-role
-  (:require [helix.core :as hx :refer [$]]
-            [helix.dom :as d]
-            [keechma.next.helix.classified :refer [defclassified]]
-            [keechma.next.helix.lib :refer [defnc]]))
+  (:require
+   [helix.core :as hx :refer [$]]
+   [helix.dom :as d]
+   [keechma.next.helix.classified :refer [defclassified]]
+   [keechma.next.helix.lib :refer [defnc]]))
 
 (defclassified SwitchUserText :div "text-lg text-gray-900")
 (defclassified SwitchCheckboxWrap :button "relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 ")
