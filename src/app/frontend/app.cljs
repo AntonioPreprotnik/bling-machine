@@ -35,7 +35,7 @@
 
      :create-user #:keechma.controller {:params (fn [{:keys [router modal-add-user]}]
                                                   (and modal-add-user (= "users" (:subpage router))))
-                                        :deps   [:router :modal-add-user]}
+                                        :deps   [:router :modal-add-user :switch-admin-role]}
 
      :edit-user #:keechma.controller {:params (fn [{:keys [router modal-edit-user selected-user]}]
                                                 (when (and modal-edit-user (= "admin" (:page router)))
