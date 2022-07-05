@@ -26,7 +26,11 @@
                                                 :last-name last-name}))))
 (def edit-user
   (-> (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
-        (command! ctrl :api.user/update (selected-user-data->submit-data-form (:selected-user @deps-state*) value))
+        (command! ctrl :api.user/update (selected-user-data->submit-data-form
+                                         (:selected-user @deps-state*)
+                                         (merge
+                                          {:is-admin (-> @deps-state* :selected-user :current-admin-role-status)}
+                                          value)))
         (ctrl/dispatch ctrl :users :refresh)
         (ctrl/dispatch ctrl :modal-edit-user :off))
       mfc/wrap-submit))
