@@ -1,6 +1,6 @@
 (ns app.frontend.ui.pages.admin.admin-layout
   (:require
-   [app.frontend.ui.components.admin.add-user-form :refer [AddUserForm]]
+   [app.frontend.ui.components.admin.create-user-form :refer [AddUserForm]]
    [app.frontend.ui.components.admin.delete-user :refer [DeleteUser]]
    [app.frontend.ui.components.admin.edit-user-form :refer [EditUserForm]]
    [app.frontend.ui.components.admin.sidebar :refer [Sidebar]]

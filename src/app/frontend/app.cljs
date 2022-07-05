@@ -47,6 +47,12 @@
                                                     selected-user))
                                         :deps   [:router :selected-user :modal-delete-user]}
 
+     :switch-admin-role #:keechma.controller {:type                       :generic/switch
+                                              :params                     (fn [{:keys [router]}]
+                                                                            (= "admin" (:page router)))
+                                              :deps                       [:router]
+                                              :generic.switch/set-default (fn [_ _ _] true)}
+
      :modal-add-user #:keechma.controller {:type                       :generic/switch
                                            :params                     (fn [{:keys [router]}]
                                                                          (= "admin" (:page router)))
