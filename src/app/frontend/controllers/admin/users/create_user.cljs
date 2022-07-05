@@ -19,6 +19,7 @@
 (def create-user
   (-> (pipeline! [value {:keys [meta-state* on-submit] :as ctrl}]
         (command! ctrl :api.user/create value)
+        (ctrl/dispatch ctrl :users :refresh)
         (ctrl/dispatch ctrl :modal-add-user :off))
       mfc/wrap-submit))
 
