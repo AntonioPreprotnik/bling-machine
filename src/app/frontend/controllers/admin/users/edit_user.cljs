@@ -27,6 +27,7 @@
 (def edit-user
   (-> (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
         (command! ctrl :api.user/update (selected-user-data->submit-data-form (:selected-user @deps-state*) value))
+        (ctrl/dispatch ctrl :users :refresh)
         (ctrl/dispatch ctrl :modal-edit-user :off))
       mfc/wrap-submit))
 

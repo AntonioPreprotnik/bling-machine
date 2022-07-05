@@ -8,11 +8,10 @@
 (derive :delete-user ::pipelines/controller)
 
 (def pipelines
-  {:on-delete-user (pipeline! [value {:keys [deps-state*] :as ctrl}]
-                     (let [selected-user (:selected-user @deps-state*)
-                           {:users/keys [id]} (:selected-user-data selected-user)]
-                       (command! ctrl :api.user/delete id)
-                       (ctrl/dispatch ctrl :modal-delete-user :off)))})
+  {:on-delete-user  (pipeline! [value {:keys [deps-state*] :as ctrl}]
+                      (command! ctrl :api.user/delete (-> @deps-state* :selected-user :selected-user-data :users/id))
+                      (ctrl/dispatch ctrl :users :refresh)
+                      (ctrl/dispatch ctrl :modal-delete-user :off))})
 
 (defmethod ctrl/prep :delete-user [ctrl]
   (pipelines/register ctrl pipelines))
