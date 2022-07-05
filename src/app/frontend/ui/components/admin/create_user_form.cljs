@@ -1,4 +1,4 @@
-(ns app.frontend.ui.components.admin.edit-user-form
+(ns app.frontend.ui.components.admin.create-user-form
   (:require
    [app.frontend.inputs :refer [wrapped-input]]
    [app.frontend.ui.components.button :refer [ButtonDefaul]]
@@ -7,24 +7,22 @@
    [app.shared.util.inliner :as inliner :refer-macros [inline]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
-   [helix.hooks :as hooks]
    [keechma.next.helix.core :refer [dispatch use-sub with-keechma]]
    [keechma.next.helix.lib :refer [defnc]]))
 
-(def edit-user-input
-  [{:attr :first-name :placeholder "Edit first name"}
-   {:attr :last-name :placeholder "Edit last name"}])
+(def add-user-input
+  [{:attr :email :placeholder "Enter Email"}
+   {:attr :first-name :placeholder "Enter First Name"}
+   {:attr :last-name :placeholder "Enter Last Name"}
+   {:attr :password-hash :placeholder "Enter Password"}])
 
-(defnc EditUserForm [props]
+(defnc AddUserForm [props]
   {:wrap [with-keechma]}
-  (let [controller :edit-user
-        {:users/keys [is-admin]} (:selected-user-data (use-sub props :selected-user))
-        [current-admin-role-status set-current-admin-role-status] (hooks/use-state is-admin)
-        on-switch #(do
-                     (set-current-admin-role-status (not current-admin-role-status))
-                     (dispatch props :selected-user :toggle-admin-state current-admin-role-status))]
+  (let [controller :create-user
+        is-admin (use-sub props :switch-admin-role)
+        on-switch #(dispatch props :switch-admin-role :toggle)]
     (d/div {:class "flex flex-col space-y-4"}
-           ($ SwitchUserRole {:is-admin current-admin-role-status
+           ($ SwitchUserRole {:is-admin is-admin
                               :on-switch on-switch})
            (d/form {:class "w-full flex flex-col space-y-4"
                     :onSubmit (fn [e]
@@ -39,7 +37,8 @@
                                              :input/type :text
                                              :input/attr attr
                                              :placeholder placeholder})))
-                    edit-user-input)
+
+                    add-user-input)
                    ($ ButtonDefaul {:additional-style "w-full flex justify-center mt-4"
-                                    :label "Edit User"
-                                    :svg (inline "edit-pencil.svg")})))))
+                                    :label "Add User"
+                                    :svg (inline "add-user.svg")})))))

@@ -8,7 +8,10 @@
 
 (def pipelines
   {:on-select-user (pipeline! [value {:keys [state*] :as ctrl}]
-                     (pp/swap! state* assoc :selected-user-data value))})
+                     (pp/swap! state* assoc :selected-user-data value))
+
+   :toggle-admin-state (pipeline! [value {:keys [state*] :as ctrl}]
+                         (pp/swap! state* assoc :current-admin-role-status (not value)))})
 
 (defmethod ctrl/prep :selected-user [ctrl]
   (pipelines/register ctrl pipelines))
