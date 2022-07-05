@@ -36,7 +36,6 @@
   (let [controller :create-user
         is-admin (use-sub props :switch-admin-role)
         on-switch #(dispatch props :switch-admin-role :toggle)]
-    (println is-admin)
     (d/div {:class "flex flex-col space-y-4"}
            ($ SwitchUserRole {:is-admin is-admin
                               :on-switch on-switch})
