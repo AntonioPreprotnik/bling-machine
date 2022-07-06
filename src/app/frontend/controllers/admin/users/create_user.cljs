@@ -17,8 +17,9 @@
     (pp/swap! meta-state* mfc/init-form form)))
 
 (def create-user
-  (-> (pipeline! [value {:keys [meta-state* on-submit] :as ctrl}]
-        (command! ctrl :api.user/create value)
+  (-> (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
+        (command! ctrl :api.user/create (merge {:is-admin (:switch-admin-role @deps-state*)} value))
+        (ctrl/dispatch ctrl :users :refresh)
         (ctrl/dispatch ctrl :modal-add-user :off))
       mfc/wrap-submit))
 

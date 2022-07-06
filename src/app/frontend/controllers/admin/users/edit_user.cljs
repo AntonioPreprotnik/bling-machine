@@ -20,14 +20,18 @@
 (def initial-edit-user-form
   (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
     (let [selected-user (:selected-user @deps-state*)
-          {:users/keys [id first-name last-name zip]} (:selected-user-data selected-user)]
+          {:users/keys [id first-name last-name]} (:selected-user-data selected-user)]
       (pp/swap! meta-state* mfc/init-form form {:user-id (str id)
                                                 :first-name first-name
-                                                :last-name last-name
-                                                :zip zip}))))
+                                                :last-name last-name}))))
 (def edit-user
   (-> (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
-        (command! ctrl :api.user/update (selected-user-data->submit-data-form (:selected-user @deps-state*) value))
+        (command! ctrl :api.user/update (selected-user-data->submit-data-form
+                                         (:selected-user @deps-state*)
+                                         (merge
+                                          {:is-admin (-> @deps-state* :selected-user :current-admin-role-status)}
+                                          value)))
+        (ctrl/dispatch ctrl :users :refresh)
         (ctrl/dispatch ctrl :modal-edit-user :off))
       mfc/wrap-submit))
 

@@ -17,7 +17,7 @@
 
 (def pipelines
   {:keechma.on/start load-users
-
+   :refresh load-users
    :keechma.on/stop
    (pipeline! [_ ctrl]
      (edb/remove-collection! ctrl :entitydb ::list))})

@@ -14,13 +14,15 @@
 (declare user-create user-created create-and-get new-user get-new-user)
 
 (def user-data
-  {:email      "atd@vbt.com"
-   :first-name "Frka1"
-   :last-name  "Trle1"
-   :zip        "10000"})
+  {:email "atd@vbt.com"
+   :first-name "First"
+   :last-name "Last"
+   :password-hash "10000"})
 
 (def user-data-with-ns
-  (update-keys user-data #(keyword "users" (name %))))
+  (-> user-data
+      (dissoc :password-hash)
+      (update-keys #(keyword "users" (name %)))))
 
 (defn init []
   (let [system (get-system)]
@@ -46,13 +48,12 @@
   {:init init}
   [user-created (create-user)]
   (match? user-data-with-ns
-          (select-keys  user-created [:users/email :users/first-name :users/last-name :users/zip])))
+          (select-keys  user-created [:users/email :users/first-name :users/last-name :users/id])))
 
 (defflow create-and-get
   {:init init}
   [_ (create-user)]
   [get-new-user (get-user)]
   (match? user-data-with-ns
-          (select-keys get-new-user [:users/email :users/first-name :users/last-name :users/zip])))
-
+          (select-keys get-new-user [:users/email :users/first-name :users/last-name :users/id])))
 

@@ -53,7 +53,7 @@ start-test:
 	 clojure -M:test -r
 
 check-warnings:
-	clojure-lsp  diagnostics
+	clojure-lsp diagnostics
 
 check-lint:
 	clj-kondo --lint src dev test

@@ -1,6 +1,7 @@
 (ns app.frontend.controllers.admin.login-form
   (:require
    [app.shared.schema :as schema]
+   [com.verybigthings.funicular.controller :refer [command!]]
    [keechma.malli-forms.core :as mf]
    [keechma.next.controller :as ctrl]
    [keechma.next.controllers.malli-form :as mfc]
@@ -10,26 +11,31 @@
 
 (derive :login-form ::pipelines/controller)
 
-(def form (mf/make-form schema/registry :app.input.login {:email "" :password ""}))
-(def login-credentials {:email "admin@vbt.com" :password "vbtadmin"})
+(def form (mf/make-form schema/registry :app.input.login nil))
 
 (def initial-login-form
   (pipeline! [value {:keys [meta-state* schema]}]
     (pp/swap! meta-state* mfc/init-form form)))
 
-(def submit-harcode-login-credentials
-  (pipeline! [value {:keys [state*] :as ctrl}]
-    (if (= login-credentials value)
-      (router/redirect! ctrl :router {:page "admin"})
-      (pp/swap! state* assoc-in [:login-error-msg] "Invalid credentials"))))
+(def submit-admin-credentials
+  (-> (pipeline! [value {:keys [state*] :as ctrl}]
+        (command! ctrl :api.session/login value)
+        (router/redirect! ctrl :router {:page "admin"})
+        (rescue! [error]
+          (pp/swap! state* assoc :submit-errors (ex-message error))))
+      mfc/wrap-submit))
+
+(def clear-submit-errors
+  (pipeline! [value {:keys [state*]}]
+    mfc/on-partial-change
+    (pp/swap! state* dissoc :submit-errors)))
 
 (def pipelines
   (merge
    mfc/pipelines
    {:keechma.on/start initial-login-form
-    :keechma.form/on-partial-change (pipeline! [value {:keys [state*]}]
-                                      mfc/on-partial-change)
-    :on-submit submit-harcode-login-credentials}))
+    :keechma.form/on-partial-change clear-submit-errors
+    :on-submit submit-admin-credentials}))
 
 (defmethod ctrl/prep :login-form [ctrl]
   (pipelines/register ctrl pipelines))
