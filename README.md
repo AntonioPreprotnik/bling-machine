@@ -141,7 +141,7 @@ make start-dev
 This command is composed of two commands:
 - the first one runs function `patch-dev` from Babashka script `frontend-version-patcher` that creates `index.html`  file based on `index.tmpl` for development.
 - the second one runs `dev.system.core/start-dev` function with deps aliases `dev` and `frontend`.
-- `dev.system.core/start-dev` function loads development system as closable map in `dev-sys` atom and starts three watchers:
+- `dev.system.core/start-dev` function loads development system as closable map in `dev-state` atom and starts three watchers:
     - backend watcher
     - frontend watcher
     - postcss watcher
@@ -152,7 +152,7 @@ This command is composed of two commands:
 
 All three watchers are defined in the `dev/system/watchers.clj` file
 
-- The **backend watcher** is using the [Hawk](https://github.com/wkf/hawk) library to watch all changes on files of type .`clj` or `.edn` in folders `src/app/backend`, `src/app/shared` and calls the `restart-system` function when changes are detected. This function calls the `clojure.tools.namespace.repl/refresh` or `refresh-all` and than reloads `dev-sys` atom with new state. All calls to `restart-system` function are debounced with `debounce` function in `watchers.clj`
+- The **backend watcher** is using the [Hawk](https://github.com/wkf/hawk) library to watch all changes on files of type .`clj` or `.edn` in folders `src/app/backend`, `src/app/shared` and calls the `restart-system` function when changes are detected. This function calls the `clojure.tools.namespace.repl/refresh` or `refresh-all` and than reloads `dev-state` atom with new state. All calls to `restart-system` function are debounced with `debounce` function in `watchers.clj`
   
   
 - The **frontend watcher**

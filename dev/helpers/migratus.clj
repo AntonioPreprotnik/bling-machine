@@ -46,20 +46,20 @@
 
 (def ^:private down-count 1)
 (def ^:private migration-config (load-migration-config))
+(def ^:private migration-name "")
 (def ^:private seed-config (load-seed-config))
+(def ^:private seed-name "")
 (def ^:private up-count 1)
 
 (comment
-  ;;# --------------------------------------------------------------------------
+
   ;;# FRESH DB
   ;;# --------------------------------------------------------------------------
 
   (recreate-db)
 
-  ;;# --------------------------------------------------------------------------
   ;;# MIGRATIONS
   ;;# --------------------------------------------------------------------------
-  (declare migration-name seed-name)
 
   (migratus/create migration-config migration-name)
   (migratus/destroy migration-config)
@@ -70,7 +70,6 @@
   (migratus/rollback migration-config)
   (migratus/up migration-config up-count)
 
-  ;;# --------------------------------------------------------------------------
   ;;# SEEDS
   ;;# --------------------------------------------------------------------------
 
@@ -79,7 +78,6 @@
   (migratus/migrate seed-config)
   (migratus/reset seed-config)
 
-  ;;# --------------------------------------------------------------------------
   ;;# DB INTEGRITY
   ;;# --------------------------------------------------------------------------
 
