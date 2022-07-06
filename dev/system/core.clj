@@ -1,55 +1,57 @@
 (ns system.core
   (:require
    [app.backend.core :refer [->system]]
-   [clj-kondo.core :as kondo]
-   clojure.pprint
-   [clojure.string :as str]
-   [clojure.tools.logging :refer [*tx-agent-levels*]]
    [clojure.tools.namespace.repl :refer [refresh refresh-all set-refresh-dirs]]
-   [helpers.logging :refer [format-log log-wrapper]]
    [io.aviso.ansi :as ansi]
+   [io.aviso.exception :refer [write-exception]]
    [piotr-yuxuan.closeable-map :refer [closeable-map]]
-   [system.state :refer [dev-sys]]
-   [taoensso.timbre :refer [color-str error]]))
+   [system.state :refer [dev-system]]))
 
 (set-refresh-dirs "dev" "src" "resources")
 
-(alter-var-root #'*tx-agent-levels* conj :debug :trace)
+(defn- log-title [title]
+  (println "")
+  (-> (str "[:app] " title)
+      ansi/cyan
+      println))
 
-(declare restart-system)
+(defn start-system
+  "Initializes running closeable map for a system state."
+  []
+  (log-title "Starting system")
+  (try (reset! dev-system (->system))
+       (catch Exception e
+         (write-exception e))))
 
-(defn start-system []
-  (-> #(reset! dev-sys (->system))
-      (log-wrapper "Start system" ansi/cyan :green :info)))
+(defn stop-system
+  "Stops active web server and initializes empty closeable map for a system state."
+  []
+  (log-title "Stopping system")
+  (try (when (:webserver @dev-system) (.close @dev-system))
+       (reset! dev-system (closeable-map {}))
 
-(defn stop-system []
-  (-> #(do (when (:webserver @dev-sys)
-             (.close @dev-sys))
-           (reset! dev-sys (closeable-map {})))
-      (log-wrapper "Stop system" ansi/cyan :blue :info)))
+       (catch Exception e
+         (write-exception e))))
+
+(defn- code-file? [filename]
+  (and filename (re-matches #"[^.].*\.(clj|cljc)$" filename)))
+
+(defn- refresh-namespaces [filename]
+  (let [code-file (code-file? filename)
+        refresh-result (if code-file (refresh) (refresh-all))]
+    (if (= refresh-result :ok)
+      (system.core/start-system)
+      (throw refresh-result))))
 
 (defn restart-system
   "Stops system, refreshes changed namespaces in REPL and starts the system again."
-  [all]
-  (println  (ansi/bold-cyan "\nRestart system:"))
-  (stop-system)
-  (let [[reloading system-log error?]
-        (format-log (with-out-str (if all
-                                    (refresh-all :after 'system.core/start-system)
-                                    (refresh :after 'system.core/start-system))))
-        reload-sys #(print reloading)]
-    (log-wrapper  reload-sys "Reloading system" ansi/cyan :yellow :info)
-    (println "")
-    (if error? (let [err (with-out-str
-                           (clojure.pprint/print-table (-> (kondo/run! {:lint ["src/app/backend" "src/app/shared"]})
-                                                           :findings)))]
-                 (error (color-str :red system-log))
-                 (if (empty? err)
-                   (error (color-str :purple (str "Run time error!\n Switch REPL to " (last (str/split system-log #":error-while-loading"))
-                                                  " namespace and load it in REPL. Inspect stack trace with (clojure.repl/pst)")))
-                   (error (color-str :purple err))))
-        (print system-log))
-    (println (if error? (ansi/bold-red "System NOT restarted.")
-                 (ansi/bold-cyan "System restarted.")))))
+  ([]
+   (restart-system nil))
 
+  ([filename]
+   (try (stop-system)
+        (log-title "Reloading namespaces")
+        (refresh-namespaces filename)
 
+        (catch Exception e
+          (write-exception e)))))

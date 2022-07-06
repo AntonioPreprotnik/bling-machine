@@ -1,4 +1,4 @@
-(ns system.n-repl
+(ns system.nrepl
   (:require
    [nrepl.server :refer [start-server stop-server]]))
 

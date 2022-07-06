@@ -5,4 +5,6 @@
 
 (disable-reload!)
 
-(defonce dev-sys (atom (closeable-map {})))
+(defonce dev-system (atom (closeable-map {})))
+(defonce postcss-watcher (atom nil))
+(defonce backend-watcher (atom nil))

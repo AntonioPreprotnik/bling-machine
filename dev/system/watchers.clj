@@ -1,28 +1,29 @@
 (ns system.watchers
+  "Collection of system change watchers for backend, frontend and postcss.
+  Every watcher detects changes in their corresponding namespaces and reflect
+  changes by restarting/rerendering changed parts on the system."
   (:require
-   [clojure.core.async :refer  [go]]
+   [clojure.core.async :refer [go]]
    [hawk.core :as hawk]
    [io.aviso.ansi :as ansi]
    [shadow.cljs.devtools.api :as shadow.api]
-   [shadow.cljs.devtools.server :as shadow.server]
-   [taoensso.timbre :refer  [color-str error]]))
+   [system.state :refer [backend-watcher postcss-watcher]])
+  (:import
+   [java.util Timer TimerTask]))
 
-(import '[java.util Timer TimerTask])
+;;# BACKEND WATCHER
+;;# --------------------------------------------------------------------------
 
-(defn debounce
-  [f timeout]
+(defn- debounce [callback timeout]
   (let [timer (Timer.)
         task (atom nil)]
     (fn [& args]
-      (when-let [t ^TimerTask @task]
-        (.cancel t))
+      (when-let [running-task ^TimerTask @task]
+        (.cancel running-task))
+
       (let [new-task (proxy [TimerTask] []
                        (run []
-                         (try (apply f args)
-                              (catch Exception e
-                                (error (color-str :red
-                                                  (str "exception in: " (.getName (:file (second args)))
-                                                       " error: " (.getMessage e))))))
+                         (apply callback args)
                          (reset! task nil)
                          (.purge timer)))]
         (reset! task new-task)
@@ -30,43 +31,51 @@
       (first args))))
 
 (defn- clojure-file? [_ {:keys [file]}]
-  (re-matches #"[^.].*(\.clj|\.cljc|\.edn)$" (.getName file)))
+  (re-matches #"[^.].*(\.clj|\.edn|\.cljc)$" (.getName file)))
 
-(defn- edn-file? [{:keys [file]}]
-  (re-matches #"[^.].*(\.edn)$" (.getName file)))
-
-(defn- system-watch-handler [ctx e]
-  (let [all (edn-file? e)]
-    (binding [*ns* *ns*]
-      ((:fn ctx) all)
-      ctx)))
+(defn- watch-handler [context event]
+  (binding [*ns* *ns*]
+    ((:fn context) (.getPath (:file event)))
+    context))
 
 (defn watch-backend
   "Automatically restarts the system if backend related files are changed."
-  [reset-fn]
-  (hawk/watch! [{:paths   ["src/app/backend/" "src/app/shared" "config/dev"]
-                 :context (constantly  {:fn  reset-fn})
-                 :filter  clojure-file?
-                 :handler (debounce #(system-watch-handler %1 %2) 500)}]))
+  [callback]
+  (let [watcher (hawk/watch! {:watcher :polling}
+                             [{:paths ["src/app/backend" "src/app/shared" "config/dev"]
+                               :context (constantly {:fn callback})
+                               :filter clojure-file?
+                               :handler (debounce watch-handler 500)}])]
+    (reset! backend-watcher watcher)))
+
+(defn stop-backend-watcher []
+  (hawk/stop! backend-watcher)
+  (reset! backend-watcher nil))
+
+;;# FRONTEND WATCHER
+;;# --------------------------------------------------------------------------
 
 (defn watch-frontend
-  "Automatically re-builds frontend and re-renders browser page if frontend related files are changed."
-  ([]
-   (watch-frontend :app))
-  ([build-id]
-   (shadow.server/start!)
-   (shadow.api/watch build-id)))
+  "Automatically re-builds frontend and re-renders browser page if frontend
+  related files are changed."
+  []
+  (shadow.api/watch :app))
 
-(def css-watcher-proc (atom nil))
+;;# POSTCSS WATCHER
+;;# --------------------------------------------------------------------------
 
-(defn postcss-watch []
-  (println (ansi/cyan "Start postcss:watch"))
-  (let [proc (-> (ProcessBuilder. ["npm" "run" "postcss:watch"]) .inheritIO .start)]
-    (reset! css-watcher-proc proc)
-    (.waitFor proc)))
+(defn postcss-watch
+  "Runs postcss watcher in parallel thread and redirects std output to main console."
+  []
+  (println (ansi/cyan "Starting postcss watcher"))
+  (let [watcher (-> (ProcessBuilder. ["npm" "run" "postcss:watch"])
+                    .inheritIO
+                    .start)]
+    (reset! postcss-watcher watcher)
+    (.waitFor watcher)))
 
 (defn reset-postcss-watch
-  "Run this function from REPL to kill the stuck postcss process and start the new one"
+  "Kills current postcss process and start the new one."
   []
-  (when @css-watcher-proc (.destroyForcibly @css-watcher-proc))
+  (when @postcss-watcher (.destroyForcibly @postcss-watcher))
   (go (postcss-watch)))

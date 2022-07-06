@@ -1,204 +1,264 @@
 # PastaXiana
 
-## Development
+## About the project
+
+The purpose of this project is to serve as a starting point for creating a new fullstack application based on technologies that have been accepted in VBT as a standard for application development.
+The goal to be achieved is to easily and quickly create the starting code of a new fullstack project based on this repository, which will provide a functional `development` and `test` environment as well as tools for creating `production` code.
+The project also contains a simple example of frontend and backend code for `user administration`.
+Part of the project is the `Docker` configuration script, which allows easy startup of the Postgres DB server for development and testing.
+
+### By functional development environment we mean the following:
+
+- Easily create or run DB servers in a Docker environment with a single command.
+- Easily run complete development code with just one command.
+- Development environment that will automatically refresh after each change in the backend or frontend code as well as in the system configuration.
+- The development environment should be functional to work with any editor commonly used to work with Clojure applications.
+- Launch at least one nREPL to which user editors will be able to connect.
+  
+### Functional test environment includes:
+
+- Possibility of testing backend, frontend and shared code as well as end to end testing.
+- Creating complex tests
+- Run only one test or all tests in one namespace, folder or complete application
+- Testing formatting, code correctness (linter), migration integrity.
+- Running tests during development and automatic testing when pushing on GitHub using GitHub actions
+  
+### The system configuration
+- Configuration is divided into development, production and test configuration plus the part of the configuration that is common to all listed configurations.
+- The configuration accepts hard coded parameters as well as environment variables as needed.
+  
+### Other
+Some supporting functionalities have also been implemented, such as cache invalidation for production code and debouncing of backend watchers.
+
+###  Application structure
+The organization of the application structure was formed on the basis of experience gained through work on previous projects at VBT and examples from other open source Clojure fullstack applications.
+
+### Source paths
+Three basic source paths (paths key in deps.edn) are defined as:
+"src" "config" and "resources"
+
+- "src" path contains backend, frontend and shared application code
+- The "config" path contains configuration files for each environment.
+- "resources" path contains migration files, other resources and public folder for frontend
+  
+  In addition to these basic source root folders, the important folders used in some deps aliases as extra-paths are:
+  
+- The "test" path contains all tests
+- The "dev" path consists of files that are used exclusively during development and mainly in interaction with REPL.
+- "scripts" contains different auxiliary scripts
+  
+### Technologies
+
+This project is in line with VBT's commitment to:
+
+- Use the same language everywhere in different projects
+- `Clojure` or `ClojureScript` on the backend (with the JVM or Node.JS runtime options)
+- ClojureScript on the frontend and mobile with React and React Native
+- Clojure for shell scripting with Babashka
+
+The project uses libraries developed in VBT in response to problems and requirements that have arisen in previous agencies projects:
+[Penkala](https://github.com/retro/penkala), [Funicular](https://github.com/VeryBigThings/funicular) and [Keechma-next](https://github.com/keechma/keechma-next).
+
+The [Xiana framework](https://github.com/Flexiana/framework) is the chosen library for storing the application state as a better alternative to `Duct`.
+
+The project was initially defined as the `Leiningen` project but we later decided to move to [Clojure Deps](https://clojure.org/guides/deps_and_cli) as a more modern option.
+
+[Shadow-cljs](https://github.com/thheller/shadow-cljs) is chosen as frontend development tool and [tailwind.css](https://tailwindcss.com/) as CSS framework. 
+
+  
+## Development process
+
+### Before you begin developing an application you have to install this prerequisites locally:
 
 ### System dependencies
 
-1. [Java](https://www.java.com/en/download/manual.jsp)
-2. [Clojure](https://clojure.org/releases/downloads)
-3. [Docker](https://docs.docker.com/get-docker/)
-4. [Node](https://nodejs.org/en/download/)
+1. [Java](https://www.java.com/en/download/manual.jsp) version: `17`
+2. [Clojure CLI](https://clojure.org/guides/install_clojure) version: `1.11.1.1129`
+3. [Node](https://nodejs.org/en/download/) version: `latest`
+4. [Docker](https://docs.docker.com/get-docker/) version: `latest`
+   
+### Tools
 
-### To install initial node packages run in the project directory:
+1. [Clojure-lsp](https://clojure-lsp.io/installation/) version: `2022.05.31-17.35.50`
+2. [Babashka](https://github.com/babashka/babashka#installation) version: `0.8.156`
+3. [Clj-kondo](https://github.com/clj-kondo/clj-kondo/blob/master/doc/install.md) version: `2022.05.31`
+   
+### [Editor](https://clojure.org/guides/editors) with interactive development support
+- [Emacs](https://www.gnu.org/software/emacs/)
+- [Intellij](https://www.jetbrains.com/idea/)
+- [VS Code](https://code.visualstudio.com/)
+- [Vim](https://www.vim.org/)
+- Other
+  
+  
+### Next install the initial node packages. Run this on first use and after any changes in `Package.json` dependencies:
 
 ```shell
  npm install
 ```
 
-### Environment configuration
+### Then configure your environment
 
-In order to start the system, you should expose system variables using [direnv](https://direnv.net/) or any other tool of choice. You can find list of needed variables by checking `config/default.edn` and `config/dev/config.edn`. Configuration files are using [dyn-env](https://github.com/walmartlabs/dyn-edn) readers to load and cast values from system variables.
+#### Configuration files
+Values that are common for all three environments (dev,prod and test) are defined in `config/common.edn` and values that are specific for every environment are defined in corresponding `config.edn` file. Dev and test `config.edn` files have defined default values which is not the case for `prod/config.edn` to prevent possibility of accidentally sending wrong (default) values to production.
 
-Default values from `config/default.edn` will be overiden by values in `config/dev/config.edn` file. Not every configuration for `dev` environment is the same for `prod` environment so it's the responsibility of the developer to make appropriate adjustment to `config/prod/config.end` file also before shipping application to production.
+#### ENV variables
 
-### Application file hiararchy
+In order to start the system, you should expose system variables using [direnv](https://direnv.net/) or any other tool of choice in the same process where you start your dev system (every time before starting it). You can find list of needed variables by checking `config.edn` in folders `config/dev,prod,test` or in `.envrc.default` file. Configuration files are using [dyn-env](https://github.com/walmartlabs/dyn-edn) readers to load and cast values from system variables.
 
-```
-|- config/
-  |- default.edn
-  |- prod/
-    |- config.edn (Production configuration file)
-  |- dev/
-    |- config.edn (Development configuration file)
-  |- test/
-    |- config.edn (Test configuration file)
-|- dev/ (Namespaces used for REPL development and debuging)
-|- resources/ (Containts public assets and migration/seed files)
-|- src/
-  |- backend/
-    |- app/
-      |- domain/ (Domain logic independent of any layers from the web folder)
-      |- web/ (Everything related to WEB/API layer)
-      |- core.clj (System entrypoint)
-      |- config.clj (with load-config as main function)
-      |- db.clj (migration ans seed functionality)
-      |- logging.clj (timbre initization)
-      |- funicular.clj (funicular init)
-      |- penkala.clj (penkala init)
-      |- readers.clj (custom readers)
-      |- web.clj (routes and interceptors init)
-  |- frontend/
-    |- app/
-      |- controllers/ (Frontend routers)
-      |- ui/ (UI components)
-      |- core.cljs
-      |- app.cljs
-      
-  |- shared/ (Contains cljc files which are used by both backend and frontend)
-|- test
-  |- backend/ (Contains tests for backend which mostely corelate to backend files and file paths)
-  |- frontend/ (Contains frontend integration browser driver testing using webdriver)
-  |- test-core.clj (Defines testing system entrypoint and kaocha hooks)
-  |- test-fixtures.clj (Defines fixtures for tests)
-```
+
+### Make the new project based on pasta-xiana
+
+- Clone [pasta-xian](https://github.com/VeryBigThings/pasta-xiana) to your local disk.
+- Rename the root folder to the name of your new project (for example new-vbt-app)
+- Replace occurrences of 'pasta-xiana' and 'pasta_xiana' string to 'new-vbt-app' and 'new_vbt_app' respectively in this files:
+    - `Makefile`
+    - `Dockerfile`
+    - `resources/public/index.tmpl`
+    - `scripts/build_uberjar.clj`
+    - `docker-compose.yml`
+- Change env variables in your .`envrc` file
 
 ### Start external dockerized services
+
+To begin your development session you should run this command first:
 
 ```shell
 make start-services
 ```
 
-This command starts PostgreSQL server or any other external service as described in `docker-compose.yml`. In this case it will create and start one containter with two databases: one for development and one for testing.
+This command starts PostgreSQL server or any other external service as described in `docker-compose.yml`. In this case it will create and start one container with two databases: one for development and one for testing.
 
+Than you will start development system with this command:
 
-### Start app
+### System management
 
-```shell
-make start-app
-```
-
-This command compiles the whole app and runs `(start-dev)` from `dev/user` namespace.
-
-You can also start REPL without starting the system automatically by running:
+### Start the development environment
 
 ```shell
-make start-repl
+make start-dev
 ```
+This command is composed of two commands:
+- the first one runs function `patch-dev` from Babashka script `frontend-version-patcher` that creates `index.html`  file based on `index.tmpl` for development.
+- the second one runs `dev.system.core/start-dev` function with deps aliases `dev` and `frontend`.
+- `dev.system.core/start-dev` function loads development system as closable map in `dev-state` atom and starts three watchers:
+    - backend watcher
+    - frontend watcher
+    - postcss watcher
+- `dev.system.core/start-dev` function also loads` shadow-cljs nREPL on port 8777` that you can connect to from your editor.
+- Webserver will be accessible on `http://localhost:3000`.
 
-And from there on, take care of the system management by yourself. 
+#### Watchers
 
-### Main command
+All three watchers are defined in the `dev/system/watchers.clj` file
+
+- The **backend watcher** is using the [Hawk](https://github.com/wkf/hawk) library to watch all changes on files of type .`clj` or `.edn` in folders `src/app/backend`, `src/app/shared` and calls the `restart-system` function when changes are detected. This function calls the `clojure.tools.namespace.repl/refresh` or `refresh-all` and than reloads `dev-state` atom with new state. All calls to `restart-system` function are debounced with `debounce` function in `watchers.clj`
+  
+  
+- The **frontend watcher**
+
+Frontend watcher is provided by `Shadow-cljs` 
+
+
+### Start the development environment with nREPL
+
+```shell
+make start-dev-nrepl
+```
+Same as `make start-dev` but an `nREPL` port is opened on address `7888`. Also the `.nrepl-port` file is created in `root` folder. This additional port enables using two concurrent REPLs (one for CLJ the other for CLJS) if editor supports it. 
+
+In `VS Code` only one REPL is allowed so you have to use REPL connected to `shadow-cljs` port and switch from `CLJ` to `CLJS` mode and vice versa as needed.
+
+### You can install NPM dependencies, start dockerized services and development environment with just one command:
 
 ```shell
 make develop
 ```
 
-You can combine both of the above mentioned commands.
-
-### Jack in a nREPL
-
-Use prefered IDE/editor or manually connect to running nREPL server from previous step. If your IDE doesn't automatically detect REPL port, you can find it in `.nrepl-port`.
-
-### System management
-
-#### Start system with watchers
-
-Once in REPL you will be located in `user` namespace. You can execute following command:
-
-```clojure
-(start-dev)
-```
-
-This will start up the backend/frontend watchers and system. Webserver will be accessible on `http://localhost:3000`. Once you start the system with this command, system will take care of restarts on it's own.
-
-#### Start system without watchers
-
-```clojure
-(start-system)
-```
-
 #### Restart system
 
-Once system is started you can explicitly reset the system to apply new system configuration or changes to the codebase. In `user` namespace execute following command:
+Once system is started you can explicitly reset the system to apply new system configuration after making changes to the codebase. In `core` or `system.core` namespace execute following command:
 
 ```clojure
-(restart-system)
+(restart-system true)
 ```
+to reload all namespaces
 
-#### Stopping system
-
-Once system is started you can reset the system to apply new system configuration or changes to the codebase. In `user` namespace execute following command:
+or 
 
 ```clojure
-(stop-system)
+(restart-system false)
 ```
+
+to reload only modified namespaces. 
+This can be used for example after making changes in `dev` folder that is not watched by hawk. 
 
 #### Interactive [Tailwind](https://tailwindcss.com/) development
 
-In order to enable [postcss](https://postcss.org/) watcher for tailwind style changes you should run:
-
-```shell
-yarn develop
-```
-or
-```shell
-npm run develop
-```
+[postcss](https://postcss.org/) watcher is automatically started with `make start-dev/start-dev-nrepl` commands and its output is redirected to the terminal that was used for starting those commands. 
+In the case that you notice that watcher is stopped you can restart it running `reset-postcss-watch` from REPL in `system.watchers` namespace.
 
 ## Migration and seeds
 
-You can run migratus commands for the system from the terminal via `migrator` and `seeder` aliases. For example:
+You can run migratus commands for the system from the REPL in `helpers.migratus` ns. For example:
 
-```
-clojure -X:test:migrator :args '["rollback"]'
-clojure -X:test:migrator :args '["migrate"]'
-```
-
-```
-clojure -X:test:seeder :args '["reset"]'
+```clojure
+(migratus/init migration-config)
+(migratus/migrate migration-config)
+(migratus/reset migration-config)
+(migratus/rollback migration-config)
 ```
 
 ## Testing
 
-Application is using [kaocha test runner](https://github.com/lambdaisland/kaocha) for test management. Kaocha configuration for tests is found `/tests.edn` file while kaocha hooks and test fixtures are found in `test/test_core.clj` and `test/test_fixtures.clj` respectivly.
+Application is using [kaocha test runner](https://github.com/lambdaisland/kaocha) for test management. Kaocha configuration for tests is found `/tests.edn` file while kaocha hooks and test fixtures are found in `test/test_core.clj` and `test/test_fixtures.clj` respectively.
 
 You can run test suites with:
 
 ```shell
-make test
+make run-tests
 ```
 
 In the situation when you want to run tests form just one namespace or folder, or individual tests you can do it using `kaocha REPL`.
 
-You can start the REPL in `test/user` namespace that has `kaocha REPL` as required dependency with:
+To start the REPL in `app.test-repl` namespace that has `kaocha REPL` as required dependency run:
 
 ```shell
-make test-repl
+make start-test
 ```
 
 **It's mandatory to have all backend code tested, which means at least all calls to endpoints should be tested.**
 
 ### Backend tests
 
-In order to start testing system and ensure that system only starts and stops **once** kaocha hooks `test-core/start-test-system` and `test-core/stop-test-system` are triggered on the begining and the end of the test suite/run. While for keeping clean state of the database between tests `test-fixtures/clean-db` fixture is used for each test.
+In order to start testing system and ensure that system only starts and stops **once** kaocha hooks `test-core/start-test-system` and `test-core/stop-test-system` are triggered on the beginning and the end of the test suite/run. 
+To keep clean state of the database between tests `test-fixtures/clean-db` fixture is used for each test.
 
 ### Frontend tests
+
+No frontend tests yet 
 
 ## CI
 
 There are couple of standards used to ensure code quality between releases:
-  - test runners
-  - linter checks
-  - formater checks
-  - migration reversibility checks
-  - release build checks
-
-All of those are enforced via Github Actions and merges into `develop` or `main` branch won't be available until all workflow checks are passed.
-
-You can do the same checks locally before commiting or making a PR by running:
-
+- formatter checks
+- linter checks
+- test runners
+- migration reversibility checks
+- release build checks
+  
+  All of those are enforced via Github Actions and merges into `develop` or `main` branch won't be available until all workflow checks are passed.
+  
+  You can do the same checks locally before committing or making a PR by running:
+  
 ```shell
 make ci
+```
+
+For frequent testing during development there is another command `fast-ci` that doesn't contain long running checks (`check-db-integrity` `release-app`) and `clojure-lsp  diagnostics` is replaced with much faster command `clj-kondo --lint src dev test`
+
+```shell
+make fast-ci
 ```
 
 ## Production
@@ -207,7 +267,23 @@ Production environment differs from development or test environment mostly by co
 
 ### Monolith app
 
-Application is built and shipped as monolith artifact which means both frontend and backend are being served from the same server. To make a production `.jar` release run:
+Application is built and shipped as monolith artifact which means both frontend and backend are being served from the same server. 
+
+Frontend part of the application is build with command:
+
+```shell
+make release-frontend
+```
+
+To make a production `.jar` release run:
+
+```shell
+make  release-backend
+```
+
+`release-frontend` command is using `frontend-version-patcher` script to renames `app.js` and `style.css` by adding timestamp to their names and generates `index.html` file that calls them with modified names.
+
+You can run both release commands with:
 
 ```shell
 make release-app
@@ -221,7 +297,13 @@ This `.jar` file can be run with:
 java -jar target/{jar-name}.jar
 ```
 
-and deployed directly to a running JVM instance or via docker image. In order to make docker image run:
+and deployed directly to a running JVM instance or via docker image. 
+
+
+
+?? MP
+
+In order to make docker image run:
 
 ```shell
 make build-docker-image
@@ -229,222 +311,10 @@ make build-docker-image
 
 This docker image should be tagged and deployed to Docker repository of choice and used from cloud services of choice.
 
-#### Configuration
-
-In order to run application properly you should expose environment variables on production system. Configuration and needed variables can be found in `config/default.edn` and `config/prod/config.edn` files. Default values from `config/default.edn` will be overiden by values in `config/prod/config.edn` file.
 
 #### Deploying to Heroku
 
 ```shell
 make release-app
 heroku plugins:install java
-heroku deploy:jar target/app.jar --app {app}
-```
-
-### Frontend
-
-In order to build production frontend resources separately in case of spliting backend and frontend run:
-
-```shell
-make release-frontend
-```
-
-This will build all necessary static files in `resources/public` directory. Those file then can be copied to any static resource host provider.
-
-
-## List of used libraries
-
-### VBT libraries
-
-### [clojure-commons](https://github.com/VeryBigThings/clojure-commons)
-
-- Small utilities shared across VeryBigThings projects.
-
-
-### [funicular](https://github.com/VeryBigThings/funicular)
-
-- Funicular allows you to send Clojure data structures over the wire with a minimal ceremony with schema-based data validation as it travels from backend to frontend and separation of commands (mutations) and queries.
-
-### [pgerrors](https://github.com/VeryBigThings/pgerrors)
-
-- Small utility library to extract data from PostgreSQL errors.
-
-### [penkala](https://github.com/retro/penkala)
-
-- Penkala is a composable query builder for PostgreSQL written in Clojure.
-
-### Keechma-next libraries
-
-### [keechma-next](https://github.com/keechma/keechma-next)
-
-- Keechma/next is the second iteration of the Keechma framework. In its scope, it's similar to Integrant - a data driven, state management framework for single page apps.
-
-### [keechma-next-toolbox](https://github.com/keechma/keechma-next-toolbox)
-
-- A set of libraries that make working with Keechma easier.
-
-### [keechma-malli-forms](https://github.com/keechma/keechma-malli-forms)
-
-- Base implementation of form record with live validation based on Malli
-
-### Clojure libraries
-
-### [clojure](https://github.com/clojure/clojure)
-
-- The Clojure programming language
-
-### [clojurescript](https://github.com/clojure/clojurescript)
-
-- ClojureScript is a compiler for Clojure that targets JavaScript. It is designed to emit JavaScript code which is compatible with the advanced compilation mode of the Google Closure optimizing compiler.
-
-### [core.async](https://github.com/clojure/core.async)
-
-- Facilities for async programming and communication in Clojure
-
-### [core.match](https://github.com/clojure/core.match)
-
-- An optimized pattern matching library for Clojure. It supports Clojure 1.5.1 and later as well as ClojureScript.
-
-### [spec.alpha](https://github.com/clojure/spec.alpha)
-
-- spec is a Clojure library to describe the structure of data and functions. Specs can be used to validate data, conform (destructure) data, explain invalid data, generate examples that conform to the specs, and automatically use generative testing to test functions
-
-### [tools.namespace](https://github.com/clojure/tools.namespace)
-
-- Tools for managing namespaces in Clojure. Parse ns declarations from source files, extract their dependencies, build a graph of namespace dependencies within a project, update that graph as files change, and reload files in the correct order.
-
-### Flexiana
-
-### [Xiana framework](https://github.com/Flexiana/framework)
-
-- Xiana is a lightweight web-application framework written in Clojure, for Clojure.
-
-### DB  libraries
-
-### [migratus](https://github.com/yogthos/migratus)
-
-- A general migration framework, with implementations for migrations as SQL scripts or general Clojure code.
-
-### [next-jdbc](https://github.com/seancorfield/next-jdbc)
-
-- A modern low-level Clojure wrapper for JDBC-based access to databases
-
-### [hugsql](https://github.com/layerware/hugsql)
-
-A Clojure library for embracing SQL.
-
-### Metosin libraries
-
-### [malli](https://github.com/metosin/malli)
-
-- Data-Driven Schemas for Clojure/Script.
-
-### [jsonista](https://github.com/metosin/jsonista)
-
-- Clojure library for fast JSON encoding and decoding.
-
-### [reitit](https://github.com/metosin/reitit)
-
-- A fast data-driven router for Clojure/Script
-
-### [muuntaja](https://github.com/metosin/muuntaja)
-
-- Clojure library for fast http api format negotiation, encoding and decoding
-
-### [timbre](https://github.com/ptaoussanis/timbre)
-
-- Clojure logging library.
-
-### Utilities
-
-### [medley](https://github.com/weavejester/medley)
-
-- A lightweight library of useful Clojure functions
-
-### [dyn-edn](https://github.com/walmartlabs/dyn-edn)
-
-- Dynamic properties in EDN content
-
-### [js-interop](https://github.com/applied-science/js-interop)
-
-- A JavaScript-interop library for ClojureScript.
-
-### [hodgepodge](https://github.com/funcool/hodgepodge)
-
-- A idiomatic ClojureScript interface to local and session storage
-
-### [hawk](https://github.com/wkf/hawk)
-
-- A Clojure library designed to watch files and directories.
-
-### [transit-cljs](https://github.com/cognitect/transit-cljs)
-
-- Transit is a data format and a set of libraries for conveying values between applications written in different languages.
-
-### [closeable-map](https://github.com/piotr-yuxuan/closeable-map)
-
-- Application state management made simple: a Clojure map that implements java.io.Closeable.
-
-### Frontend libraries
-
-### [fetch](https://github.com/lambdaisland/fetch)
-
-- ClojureScript wrapper for the JavaScript fetch API
-
-### [helix](https://github.com/lilactown/helix)
-
-- A simple, easy to use library for React development in ClojureScript.
-
-### [shadow-cljs](https://github.com/thheller/shadow-cljs)
-
-- shadow-cljs provides everything you need to compile your ClojureScript code with a focus on simplicity and ease of use.
-
-### Node.js libraries
-
-### [js-joda](https://www.npmjs.com/package/@js-joda/core)
-
-- Immutable date and time library for JavaScript
-
-### [react](https://www.npmjs.com/package/react)
-
-- React is a JavaScript library for creating user interfaces.
-
-### [tailwindcss](https://libraries.io/npm/tailwindcss)
-
-- A utility-first CSS framework for rapidly building custom user interfaces.
-
-### [postcss](https://www.npmjs.com/package/postcss)
-
-- PostCSS is a tool for transforming styles with JS plugins.
-
-### Debugging/dev libraries
-
-### [cljs-devtools](https://github.com/binaryage/cljs-devtools)
-
-- A collection of Chrome DevTools enhancements for ClojureScript developers
-
-### [nrepl](https://github.com/nrepl/nrepl)
-
-- A Clojure network REPL that provides a server and client, along with some common APIs of use to IDEs and other tools that may need to evaluate Clojure code in remote environments.
-
-### [reveal](https://github.com/vlaaad/reveal)
-
-- Read Eval Visualize Loop for Clojure
-
-### Testing libraries
-
-### [kaocha](https://github.com/lambdaisland/kaocha)
-
-- Full featured next gen Clojure test runner
-
-### [state-flow](https://github.com/nubank/state-flow)
-
-- Integration testing framework using a state monad in the backend for building and composing flows
-
-### [test.check](https://github.com/clojure/test.check)
-
-- test.check is a Clojure property-based testing tool inspired by QuickCheck
-
-### [clj-kondo](https://github.com/clj-kondo/clj-kondo)
-
-- Clj-kondo performs static analysis on Clojure, ClojureScript and EDN, without the need of a running REPL. It informs you about potential errors while you are typing.
+heroku deploy:jar target/app.j...
