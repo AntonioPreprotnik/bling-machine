@@ -52,15 +52,15 @@
 (def ^:private up-count 1)
 
 (comment
-  
+
   ;;# FRESH DB
   ;;# --------------------------------------------------------------------------
-  
+
   (recreate-db)
 
   ;;# MIGRATIONS
   ;;# --------------------------------------------------------------------------
-  
+
   (migratus/create migration-config migration-name)
   (migratus/destroy migration-config)
   (migratus/down migration-config down-count)
@@ -72,7 +72,7 @@
 
   ;;# SEEDS
   ;;# --------------------------------------------------------------------------
-  
+
   (migratus/create seed-config seed-name)
   (migratus/destroy seed-config)
   (migratus/migrate seed-config)
@@ -80,6 +80,5 @@
 
   ;;# DB INTEGRITY
   ;;# --------------------------------------------------------------------------
-  
-  (check-db-integrity)
-  )
+
+  (check-db-integrity))

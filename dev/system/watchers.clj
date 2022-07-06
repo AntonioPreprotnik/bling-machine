@@ -7,7 +7,7 @@
    [hawk.core :as hawk]
    [io.aviso.ansi :as ansi]
    [shadow.cljs.devtools.api :as shadow.api]
-   [shadow.cljs.devtools.server :as shadow.server])
+   [system.state :refer [backend-watcher postcss-watcher]])
   (:import
    [java.util Timer TimerTask]))
 
@@ -41,10 +41,16 @@
 (defn watch-backend
   "Automatically restarts the system if backend related files are changed."
   [callback]
-  (hawk/watch! [{:paths ["src/app/backend/" "src/app/shared" "config/dev"]
-                 :context (constantly {:fn callback})
-                 :filter clojure-file?
-                 :handler (debounce watch-handler 500)}]))
+  (let [watcher (hawk/watch! {:watcher :polling}
+                             [{:paths ["src/app/backend" "src/app/shared" "config/dev"]
+                               :context (constantly {:fn callback})
+                               :filter clojure-file?
+                               :handler (debounce watch-handler 500)}])]
+    (reset! backend-watcher watcher)))
+
+(defn stop-backend-watcher []
+  (hawk/stop! backend-watcher)
+  (reset! backend-watcher nil))
 
 ;;# FRONTEND WATCHER
 ;;# --------------------------------------------------------------------------
@@ -53,29 +59,23 @@
   "Automatically re-builds frontend and re-renders browser page if frontend
   related files are changed."
   []
-  (shadow.server/start!)
   (shadow.api/watch :app))
 
 ;;# POSTCSS WATCHER
 ;;# --------------------------------------------------------------------------
 
-(def ^:private postcss-watcher-proc
-  "Atom that tracks current postcss watcher process. Used for killing running postcss
-  process and staring a new one."
-  (atom nil))
-
 (defn postcss-watch
   "Runs postcss watcher in parallel thread and redirects std output to main console."
   []
   (println (ansi/cyan "Starting postcss watcher"))
-  (let [proc (-> (ProcessBuilder. ["npm" "run" "postcss:watch"])
-                 .inheritIO
-                 .start)]
-    (reset! postcss-watcher-proc proc)
-    (.waitFor proc)))
+  (let [watcher (-> (ProcessBuilder. ["npm" "run" "postcss:watch"])
+                    .inheritIO
+                    .start)]
+    (reset! postcss-watcher watcher)
+    (.waitFor watcher)))
 
 (defn reset-postcss-watch
   "Kills current postcss process and start the new one."
   []
-  (when @postcss-watcher-proc (.destroyForcibly @postcss-watcher-proc))
+  (when @postcss-watcher (.destroyForcibly @postcss-watcher))
   (go (postcss-watch)))
