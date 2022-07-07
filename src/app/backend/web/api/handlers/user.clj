@@ -5,9 +5,7 @@
 
 (defn create-one [config]
   (let [{:keys [penkala data]} config
-        {:keys [password-hash]} data
-        password (hashers/derive password-hash)
-        user-data (assoc data :password-hash password)]
+        user-data (update data :password-hash hashers/derive)]
     (user/insert penkala user-data)))
 
 (defn update-one [config]
