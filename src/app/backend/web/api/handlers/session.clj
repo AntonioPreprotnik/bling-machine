@@ -1,6 +1,7 @@
 (ns app.backend.web.api.handlers.session
   (:require
    [app.backend.domain.user :as user]
+   [buddy.hashers :as hashers]
    [com.verybigthings.funicular.anomalies :as anomalies]))
 
 (def ^:private admin-not-found-error
@@ -10,5 +11,8 @@
 
 (defn login [config]
   (let [{:keys [penkala data]} config
-        admin (user/get-admin-by-credentials penkala data)]
-    (if admin admin admin-not-found-error)))
+        {:keys [password]} data
+        admin (user/get-admin-by-credentials penkala data)
+        {:users/keys [password-hash]} admin
+        is-password-valid? (hashers/check password password-hash)]
+    (if (and admin is-password-valid?) admin admin-not-found-error)))

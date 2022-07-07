@@ -1,10 +1,14 @@
 (ns app.backend.web.api.handlers.user
   (:require
-   [app.backend.domain.user :as user]))
+   [app.backend.domain.user :as user]
+   [buddy.hashers :as hashers]
+   [clojure.set :refer [rename-keys]]))
 
 (defn create-one [config]
-  (let [{:keys [penkala data]} config]
-    (user/insert penkala data)))
+  (let [{:keys [penkala data]} config
+        user-data (rename-keys data {:password :password-hash})
+        user-data-with-hash-password (update user-data :password-hash hashers/derive)]
+    (user/insert penkala user-data-with-hash-password)))
 
 (defn update-one [config]
   (let [{:keys [penkala data]} config

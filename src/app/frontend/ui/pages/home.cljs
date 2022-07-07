@@ -23,7 +23,7 @@
 
 (def input-field
   [{:controller :login-form :type :text :attr :email :placeholder "Enter email address"}
-   {:controller :login-form :type :text :attr :password-hash :placeholder "Enter password"}])
+   {:controller :login-form :type :text :attr :password :placeholder "Enter password"}])
 
 (defnc InputGroupRow [_]
   (map-indexed
