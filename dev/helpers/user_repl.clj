@@ -12,9 +12,11 @@
 (comment
   (query! (funicular) :api.user/get-all :user {})
 
-  (command! (funicular) :api.user/create {:email "test@vbt.com"
+  (command! (funicular) :api.user/create {:email "test@email.com"
                                           :first-name "First"
-                                          :last-name "Last"})
+                                          :last-name "Last"
+                                          :password "password"
+                                          :is-admin true})
 
   (command! (funicular) :api.user/update {:user-id user-id
                                           :data {:first-name "First"
