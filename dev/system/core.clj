@@ -37,10 +37,10 @@
   (and filename (re-matches #"[^.].*\.(clj|cljc)$" filename)))
 
 (defn- refresh-namespaces [filename]
-  (let [code-file (code-file? filename)
-        refresh-result (if code-file (refresh) (refresh-all))]
-    (if (= refresh-result :ok)
-      (system.core/start-system)
+  (let [refresh-result (if (code-file? filename)
+                         (refresh :after 'system.core/start-system)
+                         (refresh-all :after 'system.core/start-system))]
+    (when (ex-message refresh-result)
       (throw refresh-result))))
 
 (defn restart-system
