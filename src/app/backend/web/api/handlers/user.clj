@@ -1,8 +1,8 @@
 (ns app.backend.web.api.handlers.user
   (:require
    [app.backend.domain.user :as user]
-   [clojure.set :refer [rename-keys]]
-   [buddy.hashers :as hashers]))
+   [buddy.hashers :as hashers]
+   [clojure.set :refer [rename-keys]]))
 
 (defn create-one [config]
   (let [{:keys [penkala data]} config
