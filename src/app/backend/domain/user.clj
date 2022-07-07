@@ -38,9 +38,8 @@
                           (r/where [:= :id (cast-as id "uuid")]))]
       (delete! env delete-user)))
 
-  (get-admin-by-credentials [{:keys [env]} {:keys [email password-hash]}]
+  (get-admin-by-credentials [{:keys [env]} {:keys [email]}]
     (let [users (-> (:users env)
                     (r/where [:= :email email])
-                    (r/where [:= :password-hash password-hash])
                     (r/where [:= :is-admin true]))]
       (select-one! env users))))

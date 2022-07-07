@@ -4,7 +4,7 @@
   {:app.input.login
    [:map
     [:email :app/email]
-    [:password-hash :password.rules/length]]
+    [:password :password.rules/length]]
    :password.rules/length
    [:string {:min 8
              :error/message "Must be 8 characters"}]})
