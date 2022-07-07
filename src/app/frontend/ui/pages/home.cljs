@@ -22,7 +22,7 @@
 (def error-msg-style "text-red-400 text-sm")
 (def title-style "text-lg font-semibold")
 
-(defnc PasswordFiel [_]
+(defnc PasswordField [_]
   (let [[password-mask set-password-mask] (hooks/use-state true)]
     ($ PasswordFieldWrap
       (wrapped-input {:keechma.form/controller :login-form
@@ -48,7 +48,7 @@
                          :input/type  :text
                          :input/attr :email
                          :placeholder "Enter email address"})
-         ($ PasswordFiel)))
+         ($ PasswordField)))
 
 (defnc SignUpForm [{:keys [set-is-sign-up is-sign-up]}]
   ($ FormWrap
