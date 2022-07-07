@@ -1,10 +1,14 @@
 (ns app.backend.web.api.handlers.user
   (:require
-   [app.backend.domain.user :as user]))
+   [app.backend.domain.user :as user]
+   [buddy.hashers :as hashers]))
 
 (defn create-one [config]
-  (let [{:keys [penkala data]} config]
-    (user/insert penkala data)))
+  (let [{:keys [penkala data]} config
+        {:keys [password-hash]} data
+        password (hashers/derive password-hash)
+        user-data (assoc data :password-hash password)]
+    (user/insert penkala user-data)))
 
 (defn update-one [config]
   (let [{:keys [penkala data]} config
