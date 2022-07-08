@@ -27,6 +27,7 @@
   (merge
    mfc/pipelines
    {:keechma.on/start initial-create-user-form
+    :on-clear initial-create-user-form
     :on-submit create-user}))
 
 (defmethod ctrl/prep :create-user [ctrl]

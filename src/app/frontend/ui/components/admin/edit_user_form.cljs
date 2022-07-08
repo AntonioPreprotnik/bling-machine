@@ -1,7 +1,7 @@
 (ns app.frontend.ui.components.admin.edit-user-form
   (:require
    [app.frontend.inputs :refer [wrapped-input]]
-   [app.frontend.ui.components.button :refer [ButtonDefaul]]
+   [app.frontend.ui.components.button :refer [ButtonDefault]]
    [app.frontend.ui.components.shared-style :refer [error-msg-style
                                                     input-style]]
    [app.frontend.ui.components.switch-user-role :refer [SwitchUserRole]]
@@ -14,7 +14,8 @@
 
 (def edit-user-input
   [{:attr :first-name :placeholder "Edit first name"}
-   {:attr :last-name :placeholder "Edit last name"}])
+   {:attr :last-name :placeholder "Edit last name"}
+   {:attr :email :placeholder "Edit email"}])
 
 (defnc EditUserForm [props]
   {:wrap [with-keechma]}
@@ -41,6 +42,13 @@
                                              :input/attr attr
                                              :placeholder placeholder})))
                     edit-user-input)
-                   ($ ButtonDefaul {:additional-style "w-full flex justify-center mt-4"
-                                    :label "Edit User"
-                                    :svg (inline "edit-pencil.svg")})))))
+                   (d/div {:class "flex space-x-4"}
+                          ($ ButtonDefault {:additional-style "mt-4"
+                                            :label "Clear "
+                                            :svg (inline "trash.svg")
+                                            :type "reset"
+                                            :on-click #(dispatch props controller :on-clear)})
+                          ($ ButtonDefault {:additional-style "mt-4"
+                                            :label "Edit User"
+                                            :svg (inline "edit-pencil.svg")
+                                            :type "submit"}))))))

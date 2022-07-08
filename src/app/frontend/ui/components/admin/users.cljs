@@ -1,6 +1,6 @@
 (ns app.frontend.ui.components.admin.users
   (:require
-   [app.frontend.ui.components.button :refer [ButtonDefaul]]
+   [app.frontend.ui.components.button :refer [ButtonDefault]]
    [app.shared.util.inliner :as inliner :refer-macros [inline]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
@@ -56,10 +56,10 @@
         on-open-delete-user-modal #(do (dispatch props :modal-delete-user :on)
                                        (dispatch props :selected-user :on-select-user %))]
     (d/div {:class "flex flex-col w-full"}
-           ($ ButtonDefaul {:additional-style "ml-auto"
-                            :label "Add User"
-                            :svg (inline "add-user.svg")
-                            :on-click on-open-add-user-modal})
+           ($ ButtonDefault {:additional-style "ml-auto"
+                             :label "Add User"
+                             :svg (inline "add-user.svg")
+                             :on-click on-open-add-user-modal})
            ($ UsersTable {:users users
                           :on-click-edit-pencil on-open-edit-modal
                           :on-click-trash on-open-delete-user-modal}))))

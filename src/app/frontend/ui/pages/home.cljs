@@ -1,7 +1,7 @@
 (ns app.frontend.ui.pages.home
   (:require
    [app.frontend.inputs :refer [wrapped-input]]
-   [app.frontend.ui.components.button :refer [ButtonDefaul]]
+   [app.frontend.ui.components.button :refer [ButtonDefault]]
    [app.frontend.ui.components.password-field-secured :refer [PasswordFieldSecured]]
    [app.frontend.ui.components.shared-style :refer [error-msg-style
                                                     input-style]]
@@ -68,10 +68,9 @@
             ($ InputGroupLogin
               {:password-value password-value})
             (d/div {:class "w-full"}
-                   ($ ButtonDefaul {:additional-style "w-full flex justify-center"
-                                    :label "Log In"
-                                    :svg (inline "log-in.svg")
-                                    :disabled inputs-empty?})
+                   ($ ButtonDefault {:label "Log In"
+                                     :svg (inline "log-in.svg")
+                                     :disabled inputs-empty?})
                    (when-not inputs-empty?
                      (d/div {:class error-msg-style}
                             submit-errors)))))))))
