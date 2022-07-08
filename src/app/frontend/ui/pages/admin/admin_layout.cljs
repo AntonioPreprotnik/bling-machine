@@ -24,7 +24,7 @@
         is-modal-delete-open? (use-sub props :modal-delete-user)
         close-modal-delete-user #(dispatch props :modal-delete-user :off)]
     ($ AdminPanelWrap
-      ($ Modal {:modal-title "Add User"
+      ($ Modal {:modal-title "Create New User"
                 :is-modal-open? is-modal-add-user-open?
                 :close-modal close-modal-add-user}
         ($ AddUserForm))

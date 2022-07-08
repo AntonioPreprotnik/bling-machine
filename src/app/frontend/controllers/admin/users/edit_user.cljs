@@ -17,14 +17,26 @@
     {:user-id id
      :data submit-data}))
 
+(defn user-map [id first-name last-name email]
+  {:user-id id
+   :first-name first-name
+   :last-name last-name
+   :email email})
+
 (def initial-edit-user-form
   (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
     (let [selected-user (:selected-user @deps-state*)
-          {:users/keys [id first-name last-name]} (:selected-user-data selected-user)]
-      (pp/swap! meta-state* mfc/init-form form {:user-id (str id)
-                                                :first-name first-name
-                                                :last-name last-name}))))
-(def edit-user
+          {:users/keys [id first-name last-name email]} (:selected-user-data selected-user)]
+      (pp/swap! meta-state* mfc/init-form form (user-map (str id) first-name last-name email)))))
+
+(def empty-edit-user-form
+  (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
+    (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
+      (let [selected-user (:selected-user @deps-state*)
+            {:users/keys [id]} (:selected-user-data selected-user)]
+        (pp/swap! meta-state* mfc/init-form form (user-map (str id) "" "" ""))))))
+
+(def submit-edit-user
   (-> (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
         (command! ctrl :api.user/update (selected-user-data->submit-data-form
                                          (:selected-user @deps-state*)
@@ -39,7 +51,8 @@
   (merge
    mfc/pipelines
    {:keechma.on/start initial-edit-user-form
-    :on-submit edit-user}))
+    :on-clear empty-edit-user-form
+    :on-submit submit-edit-user}))
 
 (defmethod ctrl/prep :edit-user [ctrl]
   (pipelines/register ctrl pipelines))
