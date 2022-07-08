@@ -16,19 +16,27 @@
   (pipeline! [value {:keys [meta-state*]}]
     (pp/swap! meta-state* mfc/init-form form)))
 
-(def create-user
-  (-> (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
+(def clear-submit-errors
+  (pipeline! [value {:keys [state*]}]
+    mfc/on-partial-change
+    (pp/swap! state* dissoc :submit-errors)))
+
+(def submit-create-user
+  (-> (pipeline! [value {:keys [meta-state* deps-state* state*] :as ctrl}]
         (command! ctrl :api.user/create (merge {:is-admin (:switch-admin-role @deps-state*)} value))
         (ctrl/dispatch ctrl :users :refresh)
-        (ctrl/dispatch ctrl :modal-add-user :off))
+        (ctrl/dispatch ctrl :modal-add-user :off)
+        (rescue! [error]
+          (pp/swap! state* assoc :submit-errors (ex-message error))))
       mfc/wrap-submit))
 
 (def pipelines
   (merge
    mfc/pipelines
    {:keechma.on/start initial-create-user-form
+    :keechma.form/on-partial-change clear-submit-errors
     :on-clear initial-create-user-form
-    :on-submit create-user}))
+    :on-submit submit-create-user}))
 
 (defmethod ctrl/prep :create-user [ctrl]
   (pipelines/register ctrl pipelines))

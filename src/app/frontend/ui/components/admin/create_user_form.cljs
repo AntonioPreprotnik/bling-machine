@@ -23,7 +23,8 @@
   (let [controller :create-user
         is-admin (use-sub props :switch-admin-role)
         on-switch #(dispatch props :switch-admin-role :toggle)
-        password-value (mfui/use-get-in-data props controller :password)]
+        password-value (mfui/use-get-in-data props controller :password)
+        {:keys [submit-errors]} (use-sub props controller)]
     (d/div {:class "flex flex-col space-y-4"}
            ($ SwitchUserRole {:is-admin is-admin
                               :on-switch on-switch})
@@ -55,4 +56,6 @@
                           ($ ButtonDefault {:additional-style "mt-4"
                                             :label "Add User"
                                             :svg (inline "add-user.svg")
-                                            :type "submit"}))))))
+                                            :type "submit"})))
+           (when submit-errors
+             (d/div {:class error-msg-style} submit-errors)))))
