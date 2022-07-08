@@ -56,7 +56,7 @@
         on-open-delete-user-modal #(do (dispatch props :modal-delete-user :on)
                                        (dispatch props :selected-user :on-select-user %))]
     (d/div {:class "flex flex-col w-full"}
-           ($ ButtonDefault {:additional-style "ml-auto"
+           ($ ButtonDefault {:additional-style "ml-auto w-40"
                              :label "Add User"
                              :svg (inline "add-user.svg")
                              :on-click on-open-add-user-modal})
