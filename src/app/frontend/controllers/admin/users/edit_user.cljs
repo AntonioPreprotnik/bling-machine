@@ -38,7 +38,6 @@
 
 (def submit-edit-user
   (-> (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
-        (println "-----" value)
         (command! ctrl :api.user/update (selected-user-data->submit-data-form
                                          (:selected-user @deps-state*)
                                          (merge
