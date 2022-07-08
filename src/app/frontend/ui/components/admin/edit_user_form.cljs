@@ -2,8 +2,9 @@
   (:require
    [app.frontend.inputs :refer [wrapped-input]]
    [app.frontend.ui.components.button :refer [ButtonDefaul]]
+   [app.frontend.ui.components.shared-style :refer [error-msg-style
+                                                    input-style]]
    [app.frontend.ui.components.switch-user-role :refer [SwitchUserRole]]
-   [app.frontend.ui.pages.home :refer [error-msg-style input-style]]
    [app.shared.util.inliner :as inliner :refer-macros [inline]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]

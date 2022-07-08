@@ -2,6 +2,9 @@
   (:require
    [app.frontend.inputs :refer [wrapped-input]]
    [app.frontend.ui.components.button :refer [ButtonDefaul]]
+   [app.frontend.ui.components.password-field-secured :refer [PasswordFieldSecured]]
+   [app.frontend.ui.components.shared-style :refer [error-msg-style
+                                                    input-style]]
    [app.shared.util.inliner :as inliner :refer-macros [inline]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
@@ -16,31 +19,10 @@
 (defclassified FormContainer :form "flex flex-col items-center space-y-6 w-96")
 (defclassified SignUpBtn :button "inline hover:text-gray-400 underline underline-offset-2")
 (defclassified LogInBtn :button "flex py-2 px-3 border border-gray-400 rounded-lg hover:bg-gray-400 hover:text-white disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
-(defclassified PasswordFieldWrap :div "w-full relative")
 
-(def input-style "w-full h-12 border border-gray-400 px-10 py-2 rounded-lg focus:outline-none")
-(def error-msg-style "text-red-400 text-sm")
 (def title-style "text-lg font-semibold")
 
-(defnc PasswordField [_]
-  (let [[password-mask set-password-mask] (hooks/use-state true)]
-    ($ PasswordFieldWrap
-      (wrapped-input {:keechma.form/controller :login-form
-                      :input/style input-style
-                      :input/error-msg-style error-msg-style
-                      :input/type (if password-mask :password :text)
-                      :input/attr :password
-                      :placeholder "Enter password"})
-      (d/button {:type "button"
-                 :onClick #(set-password-mask not)
-                 :style {:position "absolute"
-                         :right 10
-                         :top 12}}
-                (if password-mask
-                  (inline "security-eye-slash.svg")
-                  (inline "security-eye.svg"))))))
-
-(defnc InputGroupLogin [_]
+(defnc InputGroupLogin [{:keys [password-value]}]
   (d/div {:class "flex flex-col space-y-4 w-full"}
          (wrapped-input {:keechma.form/controller :login-form
                          :input/style input-style
@@ -48,7 +30,10 @@
                          :input/type  :text
                          :input/attr :email
                          :placeholder "Enter email address"})
-         ($ PasswordField)))
+         ($ PasswordFieldSecured
+           {:controller :login-form
+            :placeholder "Enter password"
+            :input-value password-value})))
 
 (defnc SignUpForm [{:keys [set-is-sign-up is-sign-up]}]
   ($ FormWrap
@@ -80,7 +65,8 @@
             {:onSubmit #(do
                           (.preventDefault %)
                           (dispatch props :login-form :on-submit))}
-            ($ InputGroupLogin)
+            ($ InputGroupLogin
+              {:password-value password-value})
             (d/div {:class "w-full"}
                    ($ ButtonDefaul {:additional-style "w-full flex justify-center"
                                     :label "Log In"
