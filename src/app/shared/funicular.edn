@@ -4,7 +4,10 @@
            [:session
             {:commands {:login             {:input-schema :app.input.login
                                             :output-schema :any
-                                            :handler #resolve app.backend.web.api.handlers.session/login}}}]
+                                            :handler #resolve app.backend.web.api.handlers.session/login}
+                        :check-jwt         {:input-schema :any
+                                            :output-schema :any
+                                            :handler #resolve app.backend.web.api.handlers.session/check-jwt}}}]
            [:user
             {:commands {:create             {:input-schema  :app.input.user/create
                                              :output-schema :app/user
