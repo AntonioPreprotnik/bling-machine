@@ -6,6 +6,7 @@
    [app.frontend.controllers.admin.users.edit-user]
    [app.frontend.controllers.admin.users.selected-user]
    [app.frontend.controllers.generic.switch]
+   [app.frontend.controllers.jwt]
    [app.frontend.controllers.users]
    [com.verybigthings.funicular.controller :as f]
    [keechma.next.controllers.entitydb]
@@ -28,6 +29,9 @@
      :entitydb     #:keechma.controller {:params                  true
                                          :type                    :keechma/entitydb
                                          :keechma.entitydb/schema {:user {:entitydb/id :users/id}}}
+
+     :jwt          #:keechma.controller {:params true
+                                         :deps   []}
 
      :login-form   #:keechma.controller {:params (fn [{:keys [router]}]
                                                    (= "home" (:page router)))

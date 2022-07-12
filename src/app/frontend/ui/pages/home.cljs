@@ -68,7 +68,8 @@
             ($ InputGroupLogin
               {:password-value password-value})
             (d/div {:class "w-full"}
-                   ($ ButtonDefault {:label "Log In"
+                   ($ ButtonDefault {:type "submit"
+                                     :label "Log In"
                                      :svg (inline "log-in.svg")
                                      :disabled inputs-empty?})
                    (when-not inputs-empty?

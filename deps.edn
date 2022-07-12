@@ -1,5 +1,6 @@
 {:deps
- {buddy/buddy-hashers           #:mvn{:version "1.6.0"}
+ {buddy/buddy-auth              #:mvn{:version "2.2.0"}
+  buddy/buddy-hashers           #:mvn{:version "1.6.0"}
   cljc.java-time/cljc.java-time #:mvn{:version "0.1.18"},
   cljfmt/cljfmt                 #:mvn{:version "0.8.0"},
   com.flexiana/framework        {:git/url       "https://github.com/Flexiana/framework",

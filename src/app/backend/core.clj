@@ -2,6 +2,7 @@
   (:gen-class)
   (:require
    [app.backend.config :as config]
+   [app.backend.domain.auth :as auth]
    [app.backend.funicular :as funicular]
    [app.backend.logging :as logging]
    [app.backend.penkala :as penkala]
@@ -24,6 +25,7 @@
       db/connect
       db/migrate!
       seed/seed!
+      auth/init
       penkala/init
       funicular/init
       routes/reset
