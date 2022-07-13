@@ -23,10 +23,11 @@
 (def clear-jwt
   (pipeline! [value {:keys [state*] :as ctrl}]
     (remove-item local-storage jwt-name)
+    (reset! state* nil)
     (router/redirect! ctrl :router {:page "home"})))
 
 (def is-jwt-valid?
-  (-> (pipeline! [value {:keys [state*] :as ctrl}]
+  (-> (pipeline! [value {:keys [state* deps-state*] :as ctrl}]
         (let [jwt (get-item local-storage jwt-name)]
           (pipeline! [value {:keys [state*]}]
             (command! ctrl :api.session/check-jwt jwt)
