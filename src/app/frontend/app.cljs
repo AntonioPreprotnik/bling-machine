@@ -62,8 +62,7 @@
                                               :type                    :keechma/entitydb
                                               :keechma.entitydb/schema {:user {:entitydb/id :users/id}}}
 
-     :jwt               #:keechma.controller {:params true
-                                              :deps   [:router]}
+     :jwt               #:keechma.controller {:params true}
 
      :role              #:keechma.controller {:params (fn [{:keys [jwt]}]
                                                         (if jwt :admin :anon))
