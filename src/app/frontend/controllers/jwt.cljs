@@ -47,7 +47,6 @@
         (let [jwt (get-ls-jwt)]
           (pipeline! [value {:keys [state*]}]
             (command! ctrl :api.session/check-jwt jwt)
-            (println "is-jwt-expired?" value)
             (match [(boolean (seq jwt)) value]
               [false :expired]  clear-jwt
               [true :expired]  clear-jwt
@@ -60,8 +59,8 @@
 
 (def pipelines
   {:keechma.on/start is-jwt-valid?
-   :log-out clear-jwt
    :re-check-jwt is-jwt-expired?
+   :log-out clear-jwt
    [:funicular/after :api.session/login] set-jwt})
 
 (defmethod ctrl/prep :jwt [ctrl]
