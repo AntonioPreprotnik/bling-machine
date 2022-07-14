@@ -52,12 +52,12 @@
               [true :valid] (pipeline! [_value ctrl]
                               (reset! state* jwt)
                               (p/delay (* 3000 10))
-                              (ctrl/dispatch-self ctrl :re-check-jwt))))))
+                              (ctrl/dispatch-self ctrl :periodicaly-check-jwt))))))
       (pp/set-queue :loading)))
 
 (def pipelines
   {:keechma.on/start is-jwt-valid?
-   :re-check-jwt is-jwt-expired?
+   :periodicaly-check-jwt is-jwt-expired?
    :log-out clear-jwt
    [:funicular/after :api.session/login] set-jwt})
 
