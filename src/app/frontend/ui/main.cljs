@@ -12,10 +12,11 @@
 
 (defnc Main [props]
   {:wrap [with-keechma]}
-  (let [{:keys [page subpage]} (use-sub props :router)]
-    (match [page subpage]
-      ["home" _] ($ Home)
-      ["admin" "users"] ($ AdminLayout ($ Users))
-      ["admin" _] ($ AdminLayout ($ Dashboard))
+  (let [{:keys [page subpage]} (use-sub props :router)
+        role (use-sub props :role)]
+    (match [role page subpage]
+      [:admin "admin" "users"] ($ AdminLayout ($ Users))
+      [:admin "admin" _] ($ AdminLayout ($ Dashboard))
+      [:anon "home" _] ($ Home)
       :else (d/div "404"))))
 

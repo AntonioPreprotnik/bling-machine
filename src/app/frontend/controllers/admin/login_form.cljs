@@ -21,6 +21,7 @@
   (-> (pipeline! [value {:keys [state*] :as ctrl}]
         (command! ctrl :api.session/login value)
         (router/redirect! ctrl :router {:page "admin"})
+        (ctrl/dispatch ctrl :jwt :periodicaly-check-jwt)
         (rescue! [error]
           (pp/swap! state* assoc :submit-errors (ex-message error))))
       mfc/wrap-submit))
