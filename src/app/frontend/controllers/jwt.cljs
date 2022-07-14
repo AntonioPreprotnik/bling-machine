@@ -23,8 +23,7 @@
     (let [payload (get-command value)
           jwt (:jwt payload)]
       (set-jwt! jwt)
-      (reset! state* jwt)
-      (ctrl/dispatch ctrl :url :refresh))))
+      (reset! state* jwt))))
 
 (def clear-jwt
   (pipeline! [value {:keys [state*] :as ctrl}]
