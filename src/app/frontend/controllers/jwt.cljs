@@ -52,6 +52,7 @@
               [true :valid] (pipeline! [_value ctrl]
                               (reset! state* jwt)
                               (p/delay (* 3000 10))
+                              #_{:clj-kondo/ignore [:unresolved-var]}
                               (ctrl/dispatch-self ctrl :periodicaly-check-jwt))))))
       (pp/set-queue :loading)))
 
