@@ -13,7 +13,7 @@
            applied-science.js-interop/defn             cljs.core/defn}
  :linters {:clojure-lsp/unused-public-var {:level :off}
            :unused-binding {:exclude-destructured-keys-in-fn-args true}
-           :unresolved-var                {:exclude [io.aviso.ansi]}
+           :unresolved-var                {:exclude [io.aviso.ansi keechma.next.controller/dispatch-self]}
            :unresolved-symbol {:exclude [&
                                          (helix.core/$)
                                          (keechma.next.helix.lib/defnc [props])
