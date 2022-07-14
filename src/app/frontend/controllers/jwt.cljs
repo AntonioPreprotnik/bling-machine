@@ -37,19 +37,31 @@
         (let [jwt (get-ls-jwt)]
           (pipeline! [value {:keys [state*]}]
             (command! ctrl :api.session/check-jwt jwt)
+            (if (= :valid value)
+              (reset! state* jwt)
+              clear-jwt))))
+      (pp/set-queue :loading)))
+
+(def is-jwt-expired?
+  (-> (pipeline! [value {:keys [state*] :as ctrl}]
+        (let [jwt (get-ls-jwt)]
+          (pipeline! [value {:keys [state*]}]
+            (command! ctrl :api.session/check-jwt jwt)
+            (println "is-jwt-expired?" value)
             (match [(boolean (seq jwt)) value]
               [false :expired]  clear-jwt
               [true :expired]  clear-jwt
               [true :valid] (pipeline! [_value ctrl]
                               (reset! state* jwt)
                               (p/delay (* 3000 10))
+                              #_{:clj-kondo/ignore [:unresolved-var]}
                               (ctrl/dispatch-self ctrl :re-check-jwt))))))
       (pp/set-queue :loading)))
 
 (def pipelines
   {:keechma.on/start is-jwt-valid?
    :log-out clear-jwt
-   :re-check-jwt is-jwt-valid?
+   :re-check-jwt is-jwt-expired?
    [:funicular/after :api.session/login] set-jwt})
 
 (defmethod ctrl/prep :jwt [ctrl]
