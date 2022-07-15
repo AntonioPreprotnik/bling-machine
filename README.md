@@ -72,10 +72,14 @@ The project was initially defined as the `Leiningen` project but we later decide
 
 ### System dependencies
 
+
+
 1. [Java](https://www.java.com/en/download/manual.jsp) version: `17`
 2. [Clojure CLI](https://clojure.org/guides/install_clojure) version: `1.11.1.1129`
 3. [Node](https://nodejs.org/en/download/) version: `latest`
 4. [Docker](https://docs.docker.com/get-docker/) version: `latest`
+
+Use `asdf` if you prefer it, check .tool-versions file for the exact tool versions.
    
 ### Tools
 
