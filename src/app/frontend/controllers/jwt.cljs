@@ -47,8 +47,10 @@
           (pipeline! [value {:keys [state*]}]
             (command! ctrl :api.session/check-jwt jwt)
             (match [(boolean (seq jwt)) value]
-              [false :expired]  clear-jwt
-              [true :expired]  clear-jwt
+              [false :expired] clear-jwt
+              [true :expired] clear-jwt
+              [true :invalid] clear-jwt
+              [false :invalid] clear-jwt
               [true :valid] (pipeline! [_value ctrl]
                               (reset! state* jwt)
                               (p/delay (* 3000 10))
