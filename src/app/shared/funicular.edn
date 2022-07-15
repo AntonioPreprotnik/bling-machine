@@ -1,6 +1,7 @@
 {:api     [:api
            {:input-schema [:map
-                           [:app/jwt {:optional true}]]}
+                           [:app/jwt {:optional true}]]
+            :interceptors [{:enter #resolve app.backend.web.api.interceptors.current-admin-user/set-current-admin}]}
            [:session
             {:commands {:login             {:input-schema :app.input.login
                                             :output-schema :any
@@ -19,7 +20,10 @@
                                                              [:users/id :uuid]]
                                              :output-schema :app/users
                                              :handler       #resolve app.backend.web.api.handlers.user/delete-by-id}}
-             :queries  {:get-all             {:input-schema  :any
+             :queries  {:get-current        {:input-schema  :any
+                                             :output-schema :app/user
+                                             :handler       #resolve app.backend.web.api.handlers.user/get-current-admin}
+                        :get-all             {:input-schema  :any
                                               :output-schema :app/users
                                               :handler       #resolve app.backend.web.api.handlers.user/get-all}
                         :get-one             {:input-schema  :app.input.user/one
