@@ -31,5 +31,5 @@
         user-id data]
     (user/delete-by-id! penkala user-id)))
 
-(defn get-current-admin [{:keys [current-admin]}]
-  current-admin)
+(defn get-current-admin [{:keys [current-user]}]
+  current-user)

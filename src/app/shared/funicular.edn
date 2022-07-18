@@ -1,7 +1,7 @@
 {:api     [:api
            {:input-schema [:map
                            [:app/jwt {:optional true}]]
-            :interceptors [{:enter #resolve app.backend.web.api.interceptors.current-admin-user/set-current-admin}]}
+            :interceptors [{:enter #resolve app.backend.web.api.interceptors.current-admin-user/set-current-user}]}
            [:session
             {:commands {:login             {:input-schema :app.input.login
                                             :output-schema :any
