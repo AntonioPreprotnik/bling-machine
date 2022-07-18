@@ -7,10 +7,14 @@
 
 (derive :current-admin ::pipelines/controller)
 
+(def get-current-admin
+  (pipeline! [value {:keys [state*] :as ctrl}]
+    (query! ctrl :api.user/get-current {:jwt value})
+    (reset! state* value)))
+
 (def pipelines
-  {:keechma.on/start (pipeline! [value {:keys [state*] :as ctrl}]
-                       (query! ctrl :api.user/get-current {:jwt value})
-                       (reset! state* value))})
+  {:keechma.on/start get-current-admin
+   :refresh get-current-admin})
 
 (defmethod ctrl/prep :current-admin [ctrl]
   (pipelines/register ctrl pipelines))

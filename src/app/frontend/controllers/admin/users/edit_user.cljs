@@ -44,6 +44,7 @@
                                           {:is-admin (-> @deps-state* :selected-user :current-admin-role-status)}
                                           value)))
         (ctrl/dispatch ctrl :users :refresh)
+        (ctrl/dispatch ctrl :current-admin :refresh)
         (ctrl/dispatch ctrl :modal-edit-user :off))
       mfc/wrap-submit))
 
