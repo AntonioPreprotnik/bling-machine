@@ -28,27 +28,32 @@
    {:create-user
     #:keechma.controller {:params (fn [{:keys [router modal-add-user]}]
                                     (and modal-add-user (= "users" (:subpage router))))
-                          :deps   [:router :modal-add-user :switch-admin-role]}
+                          :deps   [:router :modal-add-user :switch-admin-role :jwt]}
     :selected-user
     #:keechma.controller {:params (fn [{:keys [router users]}]
                                     (and users (= "users" (:subpage router))))
-                          :deps   [:router :users]}
+                          :deps   [:router :users :jwt]}
     :edit-user
     #:keechma.controller {:params (fn [{:keys [router modal-edit-user selected-user]}]
                                     (when (and modal-edit-user (= "admin" (:page router)))
                                       selected-user))
-                          :deps   [:router :selected-user :modal-edit-user]}
+                          :deps   [:router :selected-user :modal-edit-user :jwt]}
     :delete-user
     #:keechma.controller {:params (fn [{:keys [router modal-delete-user selected-user]}]
                                     (when (and modal-delete-user (= "admin" (:page router)))
                                       selected-user))
-                          :deps   [:router :selected-user :modal-delete-user]}
+                          :deps   [:router :selected-user :modal-delete-user :jwt]}
     :switch-admin-role
     #:keechma.controller {:type                       :generic/switch
                           :params                     (fn [{:keys [router]}]
                                                         (= "admin" (:page router)))
-                          :deps                       [:router]
-                          :generic.switch/set-default (fn [_ _ _] true)}}})
+                          :deps                       [:router :jwt]
+                          :generic.switch/set-default (fn [_ _ _] true)}
+
+    :users
+    #:keechma.controller {:params (fn [{:keys [router]}]
+                                    (= "admin" (:page router)))
+                          :deps   [:entitydb :router :jwt]}}})
 
 (def app
   (->
@@ -99,12 +104,7 @@
                            :params                     (fn [{:keys [router]}]
                                                          (= "admin" (:page router)))
                            :deps                       [:router]
-                           :generic.switch/set-default (fn [_ _ _] true)}
-
-     :users
-     #:keechma.controller {:params (fn [{:keys [router]}]
-                                     (= "admin" (:page router)))
-                           :deps   [:entitydb :router]}}
+                           :generic.switch/set-default (fn [_ _ _] true)}}
 
     :keechma/apps {:admin admin-app
                    :anon {:keechma.app/should-run? (is-role :anon)

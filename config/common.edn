@@ -1,12 +1,12 @@
-{:xiana/migration       {:init-in-transaction? true
-                         :migration-dir        "migrations"
-                         :migration-table-name "migrations"
-                         :seeds-table-name     "seeds"
-                         :store                :database}
+{:xiana/migration {:init-in-transaction? true
+                   :migration-dir "migrations"
+                   :migration-table-name "migrations"
+                   :seeds-table-name "seeds"
+                   :store :database}
 
- :xiana/postgresql      {:dbtype "postgresql"}
+ :xiana/postgresql {:dbtype "postgresql"}
 
- :xiana/session-backend {:storage            :database
+ :xiana/session-backend {:storage :database
                          :session-table-name :sessions}
 
- :xiana/web-server      {:join? false}}
+ :xiana/web-server {:join? false}}

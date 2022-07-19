@@ -1,7 +1,7 @@
-{:jwt-secret       #dyn/prop JWT_SECRET
+{:auth {:jwt-secret #dyn/prop JWT_SECRET}
 
  :xiana/postgresql {:dburl #dyn/prop PG_URL}
 
- :xiana/migration  {:seeds-dir "seeds/prod"}
+ :xiana/migration {:seeds-dir "seeds/prod"}
 
  :xiana/web-server {:port #dyn/long #dyn/prop WS_PORT}}

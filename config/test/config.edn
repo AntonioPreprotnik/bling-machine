@@ -1,15 +1,15 @@
-{:logging/timbre   {:min-level :info
-                    :ns-filter {:allow #{"*"}}}
+{:logging/timbre {:min-level :info
+                  :ns-filter {:allow #{"*"}}}
 
- :jwt-secret       #dyn/prop JWT_SECRET
+ :auth {:jwt-secret #dyn/prop JWT_SECRET}
 
- :xiana/postgresql {:dbname   #dyn/prop [PG_TEST_DB_NAME "app_test"]
-                    :host     #dyn/prop [PG_TEST_HOST "localhost"]
+ :xiana/postgresql {:dbname #dyn/prop [PG_TEST_DB_NAME "app_test"]
+                    :host #dyn/prop [PG_TEST_HOST "localhost"]
                     :password #dyn/prop [PG_TEST_PASSWORD "postgres"]
-                    :port     #dyn/prop [PG_TEST_PORT "5432"]
-                    :user     #dyn/prop [PG_TEST_USER "postgres"]
-                    :dburl    #dyn/prop [PG_TEST_URL nil]}
+                    :port #dyn/prop [PG_TEST_PORT "5432"]
+                    :user #dyn/prop [PG_TEST_USER "postgres"]
+                    :dburl #dyn/prop [PG_TEST_URL nil]}
 
- :xiana/migration  {:seeds-dir "seeds/test"}
+ :xiana/migration {:seeds-dir "seeds/test"}
 
  :xiana/web-server {:port #dyn/long #dyn/prop WS_TEST_PORT}}

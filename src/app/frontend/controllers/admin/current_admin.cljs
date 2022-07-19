@@ -9,8 +9,8 @@
 
 (def get-current-admin
   (pipeline! [value {:keys [state*] :as ctrl}]
-    (query! ctrl :api.user/get-current {:jwt value})
-    (reset! state* value)))
+             (query! ctrl :api.admin/get-current-user {:app/jwt value})
+             (reset! state* value)))
 
 (def pipelines
   {:keechma.on/start get-current-admin

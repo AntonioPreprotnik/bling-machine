@@ -4,8 +4,19 @@
 
 (comment
   (k/run-all)
-  (k/run :shared)
-  (k/run :backend)
-  (k/run 'app.backend.web.api.handlers.user-test)
-  (k/run 'app.backend.penkala-test/rollback-transaction-check)
-  (k/run 'app.backend.penkala-test))
+
+  ;;# SHARED
+  ;;# --------------------------------------------------------------------------
+
+  (k/run :app/shared)
+
+  ;;# BACKEND
+  ;;# --------------------------------------------------------------------------
+
+  (k/run :app/backend)
+  (k/run 'app.backend.domain.handlers.admin-test)
+
+  ;;# FRONTEND
+  ;;# --------------------------------------------------------------------------
+
+  (k/run :app/frontend))

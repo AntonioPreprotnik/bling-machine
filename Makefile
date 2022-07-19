@@ -19,9 +19,9 @@
 
 DEFAULT_GOAL: help
 
+# DEVELOPMENT
 # --------------------------------------------------
-# Development
-# --------------------------------------------------
+
 patch-dev:
 	bb -m frontend-version-patcher/patch-dev
 
@@ -81,8 +81,8 @@ ci: check-formatting check-warnings run-tests check-db-integrity release-app
 
 develop: npm-deps start-services start-dev
 
-# --------------------------------------------------
-# Production
+
+# PRODUCTION
 # --------------------------------------------------
 
 release-backend:
@@ -103,8 +103,7 @@ build-docker-image:
 run-docker-image:
 	docker run pasta-xiana:latest
 
-# --------------------------------------------------
-# Help menu
+# HELP
 # --------------------------------------------------
 
 help:

@@ -1,15 +1,15 @@
 #kaocha/v1
- {:plugins         [:kaocha.plugin/capture-output
-                    :kaocha.plugin/hooks]
-  :tests           [{:id                    :backend
-                     :kaocha.hooks/pre-test  [app.test-core/start-test-system]
-                     :kaocha.hooks/post-test [app.test-core/stop-test-system]
-                     :test-paths             ["test/app/backend"]
-                     :ns-patterns            [".*"]}
-                    {:id                    :frontend
-                     :test-paths             ["test/app/frontend"]
-                     :ns-patterns            [".*"]}
-                    {:id          :shared
-                     :test-paths  ["test/app/shared"]
-                     :ns-patterns [".*"]}]
-  :kaocha/reporter [kaocha.report.progress/report]}
+ {:plugins [:kaocha.plugin/hooks]
+  :tests [{:id :app/backend
+           :kaocha.hooks/pre-test [app.test-core/start-test-system]
+           :kaocha.hooks/post-test [app.test-core/stop-test-system]
+           :test-paths ["test/app/backend"]
+           :ns-patterns [".*"]}
+          {:id :app/frontend
+           :test-paths ["test/app/frontend"]
+           :ns-patterns [".*"]}
+          {:id :app/shared
+           :test-paths ["test/app/shared"]
+           :ns-patterns [".*"]}]
+  :kaocha/reporter [kaocha.report.progress/report]
+  :kaocha/cli-options {:capture-output false}}

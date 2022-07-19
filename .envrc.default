@@ -1,27 +1,32 @@
-#JWT
-export JWT_SECRET=verystrongjwtsecret
+# AUTH
+# --------------------------------------------------
+export JWT_SECRET=916555805f994d0c950e54e8609f27c0
 
 # PostgreSQL
+# --------------------------------------------------
 export PG_HOST=localhost
-export PG_DB_NAME=app
+export PG_DB_NAME=app_dev
 export PG_USER=postgres
 export PG_PASSWORD=postgres
-export PG_PORT=5432
+export PG_PORT=5434
+export PG_URL=postgres://postgres:postgres@localhost:5434/app_dev
 
 export PG_TEST_HOST=localhost
 export PG_TEST_DB_NAME=app_test
 export PG_TEST_USER=postgres
 export PG_TEST_PASSWORD=postgres
-export PG_TEST_PORT=5432
+export PG_TEST_PORT=5434
+export PG_TEST_URL=postgres://postgres:postgres@localhost:5434/app_test
 
-#export PG_URL=postgres://postgres:postgres@localhost:5432/app
-#export PG_TEST_URL=postgres://postgres:postgres@localhost:5432/app_test
-
-# Web server
+# SERVER
+# --------------------------------------------------
 export WS_PORT=3000
 export WS_TEST_PORT=3000
 
+# LOGGING
+# --------------------------------------------------
 export TAOENSSO_TIMBRE_MIN_LEVEL_EDN=:debug
 
-# shadow-cljs watcher timeout
+# SHADOW CLJS
+# --------------------------------------------------
 export SHADOW_LOOP_WAIT=100

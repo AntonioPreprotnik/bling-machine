@@ -6,7 +6,6 @@
 (defn clean-db
   "Fixture for truncating PG database between tests"
   [test]
-  (test)
   (-> (get-system)
       (get-in [:xiana/postgresql :datasource])
       (next-jdbc/execute! ["DO $$ BEGIN
@@ -18,4 +17,5 @@
                              AND table_name != 'migrations'
                              AND table_name != 'seeds')
                          || ' CASCADE';
-                       END; $$;"])))
+                       END; $$;"]))
+  (test))

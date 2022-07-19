@@ -24,8 +24,8 @@
    [:data InputUpdateData]])
 
 (def registry
-  {:app/user              User
+  {:app/user User
    :app/users [:vector :app/user]
    :app.input.user/create InputCreate
    :app.input.user/update InputUpdate
-   :app.input.user/one    [:map [:user-id :uuid]]})
+   :app.input.user/one [:map [:user-id :uuid]]})

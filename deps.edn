@@ -69,8 +69,6 @@
                                    nubank/matcher-combinators #:mvn{:version "3.4.0"},
                                    nubank/state-flow          {:mvn/version "5.14.1", :exclusions [nubank/matcher-combinators]},
                                    org.clojure/test.check     #:mvn{:version "1.1.1"}}
-                     :main-opts   ["-e" "(require,'app.test-repl)"
-                                   "-e" "(in-ns,'app.test-repl)"]
                      :exec-fn     kaocha.runner/exec-fn
                      :exec-args   {:config-file ["tests.edn"]}}
 

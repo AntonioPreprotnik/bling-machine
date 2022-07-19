@@ -1,36 +1,39 @@
-{:api     [:api
-           {:input-schema [:map
-                           [:app/jwt {:optional true}]]
-            :interceptors [{:enter #resolve app.backend.web.api.interceptors.current-admin-user/set-current-user}]}
-           [:session
-            {:commands {:login             {:input-schema :app.input.login
-                                            :output-schema :any
-                                            :handler #resolve app.backend.web.api.handlers.session/login}
-                        :check-jwt         {:input-schema :any
-                                            :output-schema :any
-                                            :handler #resolve app.backend.web.api.handlers.session/check-jwt}}}]
-           [:user
-            {:commands {:create             {:input-schema  :app.input.user/create
-                                             :output-schema :app/user
-                                             :handler       #resolve app.backend.web.api.handlers.user/create-one}
-                        :update             {:input-schema  :app.input.user/update
-                                             :output-schema :app/user
-                                             :handler       #resolve app.backend.web.api.handlers.user/update-one}
-                        :delete             {:input-schema  [:map
-                                                             [:users/id :uuid]]
-                                             :output-schema :app/users
-                                             :handler       #resolve app.backend.web.api.handlers.user/delete-by-id}}
-             :queries  {:get-current        {:input-schema  :any
-                                             :output-schema :app/user
-                                             :handler       #resolve app.backend.web.api.handlers.user/get-current-admin}
-                        :get-all             {:input-schema  :any
-                                              :output-schema :app/users
-                                              :handler       #resolve app.backend.web.api.handlers.user/get-all}
-                        :get-one             {:input-schema  :app.input.user/one
-                                              :output-schema :app/user
-                                              :handler       #resolve app.backend.web.api.handlers.user/get-one}}}]]
- :pipes   {[:api.user/create :api.user/get-all] #resolve app.backend.pipes/merge-command-response
-           [:api.user/update :api.user/get-all] #resolve app.backend.pipes/merge-command-response
-           [:api.user/delete :api.user/get-all] #resolve app.backend.pipes/merge-command-response}
- :context {:penkala  :config/penkala
-           :auth    :config/auth}}
+{:api [:api
+       {:input-schema [:map [:app/jwt {:optional true}]]
+        :interceptors [{:enter #resolve app.backend.domain.interceptors/set-current-user}]}
+
+       [:session
+        {:commands {:login {:input-schema :app.input.login
+                            :output-schema :any
+                            :handler #resolve app.backend.domain.handlers.session/login}
+                    :check-jwt {:input-schema :any
+                                :output-schema :any
+                                :handler #resolve app.backend.domain.handlers.session/check-jwt}}}]
+
+       [:admin
+        {:rules #resolve app.backend.domain.rules/is-admin?
+         :queries  {:get-current-user {:input-schema :any
+                                       :output-schema :app/user
+                                       :handler #resolve app.backend.domain.handlers.admin/get-current-user}
+                    :get-users {:input-schema :any
+                                :output-schema :app/users
+                                :handler #resolve app.backend.domain.handlers.admin/get-users}
+                    :get-user {:input-schema :app.input.user/one
+                               :output-schema :app/user
+                               :handler #resolve app.backend.domain.handlers.admin/get-user}}
+         :commands {:create-user {:input-schema :app.input.user/create
+                                  :output-schema :app/user
+                                  :handler #resolve app.backend.domain.handlers.admin/create-user}
+                    :update-user {:input-schema :app.input.user/update
+                                  :output-schema :app/user
+                                  :handler #resolve app.backend.domain.handlers.admin/update-user}
+                    :delete-user {:input-schema :app.input.user/one
+                                  :output-schema :app/users
+                                  :handler #resolve app.backend.domain.handlers.admin/delete-user}}}]]
+
+ :pipes   {[:api.admin/create-user :api.admin/get-users] #resolve app.backend.domain.pipes/merge-command-response
+           [:api.admin/update-user :api.admin/get-users] #resolve app.backend.domain.pipes/merge-command-response
+           [:api.admin/delete-user :api.admin/get-users] #resolve app.backend.domain.pipes/merge-command-response}
+
+ :context {:auth :config/auth
+           :penkala :config/penkala}}
