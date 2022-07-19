@@ -1,7 +1,7 @@
 (ns app.frontend.ui.pages.home
   (:require
    [app.frontend.inputs :refer [wrapped-input]]
-   [app.frontend.ui.components.button :refer [ButtonDefault]]
+   [app.frontend.ui.components.button :refer [ButtonDefault ButtonDefaultWrap]]
    [app.frontend.ui.components.password-field-secured :refer [PasswordFieldSecured]]
    [app.frontend.ui.components.shared-style :refer [error-msg-style
                                                     input-style]]
@@ -10,6 +10,7 @@
    [helix.dom :as d]
    [helix.hooks :as hooks]
    [keechma.next.controllers.malli-form.ui :as mfui]
+   [keechma.next.controllers.router :as router]
    [keechma.next.helix.classified :refer [defclassified]]
    [keechma.next.helix.core :refer [dispatch use-sub with-keechma]]
    [keechma.next.helix.lib :refer [defnc]]))
@@ -21,6 +22,8 @@
 (defclassified LogInBtn :button "flex py-2 px-3 border border-gray-400 rounded-lg hover:bg-gray-400 hover:text-white disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
 
 (def title-style "text-lg font-semibold")
+
+(defclassified GoHomeWrap :div "w-screen h-screen flex justify-center items-center")
 
 (defnc InputGroupLogin [{:keys [password-value]}]
   (d/div {:class "flex flex-col space-y-4 w-full"}
@@ -75,3 +78,11 @@
                    (when-not inputs-empty?
                      (d/div {:class error-msg-style}
                             submit-errors)))))))))
+
+(defnc GoHome [props]
+  {:wrap [with-keechma]}
+  ($ GoHomeWrap
+    ($ ButtonDefaultWrap
+      {:class "w-80"}
+      (d/a {:href (router/get-url props :router {:page "home"})}
+           "Go Back To Homepage"))))
