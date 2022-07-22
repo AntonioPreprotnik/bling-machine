@@ -9,7 +9,7 @@
   (get-all-users [penkala])
   (get-one-by-id [penkala id])
   (delete-by-id! [penkala id])
-  (get-admin-by-credentials [penkala data]))
+  (get-admin-by-credentials [penkala email]))
 
 (extend-protocol UserDatabase
   app.backend.penkala.Boundary
@@ -37,7 +37,7 @@
                           (r/where [:= :id [:cast id "uuid"]]))]
       (delete! env delete-user)))
 
-  (get-admin-by-credentials [{:keys [env]} {:keys [email]}]
+  (get-admin-by-credentials [{:keys [env]} email]
     (let [users (-> (:users env)
                     (r/where [:= :email email])
                     (r/where [:= :is-admin true]))]

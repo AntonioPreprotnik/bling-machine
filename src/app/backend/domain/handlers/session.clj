@@ -11,8 +11,8 @@
       (anomalies/->ex-info)))
 
 (defn login [{:keys [data penkala auth]}]
-  (let [{:keys [password]} data
-        admin (user/get-admin-by-credentials penkala data)
+  (let [{:keys [password email]} data
+        admin (user/get-admin-by-credentials penkala email)
         {:users/keys [password-hash id]} admin
         is-password-valid? (hashers/check password password-hash)]
     (if (and admin is-password-valid?)
