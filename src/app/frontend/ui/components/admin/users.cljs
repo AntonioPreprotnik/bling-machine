@@ -11,12 +11,8 @@
 (defclassified UsersTableContainer :div "border-2 border-gray-200 rounded-xl m-auto")
 (defclassified UsersTableWrap :table " text-left overflow-hidden rounded-lg")
 (defclassified TableHeaderDescriptions :tr "uppercase border-b-2 border-gray-200 bg-gray-200")
-(defclassified TableDataCell :td "p-3 text-center"
-  (fn [{:keys [idx]}]
-    (when (odd? idx) " bg-gray-100")))
-(defclassified UserActionWrap :td "p-3 rounded-rb hover:text-red-400 text-center"
-  (fn [{:keys [idx]}]
-    (when (odd? idx) " bg-gray-100")))
+(defclassified TableDataCell :td "p-3 text-center")
+(defclassified UserActionWrap :td "p-3 rounded-rb hover:text-red-400 text-center")
 (defclassified UserActionBtn :button "disabled:bg-gray-400 disabled:opacity-50 disabled:text-black")
 
 (def table-header-descriptions ["user ID" "First Name" "Last Name" "Email" "Admin" "Edit" "Delete"])
@@ -30,22 +26,23 @@
           #(d/th {:key   %
                   :class "p-3 text-center"} %)
           table-header-descriptions)))
-      (map-indexed
-       (fn [idx {:users/keys [first-name last-name email id is-admin] :as m}]
-         (d/tbody {:key idx}
-                  (d/tr
-                   ($ TableDataCell {:idx idx} (str id))
-                   ($ TableDataCell {:idx idx} first-name)
-                   ($ TableDataCell {:idx idx} last-name)
-                   ($ TableDataCell {:idx idx} email)
-                   ($ TableDataCell {:idx idx} (if is-admin "Yes" "No"))
-                   ($ UserActionWrap {:idx idx}
-                     ($ UserActionBtn {:onClick #(on-click-edit-pencil m)}
-                       (inline "edit-pencil.svg")))
-                   ($ UserActionWrap {:idx idx}
-                     ($ UserActionBtn {:onClick #(on-click-trash m)}
-                       (inline "trash.svg"))))))
-       users))))
+      (d/tbody
+       (map-indexed
+        (fn [idx {:users/keys [first-name last-name email id is-admin] :as m}]
+          (d/tr  {:key idx
+                  :class "even:bg-gray-100"}
+                 ($ TableDataCell {:idx idx} (str id))
+                 ($ TableDataCell {:idx idx} first-name)
+                 ($ TableDataCell {:idx idx} last-name)
+                 ($ TableDataCell {:idx idx} email)
+                 ($ TableDataCell {:idx idx} (if is-admin "Yes" "No"))
+                 ($ UserActionWrap {:idx idx}
+                   ($ UserActionBtn {:onClick #(on-click-edit-pencil m)}
+                     (inline "edit-pencil.svg")))
+                 ($ UserActionWrap {:idx idx}
+                   ($ UserActionBtn {:onClick #(on-click-trash m)}
+                     (inline "trash.svg")))))
+        users)))))
 
 (defnc Users [props]
   {:wrap [with-keechma]}
