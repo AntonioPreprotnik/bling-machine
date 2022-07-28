@@ -25,28 +25,28 @@
 
 (def initial-edit-user-form
   (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
-             (let [selected-user (:selected-user @deps-state*)
-                   {:users/keys [id first-name last-name email]} (:selected-user-data selected-user)]
-               (pp/swap! meta-state* mfc/init-form form (user-map (str id) first-name last-name email)))))
+    (let [selected-user (:selected-user @deps-state*)
+          {:users/keys [id first-name last-name email]} (:selected-user-data selected-user)]
+      (pp/swap! meta-state* mfc/init-form form (user-map (str id) first-name last-name email)))))
 
 (def empty-edit-user-form
   (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
-             (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
-                        (let [selected-user (:selected-user @deps-state*)
-                              {:users/keys [id]} (:selected-user-data selected-user)]
-                          (pp/swap! meta-state* mfc/init-form form (user-map (str id) "" "" ""))))))
+    (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
+      (let [selected-user (:selected-user @deps-state*)
+            {:users/keys [id]} (:selected-user-data selected-user)]
+        (pp/swap! meta-state* mfc/init-form form (user-map (str id) "" "" ""))))))
 
 (def submit-edit-user
   (-> (pipeline! [value {:keys [meta-state* deps-state*] :as ctrl}]
-                 (command! ctrl :api.admin/update-user (selected-user-data->submit-data-form
-                                                        (:selected-user @deps-state*)
-                                                        (merge
-                                                         {:is-admin (-> @deps-state* :selected-user :current-admin-role-status)}
-                                                         value)
-                                                        (:jwt @deps-state*)))
-                 (ctrl/dispatch ctrl :users :refresh)
-                 (ctrl/dispatch ctrl :current-admin :refresh)
-                 (ctrl/dispatch ctrl :modal-edit-user :off))
+        (command! ctrl :api.admin/update-user (selected-user-data->submit-data-form
+                                               (:selected-user @deps-state*)
+                                               (merge
+                                                {:is-admin (-> @deps-state* :selected-user :current-admin-role-status)}
+                                                value)
+                                               (:jwt @deps-state*)))
+        (ctrl/dispatch ctrl :users :refresh)
+        (ctrl/dispatch ctrl :current-admin :refresh)
+        (ctrl/dispatch ctrl :modal-edit-user :off))
       mfc/wrap-submit))
 
 (def pipelines

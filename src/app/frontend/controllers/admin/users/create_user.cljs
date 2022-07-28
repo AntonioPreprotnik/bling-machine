@@ -14,21 +14,21 @@
 
 (def initial-create-user-form
   (pipeline! [value {:keys [meta-state*]}]
-             (pp/swap! meta-state* mfc/init-form form)))
+    (pp/swap! meta-state* mfc/init-form form)))
 
 (def clear-submit-errors
   (pipeline! [value {:keys [state*]}]
-             mfc/on-partial-change
-             (pp/swap! state* dissoc :submit-errors)))
+    mfc/on-partial-change
+    (pp/swap! state* dissoc :submit-errors)))
 
 (def submit-create-user
   (-> (pipeline! [value {:keys [meta-state* deps-state* state*] :as ctrl}]
-                 (command! ctrl :api.admin/create-user (merge {:is-admin (:switch-admin-role @deps-state*)
-                                                               :app/jwt (:jwt @deps-state*)} value))
-                 (ctrl/dispatch ctrl :users :refresh)
-                 (ctrl/dispatch ctrl :modal-add-user :off)
-                 (rescue! [error]
-                          (pp/swap! state* assoc :submit-errors (ex-message error))))
+        (command! ctrl :api.admin/create-user (merge {:is-admin (:switch-admin-role @deps-state*)
+                                                      :app/jwt (:jwt @deps-state*)} value))
+        (ctrl/dispatch ctrl :users :refresh)
+        (ctrl/dispatch ctrl :modal-add-user :off)
+        (rescue! [error]
+          (pp/swap! state* assoc :submit-errors (ex-message error))))
       mfc/wrap-submit))
 
 (def pipelines

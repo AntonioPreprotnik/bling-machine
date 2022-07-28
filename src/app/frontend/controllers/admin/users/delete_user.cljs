@@ -9,13 +9,13 @@
 
 (def pipelines
   {:on-delete-user  (pipeline! [value {:keys [deps-state*] :as ctrl}]
-                               (command! ctrl :api.admin/delete-user {:user-id (get-in @deps-state*
-                                                                                       [:selected-user
-                                                                                        :selected-user-data
-                                                                                        :users/id])
-                                                                      :app/jwt (:jwt @deps-state*)})
-                               (ctrl/dispatch ctrl :users :refresh)
-                               (ctrl/dispatch ctrl :modal-delete-user :off))})
+                      (command! ctrl :api.admin/delete-user {:user-id (get-in @deps-state*
+                                                                              [:selected-user
+                                                                               :selected-user-data
+                                                                               :users/id])
+                                                             :app/jwt (:jwt @deps-state*)})
+                      (ctrl/dispatch ctrl :users :refresh)
+                      (ctrl/dispatch ctrl :modal-delete-user :off))})
 
 (defmethod ctrl/prep :delete-user [ctrl]
   (pipelines/register ctrl pipelines))
