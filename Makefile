@@ -98,10 +98,10 @@ release-frontend:
 release-app: release-frontend release-backend
 
 build-docker-image:
-	docker build -t pasta-xiana:latest .
+	docker build -t bling-machine:latest .
 
 run-docker-image:
-	docker run pasta-xiana:latest
+	docker run bling-machine:latest
 
 # HELP
 # --------------------------------------------------

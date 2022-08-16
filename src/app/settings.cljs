@@ -1,3 +1,3 @@
 (ns app.settings)
 
-(def jwt-name "pasta-xiana-jwt-token")
+(def jwt-name "bling-machine-jwt-token")

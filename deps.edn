@@ -78,7 +78,7 @@
 
   :prod             {:extra-paths ["config/prod"]}
 
-  :build-uberjar    {:commands    "clj -T:build-uberjar uber; java -jar pasta-xiana-standalone.jar"
+  :build-uberjar    {:commands    "clj -T:build-uberjar uber; java -jar bling-machine-standalone.jar"
                      :extra-paths ["scripts"]
                      :deps        {io.github.clojure/tools.build {:git/tag "v0.8.1" :git/sha "7d40500"}}
                      :ns-default  build-uberjar}}

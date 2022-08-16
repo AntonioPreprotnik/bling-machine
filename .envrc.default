@@ -5,11 +5,11 @@ export JWT_SECRET=916555805f994d0c950e54e8609f27c0
 # PostgreSQL
 # --------------------------------------------------
 export PG_HOST=localhost
-export PG_DB_NAME=app_dev
+export PG_DB_NAME=bling_machine
 export PG_USER=postgres
 export PG_PASSWORD=postgres
 export PG_PORT=5434
-export PG_URL=postgres://postgres:postgres@localhost:5434/app_dev
+export PG_URL=postgres://postgres:postgres@localhost:5434/bling_machine
 
 export PG_TEST_HOST=localhost
 export PG_TEST_DB_NAME=app_test

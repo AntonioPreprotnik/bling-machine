@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   db:
-    container_name: pasta_xiana_db
+    container_name: bling_machine_db
     image: postgres:14-alpine
     volumes:
       - ./scripts/pg_init_scripts:/docker-entrypoint-initdb.d
