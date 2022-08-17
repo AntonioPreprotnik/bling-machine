@@ -2,7 +2,7 @@
   (:require
    [clojure.tools.build.api :as b]))
 
-(def lib 'com.verybigthings/bling-machine
+(def lib 'bling-machine-api)
 (def class-dir "target/classes")
 (def basis (b/create-basis {:project "deps.edn"}))
 (def uber-file (format "target/%s-standalone.jar" (name lib)))

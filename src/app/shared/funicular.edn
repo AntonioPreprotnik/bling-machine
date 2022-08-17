@@ -29,7 +29,14 @@
                                   :handler #resolve app.backend.domain.handlers.admin/update-user}
                     :delete-user {:input-schema :app.input.user/one
                                   :output-schema :app/users
-                                  :handler #resolve app.backend.domain.handlers.admin/delete-user}}}]]
+                                  :handler #resolve app.backend.domain.handlers.admin/delete-user}}}]
+       [:currencies
+        {:queries {:get-currency {:input-schema :any 
+                                  :output-schema :any
+                                  :handler #resolve app.backend.domain.handlers.currencies/get-currency}}
+         :commands {:create-currency {:input-schema :app.input.currency/create
+                                      :output-schema [:map :currencies/id]
+                                      :handler #resolve app.backend.domain.handlers.currencies/create-currency}}}]]
 
  :pipes   {[:api.admin/create-user :api.admin/get-users] #resolve app.backend.domain.pipes/merge-command-response
            [:api.admin/update-user :api.admin/get-users] #resolve app.backend.domain.pipes/merge-command-response
