@@ -23,4 +23,4 @@
            :basis basis
            :exclude exclude
            :main 'app.backend/core})
-  (println (str "Created file: " uber-file)))
+  (println (str "Created file: " uber-file))))
