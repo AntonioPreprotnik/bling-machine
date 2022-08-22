@@ -10,7 +10,7 @@
   (if (= currency nil)
     {:error "Currency invalid!"}
     {:currencies/currency-name (get currency "Valuta")
-     :currencies/exchange-rate (-> (get currency "Prodajni za devize")
+     :currencies/exchange-rate (-> (get currency "Srednji za devize")
                                    (clojure.string/replace "," ".")
                                    (read-string))
      :currencies/creation-date (get currency "Datum primjene")}))
@@ -22,13 +22,24 @@
       (first)
       (extract-and-map-keys)))
 
+(defn get-and-parse-all-json [date-from date-to]
+  (mapv (fn [currency] (-> (extract-and-map-keys currency)
+                           (select-as-simple-keys [:currencies/currency-name
+                                                   :currencies/exchange-rate
+                                                   :currencies/creation-date])))
+        (-> (str "https://api.hnb.hr/tecajn/v1?datum-od=" date-from "&datum-do=" date-to)
+            (slurp)
+            (j/read-value))))
+
 (defn- insert-currency [{:keys [env]} data]
-  (let [payload (select-as-simple-keys data [:currencies/currency-name :currencies/exchange-rate :currencies/creation-date])]
+  (let [payload (select-as-simple-keys data [:currencies/currency-name
+                                             :currencies/exchange-rate
+                                             :currencies/creation-date])]
     (penkala/insert! env
                      (-> (r/->insertable (:currencies env))
                          (r/on-conflict-do-update
                           [:currency-name :creation-date]
-                          {:exchange-rate (:exchange-rate payload)}))
+                          {:exchange-rate :excluded/exchange-rate}))
                      payload)))
 
 (defn get-currency [{{:keys [env]} :penkala
@@ -46,4 +57,14 @@
     (if (= currency {:error "Currency invalid!"})
       currency
       (insert-currency penkala currency))))
+
+(defn import-currencies [{{:keys [env]} :penkala}
+                         {{:keys [date-from date-to]} :data}]
+  (let [currencies (get-and-parse-all-json date-from date-to)]
+    (penkala/insert! env
+                     (-> (r/->insertable (:currencies env))
+                         (r/on-conflict-do-update
+                          [:currency-name :creation-date]
+                          {:exchange-rate :excluded/exchange-rate}))
+                     currencies)))
 
