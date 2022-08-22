@@ -30,6 +30,14 @@
          (assoc state :currency currency))))
     (flow/get-state :currency)))
 
+(defn get-unique-currencies []
+  (flow "GET unique currencies"
+    (flow/swap-state
+     (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
+       (let [currencies (query! funicular :api.currencies/get-unique-currencies :currencies {})]
+         (assoc state :currencies currencies))))
+    (flow/get-state :currencies)))
+
 (defn fetch-and-store-curreny [currency_name]
   (flow "Fetch and store currency"
     (flow/swap-state
@@ -67,3 +75,13 @@
   {:init init}
   [currency (fetch-and-store-curreny "BAD")]
   (match? {:error "Currency invalid!"} currency))
+
+(defflow get-unique-currencies-returns-unique-currencies
+  {:init init}
+  (create-currency "EUR" 7.85 "12.03.2021")
+  (create-currency "EUR" 7.88 "15.03.2021")
+  (create-currency "GBP" 8.25 "12.03.2021")
+  [currencies (get-unique-currencies)]
+  (match? [#:currencies{:currency-name "EUR"}
+           #:currencies{:currency-name "GBP"}]
+          currencies))

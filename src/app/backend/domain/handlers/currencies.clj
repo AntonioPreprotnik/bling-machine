@@ -58,6 +58,13 @@
       currency
       (insert-currency penkala currency))))
 
+(defn get-unique-currencies [{{:keys [env]} :penkala}]
+  (penkala/select! env (-> env
+                           :currencies
+                           (r/distinct)
+                           (r/select [:currency-name])
+                           (r/order-by [:currency-name]))))
+
 (defn import-currencies [{{:keys [env]} :penkala}
                          {{:keys [date-from date-to]} :data}]
   (let [currencies (get-and-parse-all-json date-from date-to)]

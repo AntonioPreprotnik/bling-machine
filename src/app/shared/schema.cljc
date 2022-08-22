@@ -26,6 +26,9 @@
     :app/currencies
     [:vector :app/currency]
 
+    :app/unique-currencies
+    [:vector [:map [:currencies/currency-name]]]
+
     :app.input.currency/create
     [:map
      :currencies/currency-name

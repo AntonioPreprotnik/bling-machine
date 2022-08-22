@@ -33,7 +33,10 @@
        [:currencies
         {:queries {:get-currency {:input-schema [:map :currencies/id]
                                   :output-schema :app/currency
-                                  :handler #resolve app.backend.domain.handlers.currencies/get-currency}}
+                                  :handler #resolve app.backend.domain.handlers.currencies/get-currency}
+                   :get-unique-currencies {:input-schema :any
+                                           :output-schema :any
+                                           :handler #resolve app.backend.domain.handlers.currencies/get-unique-currencies}}
          :commands {:create-currency {:input-schema :app.input.currency/create
                                       :output-schema [:map :currencies/id]
                                       :handler #resolve app.backend.domain.handlers.currencies/create-currency}
