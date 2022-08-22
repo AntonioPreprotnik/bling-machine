@@ -47,3 +47,10 @@
       currency
       (insert-currency penkala currency))))
 
+(defn get-unique-currencies [{{:keys [env]} :penkala}]
+  (penkala/select! env (-> env
+                           :currencies
+                           (r/distinct)
+                           (r/select [:currency-name])
+                           (r/order-by [:currency-name]))))
+
