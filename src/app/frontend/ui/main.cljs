@@ -1,9 +1,6 @@
 (ns app.frontend.ui.main
   (:require
-   [app.frontend.ui.components.admin.dashboard :refer [Dashboard]]
-   [app.frontend.ui.components.admin.users :refer [Users]]
-   [app.frontend.ui.pages.admin.admin-layout :refer [AdminLayout]]
-   [app.frontend.ui.pages.home :refer [GoHome Home]]
+   [app.frontend.ui.pages.currencies :refer [Currencies]]
    [clojure.core.match :refer-macros [match]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
@@ -15,9 +12,6 @@
   (let [{:keys [page subpage]} (use-sub props :router)
         role (use-sub props :role)]
     (match [role page subpage]
-      [:admin "admin" "users"] ($ AdminLayout ($ Users))
-      [:admin "admin" _] ($ AdminLayout ($ Dashboard))
-      [:anon "home" _] ($ Home)
-      [:anon "admin" "users"] ($ GoHome)
+      [:anon "home" _] ($ Currencies)
       :else (d/div "404"))))
 

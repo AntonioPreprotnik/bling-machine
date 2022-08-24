@@ -1,11 +1,11 @@
 (ns app.frontend.app
   (:require
    [app.frontend.controllers.admin.current-admin]
-   [app.frontend.controllers.admin.login-form]
    [app.frontend.controllers.admin.users.create-user]
    [app.frontend.controllers.admin.users.delete-user]
    [app.frontend.controllers.admin.users.edit-user]
    [app.frontend.controllers.admin.users.selected-user]
+   [app.frontend.controllers.currencies.currencies]
    [app.frontend.controllers.generic.switch]
    [app.frontend.controllers.jwt]
    [app.frontend.controllers.users]
@@ -68,7 +68,8 @@
      :entitydb
      #:keechma.controller {:params                  true
                            :type                    :keechma/entitydb
-                           :keechma.entitydb/schema {:user {:entitydb/id :users/id}}}
+                           :keechma.entitydb/schema {:user {:entitydb/id :users/id}
+                                                     :currency {:entitydb/id :currencies/id}}}
 
      :jwt
      #:keechma.controller {:params true}
@@ -107,11 +108,11 @@
                            :generic.switch/set-default (fn [_ _ _] true)}}
 
     :keechma/apps {:admin admin-app
-                   :anon {:keechma.app/should-run? (is-role :anon)
-                          :keechma.app/deps [:role]
-                          :keechma/controllers
-                          {:login-form
-                           #:keechma.controller {:params (fn [{:keys [router]}]
-                                                           (= "home" (:page router)))
-                                                 :deps   [:router]}}}}}
+                   :currencies   {:keechma.app/should-run? (is-role :anon)
+                                  :keechma.app/deps [:role :entitydb]
+                                  :keechma/controllers
+                                  {:currencies
+                                   #:keechma.controller {:params (fn [{:keys [router]}]
+                                                                   (= "home" (:page router)))
+                                                         :deps   [:router :entitydb]}}}}}
    f/install))
