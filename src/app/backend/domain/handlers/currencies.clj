@@ -47,12 +47,19 @@
   (penkala/select-one! env (-> (:currencies env)
                                (r/where [:= :id [:cast id "uuid"]]))))
 
+(defn get-currency-on-date [{{:keys [env]} :penkala
+                             {name :currencies/currency-name
+                              creation-date :currencies/creation-date} :data}]
+  (penkala/select-one! env (-> (:currencies env)
+                               (r/where  [:and [:= :currency-name [:cast name "text"]]
+                                          [:= [:cast creation-date "text"] :creation-date]]))))
+
 (defn create-currency [{:keys [penkala data]}]
   (penkala/with-transaction [penkala penkala]
     (let [currency (insert-currency penkala data)]
       {:currencies/id (:currencies/id currency)})))
 
-(defn fetch-and-store-curreny [{:keys [penkala data]}]
+(defn fetch-and-store-currency [{:keys [penkala data]}]
   (let [currency (get-and-parse-json (:currencies/currency-name data))]
     (if (= currency {:error "Currency invalid!"})
       currency
