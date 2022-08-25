@@ -1,7 +1,7 @@
 (ns app.frontend.ui.pages.currencies
   (:require
-   [cljc.java-time.local-date :refer [now]]
    [app.frontend.inputs :refer [Dropdown]]
+   [cljc.java-time.local-date :refer [now]]
    [clojure.string :refer [split]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
@@ -25,7 +25,7 @@
         to-currency-exchange-rate (:currencies/exchange-rate to-currency)
         conversion-rate (if (and (not= from-currency-exchange-rate nil)
                                  (not= to-currency-exchange-rate nil))
-                          (/ to-currency-exchange-rate from-currency-exchange-rate) nil)] 
+                          (/ to-currency-exchange-rate from-currency-exchange-rate) nil)]
     (d/div {:class "flex flex-col w-screen p-4 space-y-4 bg-gray-100 justify-center items-center h-screen"}
            (d/div {:class "w-80 h-20"}
                   (d/div  "FROM")
