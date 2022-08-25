@@ -1,5 +1,6 @@
 (ns app.frontend.ui.pages.currencies
   (:require
+   [cljc.java-time.local-date :refer [now]]
    [app.frontend.inputs :refer [Dropdown]]
    [clojure.string :refer [split]]
    [helix.core :as hx :refer [$]]
@@ -24,7 +25,7 @@
         to-currency-exchange-rate (:currencies/exchange-rate to-currency)
         conversion-rate (if (and (not= from-currency-exchange-rate nil)
                                  (not= to-currency-exchange-rate nil))
-                          (/ to-currency-exchange-rate from-currency-exchange-rate) nil)]
+                          (/ to-currency-exchange-rate from-currency-exchange-rate) nil)] 
     (d/div {:class "flex flex-col w-screen p-4 space-y-4 bg-gray-100 justify-center items-center h-screen"}
            (d/div {:class "w-80 h-20"}
                   (d/div  "FROM")
@@ -66,12 +67,12 @@
                                                               :current-value current-value
                                                               :current-date current-date})}))
                          (d/div {:class "w-3/4 bg-white  h-14"} (when (not= conversion-rate nil) (* conversion-rate current-value)))))
-           (if (or (nil? from-currency)
-                   (nil? to-currency)
-                   (nil? current-value))
+           (when (or (some? from-currency)
+                     (some? to-currency)
+                     (some? current-value))
              (d/div (d/input {:type "date"
-                              :disabled true}))
-             (d/div (d/input {:type "date"
+                              :min "2020-01-01"
+                              :max (str (now))
                               :on-change #(dispatch props
                                                     :currencies
                                                     :change-date
