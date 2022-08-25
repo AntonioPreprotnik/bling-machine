@@ -34,15 +34,18 @@
         {:queries {:get-currency {:input-schema [:map :currencies/id]
                                   :output-schema :app/currency
                                   :handler #resolve app.backend.domain.handlers.currencies/get-currency}
+                   :get-currency-on-date {:input-schema :any
+                                          :output-schema :any
+                                          :handler #resolve app.backend.domain.handlers.currencies/get-currency-on-date}
                    :get-unique-currencies {:input-schema :any
                                            :output-schema :any
                                            :handler #resolve app.backend.domain.handlers.currencies/get-unique-currencies}}
          :commands {:create-currency {:input-schema :app.input.currency/create
                                       :output-schema [:map :currencies/id]
                                       :handler #resolve app.backend.domain.handlers.currencies/create-currency}
-                    :fetch-and-store-curreny {:input-schema :any
+                    :fetch-and-store-currency {:input-schema :any
                                               :output-schema :any
-                                              :handler #resolve app.backend.domain.handlers.currencies/fetch-and-store-curreny}}}]]
+                                              :handler #resolve app.backend.domain.handlers.currencies/fetch-and-store-currency}}}]]
 
  :pipes   {[:api.admin/create-user :api.admin/get-users] #resolve app.backend.domain.pipes/merge-command-response
            [:api.admin/update-user :api.admin/get-users] #resolve app.backend.domain.pipes/merge-command-response

@@ -15,6 +15,7 @@
 (def load-currencies
   (-> (pipeline! [value {:keys [deps-state* meta-state* state*] :as ctrl}]
         (query! ctrl :api.currencies/get-unique-currencies {})
+        (println value)
         (pp/swap! state* assoc :unique-currencies value))
       pp/use-existing
       pp/restartable))
@@ -25,18 +26,24 @@
 
    :fetch-from-currency
    (pipeline! [value ctrl]
-     (let [{:keys [currency-name current-value]} value]
+     (let [{:keys [currency-name current-value current-date]} value]
        (pipeline! [value {:keys [meta-state* state*] :as ctrl}]
-         (pp/swap! state* assoc :current-value current-value)
-         (command! ctrl :api.currencies/fetch-and-store-curreny {:currencies/currency-name currency-name})
+         (pp/swap! state* assoc :current-value current-value :current-date current-date)
+         (if (nil? current-date)
+           (command! ctrl :api.currencies/fetch-and-store-currency {:currencies/currency-name currency-name})
+           (query! ctrl :api.currencies/get-currency-on-date {:currencies/currency-name currency-name
+                                                              :currencies/creation-date current-date}))
          (pp/swap! state* assoc :selected-from-currency value))))
 
    :fetch-to-currency
    (pipeline! [value ctrl]
-     (let [{:keys [currency-name current-value]} value]
+     (let [{:keys [currency-name current-value current-date]} value]
        (pipeline! [value {:keys [meta-state* state*] :as ctrl}]
-         (pp/swap! state* assoc :current-value current-value)
-         (command! ctrl :api.currencies/fetch-and-store-curreny {:currencies/currency-name currency-name})
+         (pp/swap! state* assoc :current-value current-value :current-date current-date)
+         (if (nil? current-date)
+           (command! ctrl :api.currencies/fetch-and-store-currency {:currencies/currency-name currency-name})
+           (query! ctrl :api.currencies/get-currency-on-date {:currencies/currency-name currency-name
+                                                              :currencies/creation-date current-date}))
          (pp/swap! state* assoc :selected-to-currency value))))
 
    :change-amount
@@ -45,9 +52,20 @@
        (pipeline! [value {:keys [meta-state* state*] :as ctrl}]
          (pp/swap! state* assoc :current-value current-value))))
 
+   :change-date
+   (pipeline! [value ctrl]
+     (let [{:keys [date from-currency-name to-currency-name]} value]
+       (pipeline! [value {:keys [meta-state* state*] :as ctrl}]
+         (pp/swap! state* assoc :current-date date)
+         (query! ctrl :api.currencies/get-currency-on-date {:currencies/currency-name from-currency-name
+                                                            :currencies/creation-date date})
+         (pp/swap! state* assoc :selected-from-currency value)
+         (query! ctrl :api.currencies/get-currency-on-date {:currencies/currency-name to-currency-name
+                                                            :currencies/creation-date date})
+         (pp/swap! state* assoc :selected-to-currency value))))
+
    :keechma.on/stop
    (pipeline! [_ ctrl]
      (edb/remove-collection! ctrl :entitydb ::list))})
 
 (defmethod ctrl/prep :currencies [ctrl] (pipelines/register ctrl pipelines))
-
