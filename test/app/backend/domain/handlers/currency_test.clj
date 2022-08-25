@@ -30,6 +30,15 @@
          (assoc state :currency currency))))
     (flow/get-state :currency)))
 
+(defn get-currency-on-date [name creation-date]
+  (flow "GET currency"
+    (flow/swap-state
+     (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
+       (let [currency (query! funicular :api.currencies/get-currency-on-date :currency {:currencies/currency-name name
+                                                                                        :currencies/creation-date creation-date})]
+         (assoc state :currency currency))))
+    (flow/get-state :currency)))
+
 (defn get-unique-currencies []
   (flow "GET unique currencies"
     (flow/swap-state
@@ -38,11 +47,11 @@
          (assoc state :currencies currencies))))
     (flow/get-state :currencies)))
 
-(defn fetch-and-store-curreny [currency_name]
+(defn fetch-and-store-currency [currency_name]
   (flow "Fetch and store currency"
     (flow/swap-state
      (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
-       (let [fetched-currency (command! funicular :api.currencies/fetch-and-store-curreny {:currencies/currency-name currency_name})]
+       (let [fetched-currency (command! funicular :api.currencies/fetch-and-store-currency {:currencies/currency-name currency_name})]
          (assoc state :fetched-currency fetched-currency))))
     (flow/get-state :fetched-currency)))
 
@@ -67,13 +76,13 @@
 
 (defflow fetch-and-store-single-currency
   {:init init}
-  [currency (fetch-and-store-curreny "EUR")]
+  [currency (fetch-and-store-currency "EUR")]
   [currency-db (get-currency (:currencies/id currency))]
   (match? currency-db currency))
 
 (defflow currency-dose-not-exist
   {:init init}
-  [currency (fetch-and-store-curreny "BAD")]
+  [currency (fetch-and-store-currency "BAD")]
   (match? {:error "Currency invalid!"} currency))
 
 (defflow get-unique-currencies-returns-unique-currencies
@@ -85,3 +94,14 @@
   (match? [#:currencies{:currency-name "EUR"}
            #:currencies{:currency-name "GBP"}]
           currencies))
+
+(defflow get-currency-on-date-test
+  {:init init}
+  (create-currency "GBP" 7.863463463 "12.03.2021")
+  (create-currency "GBP" 7.563463463 "13.03.2021")
+  (create-currency "GBP" 7.363463463 "14.03.2021")
+  [currency (get-currency-on-date "GBP" "12.03.2021")]
+  (match? {:currencies/exchange-rate 7.863463463,
+           :currencies/currency-name "GBP",
+           :currencies/creation-date "12.03.2021"}
+          currency))
