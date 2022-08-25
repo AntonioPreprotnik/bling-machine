@@ -1,22 +1,30 @@
 (ns app.frontend.ui.pages.currencies
   (:require
    [app.frontend.inputs :refer [Dropdown]]
+   [clojure.string :refer [split]]
    [helix.core :as hx :refer [$]]
    [helix.dom :as d]
    [keechma.next.helix.core :refer [dispatch use-sub with-keechma]]
    [keechma.next.helix.lib :refer [defnc]]))
 
+(defn- parse [date]
+  (let [[year month day] (split date #"-")]
+    (str day "." month "." year)))
+
 (defnc Currencies [props]
   {:wrap [with-keechma]}
   (let [unique-currencies (:unique-currencies (use-sub props :currencies))
         current-value (:current-value (use-sub props :currencies))
+        current-date (:current-date (use-sub props :currencies))
         from-currency (:selected-from-currency (use-sub props :currencies))
         from-currency-name (:currencies/currency-name from-currency)
         from-currency-exchange-rate (:currencies/exchange-rate from-currency)
         to-currency (:selected-to-currency (use-sub props :currencies))
         to-currency-name (:currencies/currency-name to-currency)
         to-currency-exchange-rate (:currencies/exchange-rate to-currency)
-        conversion-rate (if (and (not= from-currency-exchange-rate nil) (not= to-currency-exchange-rate nil)) (/ to-currency-exchange-rate from-currency-exchange-rate) nil)]
+        conversion-rate (if (and (not= from-currency-exchange-rate nil)
+                                 (not= to-currency-exchange-rate nil))
+                          (/ to-currency-exchange-rate from-currency-exchange-rate) nil)]
     (d/div {:class "flex flex-col w-screen p-4 space-y-4 bg-gray-100 justify-center items-center h-screen"}
            (d/div {:class "w-80 h-20"}
                   (d/div  "FROM")
@@ -29,7 +37,8 @@
                                                             :currencies
                                                             :fetch-from-currency
                                                             {:currency-name %
-                                                             :current-value current-value})})
+                                                             :current-value current-value
+                                                             :current-date current-date})})
                          (d/input {:type "number"
                                    :on-change #(dispatch props
                                                          :currencies
@@ -54,8 +63,21 @@
                                                              :currencies
                                                              :fetch-to-currency
                                                              {:currency-name %
-                                                              :current-value current-value})}))
-                         (d/div {:class "w-3/4 bg-white  h-14"} (when (not= conversion-rate nil) (* conversion-rate current-value))))))))
+                                                              :current-value current-value
+                                                              :current-date current-date})}))
+                         (d/div {:class "w-3/4 bg-white  h-14"} (when (not= conversion-rate nil) (* conversion-rate current-value)))))
+           (if (or (nil? from-currency)
+                   (nil? to-currency)
+                   (nil? current-value))
+             (d/div (d/input {:type "date"
+                              :disabled true}))
+             (d/div (d/input {:type "date"
+                              :on-change #(dispatch props
+                                                    :currencies
+                                                    :change-date
+                                                    {:date (parse (str (.. % -target -value)))
+                                                     :from-currency-name from-currency-name
+                                                     :to-currency-name to-currency-name})}))))))
 
 
 
