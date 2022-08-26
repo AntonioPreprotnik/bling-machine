@@ -15,7 +15,6 @@
 (def load-currencies
   (-> (pipeline! [value {:keys [deps-state* meta-state* state*] :as ctrl}]
         (query! ctrl :api.currencies/get-unique-currencies {})
-        (println value)
         (pp/swap! state* assoc :unique-currencies value))
       pp/use-existing
       pp/restartable))
