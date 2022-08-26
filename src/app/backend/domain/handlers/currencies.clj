@@ -48,6 +48,13 @@
   (penkala/select-one! env (-> (:currencies env)
                                (r/where [:= :id [:cast id "uuid"]]))))
 
+(defn get-unique-currencies [{{:keys [env]} :penkala}]
+  (penkala/select! env (-> env
+                           :currencies
+                           (r/distinct)
+                           (r/select [:currency-name])
+                           (r/order-by [:currency-name]))))
+
 (defn get-currency-on-date [{{:keys [env]} :penkala
                              {name :currencies/currency-name
                               creation-date :currencies/creation-date} :data}]
@@ -62,13 +69,6 @@
 (defn fetch-and-store-currency [{:keys [penkala data]}]
   (let [currency (get-and-parse-json (:currencies/currency-name data))]
     (insert-currency penkala currency)))
-
-(defn get-unique-currencies [{{:keys [env]} :penkala}]
-  (penkala/select! env (-> env
-                           :currencies
-                           (r/distinct)
-                           (r/select [:currency-name])
-                           (r/order-by [:currency-name]))))
 
 (defn import-currencies [{{:keys [env]} :penkala}
                          {{:keys [date-from date-to]} :data}]
