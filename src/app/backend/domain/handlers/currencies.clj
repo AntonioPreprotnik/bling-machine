@@ -56,9 +56,8 @@
                                           [:= [:cast creation-date "text"] :creation-date]]))))
 
 (defn create-currency [{:keys [penkala data]}]
-  (penkala/with-transaction [penkala penkala]
-    (let [currency (insert-currency penkala data)]
-      {:currencies/id (:currencies/id currency)})))
+  (let [currency (insert-currency penkala data)]
+    {:currencies/id (:currencies/id currency)}))
 
 (defn fetch-and-store-currency [{:keys [penkala data]}]
   (let [currency (get-and-parse-json (:currencies/currency-name data))]
