@@ -1,16 +1,12 @@
 (ns app.frontend.controllers.currencies.currencies
   (:require
-   [app.shared.schema :as schema]
    [com.verybigthings.funicular.controller :refer [command! query!]]
-   [keechma.malli-forms.core :as mf]
    [keechma.next.controller :as ctrl]
    [keechma.next.controllers.entitydb :as edb]
    [keechma.next.controllers.pipelines :as pipelines]
    [keechma.pipelines.core :as pp :refer-macros [pipeline!]]))
 
 (derive :currencies ::pipelines/controller)
-
-(def form (mf/make-form schema/registry :app/currencies {}))
 
 (def load-currencies
   (-> (pipeline! [value {:keys [deps-state* meta-state* state*] :as ctrl}]
