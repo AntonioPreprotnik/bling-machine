@@ -8,14 +8,14 @@ export PG_HOST=localhost
 export PG_DB_NAME=bling_machine
 export PG_USER=postgres
 export PG_PASSWORD=postgres
-export PG_PORT=5434
+export PG_PORT=5433
 export PG_URL=postgres://postgres:postgres@localhost:5434/bling_machine
 
 export PG_TEST_HOST=localhost
 export PG_TEST_DB_NAME=app_test
 export PG_TEST_USER=postgres
 export PG_TEST_PASSWORD=postgres
-export PG_TEST_PORT=5434
+export PG_TEST_PORT=5432
 export PG_TEST_URL=postgres://postgres:postgres@localhost:5434/app_test
 
 # SERVER
