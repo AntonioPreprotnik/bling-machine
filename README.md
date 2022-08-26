@@ -1,37 +1,8 @@
-# PastaXiana
+# BlingMachine
 
 ## About the project
 
-The purpose of this project is to serve as a starting point for creating a new fullstack application based on technologies that have been accepted in VBT as a standard for application development.
-The goal to be achieved is to easily and quickly create the starting code of a new fullstack project based on this repository, which will provide a functional `development` and `test` environment as well as tools for creating `production` code.
-The project also contains a simple example of frontend and backend code for `user administration`.
-Part of the project is the `Docker` configuration script, which allows easy startup of the Postgres DB server for development and testing.
-
-### By functional development environment we mean the following:
-
-- Easily create or run DB servers in a Docker environment with a single command.
-- Easily run complete development code with just one command.
-- Development environment that will automatically refresh after each change in the backend or frontend code as well as in the system configuration.
-- The development environment should be functional to work with any editor commonly used to work with Clojure applications.
-- Launch at least one nREPL to which user editors will be able to connect.
-  
-### Functional test environment includes:
-
-- Possibility of testing backend, frontend and shared code as well as end to end testing.
-- Creating complex tests
-- Run only one test or all tests in one namespace, folder or complete application
-- Testing formatting, code correctness (linter), migration integrity.
-- Running tests during development and automatic testing when pushing on GitHub using GitHub actions
-  
-### The system configuration
-- Configuration is divided into development, production and test configuration plus the part of the configuration that is common to all listed configurations.
-- The configuration accepts hard coded parameters as well as environment variables as needed.
-  
-### Other
-Some supporting functionalities have also been implemented, such as cache invalidation for production code and debouncing of backend watchers.
-
-###  Application structure
-The organization of the application structure was formed on the basis of experience gained through work on previous projects at VBT and examples from other open source Clojure fullstack applications.
+This is a project whose goal was to have a instant response converter from a list of currencies available  to the hnb.api  (http://api.hnb.hr/). On start, the project pull all the entries for the years 2020-2022, parse and store them in the base. The project offers the ability to change any of the give currencies, the amount of money used or the date of conversion and have the response of the exchange rate and converted amount  be instantly change accordingly. The date cannot be picked, until the two currencies are selected. This is a single page app. Due to hnb.api limitations, adding a new year to the startup process is done by adding the code for the appropriate year in core.clj. 
 
 ### Source paths
 Three basic source paths (paths key in deps.edn) are defined as:
@@ -65,10 +36,7 @@ The project was initially defined as the `Leiningen` project but we later decide
 
 [Shadow-cljs](https://github.com/thheller/shadow-cljs) is chosen as frontend development tool and [tailwind.css](https://tailwindcss.com/) as CSS framework. 
 
-  
-## Development process
-
-### Before you begin developing an application you have to install this prerequisites locally:
+### Before you begin starting the application you need to get up the following:
 
 ### System dependencies
 
@@ -108,20 +76,12 @@ Values that are common for all three environments (dev,prod and test) are define
 
 #### ENV variables
 
+```shell
+ npm install
+```   
+
 In order to start the system, you should expose system variables using [direnv](https://direnv.net/) or any other tool of choice in the same process where you start your dev system (every time before starting it). You can find list of needed variables by checking `config.edn` in folders `config/dev,prod,test` or in `.envrc.default` file. Configuration files are using [dyn-env](https://github.com/walmartlabs/dyn-edn) readers to load and cast values from system variables.
 
-
-### Make the new project based on pasta-xiana
-
-- Clone [pasta-xian](https://github.com/VeryBigThings/pasta-xiana) to your local disk.
-- Rename the root folder to the name of your new project (for example new-vbt-app)
-- Replace occurrences of 'pasta-xiana' and 'pasta_xiana' string to 'new-vbt-app' and 'new_vbt_app' respectively in this files:
-    - `Makefile`
-    - `Dockerfile`
-    - `resources/public/index.tmpl`
-    - `scripts/build_uberjar.clj`
-    - `docker-compose.yml`
-- Change env variables in your .`envrc` file
 
 ### Start external dockerized services
 
@@ -163,20 +123,16 @@ All three watchers are defined in the `dev/system/watchers.clj` file
 
 Frontend watcher is provided by `Shadow-cljs` 
 
-
-### Start the development environment with nREPL
-
-```shell
-make start-dev-nrepl
-```
-Same as `make start-dev` but an `nREPL` port is opened on address `7888`. Also the `.nrepl-port` file is created in `root` folder. This additional port enables using two concurrent REPLs (one for CLJ the other for CLJS) if editor supports it. 
-
-In `VS Code` only one REPL is allowed so you have to use REPL connected to `shadow-cljs` port and switch from `CLJ` to `CLJS` mode and vice versa as needed.
-
 ### You can install NPM dependencies, start dockerized services and development environment with just one command:
 
 ```shell
 make develop
+```
+
+#### Log in to the psql console
+
+```shell
+psql -U postgres -p 5433 -h localhost 
 ```
 
 #### Restart system
@@ -264,10 +220,6 @@ For frequent testing during development there is another command `fast-ci` that 
 ```shell
 make fast-ci
 ```
-
-## Production
-
-Production environment differs from development or test environment mostly by configuration of the system. Configuration files can be found in `config/{environment}` directories. Also, production artifacts and builds are more optimized and minified.
 
 ### Monolith app
 
