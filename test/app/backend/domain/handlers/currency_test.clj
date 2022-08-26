@@ -32,12 +32,12 @@
 
 (defn get-currency-on-date [name creation-date]
   (flow "GET currency"
-    (flow/swap-state
-     (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
-       (let [currency (query! funicular :api.currencies/get-currency-on-date :currency {:currencies/currency-name name
-                                                                                        :currencies/creation-date creation-date})]
-         (assoc state :currency currency))))
-    (flow/get-state :currency)))
+        (flow/swap-state
+         (fn [{:keys [_ _] {funicular :app/funicular} :system :as state}]
+           (let [currency (query! funicular :api.currencies/get-currency-on-date :currency {:currencies/currency-name name
+                                                                                            :currencies/creation-date creation-date})]
+             (assoc state :currency currency))))
+        (flow/get-state :currency)))
 
 (defn get-unique-currencies []
   (flow "GET unique currencies"
@@ -80,10 +80,6 @@
   [currency-db (get-currency (:currencies/id currency))]
   (match? currency-db currency))
 
-(defflow currency-dose-not-exist
-  {:init init}
-  [currency (fetch-and-store-currency "BAD")]
-  (match? {:error "Currency invalid!"} currency))
 
 (defflow get-unique-currencies-returns-unique-currencies
   {:init init}

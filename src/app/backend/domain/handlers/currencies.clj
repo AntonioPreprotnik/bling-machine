@@ -61,9 +61,7 @@
 
 (defn fetch-and-store-currency [{:keys [penkala data]}]
   (let [currency (get-and-parse-json (:currencies/currency-name data))]
-    (if (= currency {:error "Currency invalid!"})
-      currency
-      (insert-currency penkala currency))))
+    (insert-currency penkala currency)))
 
 (defn get-unique-currencies [{{:keys [env]} :penkala}]
   (penkala/select! env (-> env
