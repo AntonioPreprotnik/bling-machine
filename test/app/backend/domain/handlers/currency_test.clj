@@ -80,11 +80,6 @@
   [currency-db (get-currency (:currencies/id currency))]
   (match? currency-db currency))
 
-(defflow currency-dose-not-exist
-  {:init init}
-  [currency (fetch-and-store-currency "BAD")]
-  (match? {:error "Currency invalid!"} currency))
-
 (defflow get-unique-currencies-returns-unique-currencies
   {:init init}
   (create-currency "EUR" 7.85 "12.03.2021")

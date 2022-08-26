@@ -6,14 +6,20 @@
    [com.verybigthings.penkala.relation :as r]
    [jsonista.core :as j]))
 
+(defn- insert-into-currencies [env data]
+  (penkala/insert! env
+                   (-> (r/->insertable (:currencies env))
+                       (r/on-conflict-do-update
+                        [:currency-name :creation-date]
+                        {:exchange-rate :excluded/exchange-rate}))
+                   data))
+
 (defn- extract-and-map-keys [currency]
-  (if (= currency nil)
-    {:error "Currency invalid!"}
-    {:currencies/currency-name (get currency "Valuta")
-     :currencies/exchange-rate (-> (get currency "Srednji za devize")
-                                   (clojure.string/replace "," ".")
-                                   (read-string))
-     :currencies/creation-date (get currency "Datum primjene")}))
+  {:currencies/currency-name (get currency "Valuta")
+   :currencies/exchange-rate (-> (get currency "Srednji za devize")
+                                 (clojure.string/replace "," ".")
+                                 (read-string))
+   :currencies/creation-date (get currency "Datum primjene")})
 
 (defn get-and-parse-json [currency-name]
   (-> (str "https://api.hnb.hr/tecajn/v1?valuta=" currency-name)
@@ -35,17 +41,19 @@
   (let [payload (select-as-simple-keys data [:currencies/currency-name
                                              :currencies/exchange-rate
                                              :currencies/creation-date])]
-    (penkala/insert! env
-                     (-> (r/->insertable (:currencies env))
-                         (r/on-conflict-do-update
-                          [:currency-name :creation-date]
-                          {:exchange-rate :excluded/exchange-rate}))
-                     payload)))
+    (insert-into-currencies env payload)))
 
 (defn get-currency [{{:keys [env]} :penkala
                      {id :currencies/id} :data}]
   (penkala/select-one! env (-> (:currencies env)
                                (r/where [:= :id [:cast id "uuid"]]))))
+
+(defn get-unique-currencies [{{:keys [env]} :penkala}]
+  (penkala/select! env (-> env
+                           :currencies
+                           (r/distinct)
+                           (r/select [:currency-name])
+                           (r/order-by [:currency-name]))))
 
 (defn get-currency-on-date [{{:keys [env]} :penkala
                              {name :currencies/currency-name
@@ -55,30 +63,15 @@
                                           [:= [:cast creation-date "text"] :creation-date]]))))
 
 (defn create-currency [{:keys [penkala data]}]
-  (penkala/with-transaction [penkala penkala]
-    (let [currency (insert-currency penkala data)]
-      {:currencies/id (:currencies/id currency)})))
+  (let [currency (insert-currency penkala data)]
+    {:currencies/id (:currencies/id currency)}))
 
 (defn fetch-and-store-currency [{:keys [penkala data]}]
   (let [currency (get-and-parse-json (:currencies/currency-name data))]
-    (if (= currency {:error "Currency invalid!"})
-      currency
-      (insert-currency penkala currency))))
-
-(defn get-unique-currencies [{{:keys [env]} :penkala}]
-  (penkala/select! env (-> env
-                           :currencies
-                           (r/distinct)
-                           (r/select [:currency-name])
-                           (r/order-by [:currency-name]))))
+    (insert-currency penkala currency)))
 
 (defn import-currencies [{{:keys [env]} :penkala}
                          {{:keys [date-from date-to]} :data}]
   (let [currencies (get-and-parse-all-json date-from date-to)]
-    (penkala/insert! env
-                     (-> (r/->insertable (:currencies env))
-                         (r/on-conflict-do-update
-                          [:currency-name :creation-date]
-                          {:exchange-rate :excluded/exchange-rate}))
-                     currencies)))
+    (insert-into-currencies env currencies)))
 
