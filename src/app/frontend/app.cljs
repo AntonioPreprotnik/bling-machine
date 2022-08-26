@@ -49,10 +49,10 @@
                            :deps   [:jwt :current-admin]}}
 
     :keechma/apps {:currencies   {:keechma.app/should-run? (is-role :anon)
-                                  :keechma.app/deps [:role :entitydb]
+                                  :keechma.app/deps [:role]
                                   :keechma/controllers
                                   {:currencies
                                    #:keechma.controller {:params (fn [{:keys [router]}]
                                                                    (= "home" (:page router)))
-                                                         :deps   [:router :entitydb]}}}}}
+                                                         :deps   [:router]}}}}}
    f/install))
