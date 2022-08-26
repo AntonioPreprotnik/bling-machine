@@ -23,11 +23,18 @@
      :currencies/exchange-rate
      :currencies/creation-date]
 
+    
+    
     :app/currencies
     [:vector :app/currency]
 
     :app/unique-currencies
     [:vector [:map [:currencies/currency-name]]]
+
+    :app.input.currency/fetch-by-date
+    [:map
+     :currencies/currency-name 
+     :currencies/creation-date]
 
     :app.input.currency/create
     [:map
